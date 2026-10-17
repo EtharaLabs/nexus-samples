@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" width="720" height="360" role="img" aria-label="nexus - an indigo elephant cradling a book, trunk curled around a bookmark">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#131a33"/>
+      <stop offset="1" stop-color="#0d1226"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9b7cff"/>
+      <stop offset="1" stop-color="#6c4bd6"/>
+    </linearGradient>
+    <linearGradient id="book" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8ecff"/>
+      <stop offset="1" stop-color="#c3cbf5"/>
+    </linearGradient>
+  </defs>
+  <rect width="720" height="360" fill="url(#bg)"/>
+  <g opacity="0.5" fill="#845EF7">
+    <circle cx="96" cy="66" r="2"/>
+    <circle cx="628" cy="58" r="2.4"/>
+    <circle cx="664" cy="132" r="1.8"/>
+    <circle cx="58" cy="196" r="1.8"/>
+    <circle cx="610" cy="292" r="2"/>
+  </g>
+  <ellipse cx="360" cy="312" rx="150" ry="18" fill="#000000" opacity="0.35"/>
+  <g>
+    <!-- ears -->
+    <path d="M300 150 C248 118 214 150 224 198 C232 236 282 236 304 212 Z" fill="#5b3fc4"/>
+    <path d="M420 150 C472 118 506 150 496 198 C488 236 438 236 416 212 Z" fill="#5b3fc4"/>
+    <!-- head and body -->
+    <path d="M360 128 C300 128 262 170 262 226 C262 288 302 320 360 320 C418 320 458 288 458 226 C458 170 420 128 360 128 Z" fill="url(#body)"/>
+    <!-- trunk curling down and around toward the bookmark -->
+    <path d="M360 214 C352 252 338 286 318 300 C300 312 286 300 292 284 C298 270 314 272 316 286" fill="none" stroke="#6c4bd6" stroke-width="22" stroke-linecap="round"/>
+    <!-- eyes -->
+    <circle cx="330" cy="196" r="8" fill="#131a33"/>
+    <circle cx="390" cy="196" r="8" fill="#131a33"/>
+    <circle cx="332.5" cy="193" r="2.6" fill="#e8ecff"/>
+    <circle cx="392.5" cy="193" r="2.6" fill="#e8ecff"/>
+    <!-- cradled book -->
+    <g transform="translate(360 272) rotate(-6)">
+      <rect x="-78" y="-26" width="156" height="52" rx="6" fill="url(#book)"/>
+      <line x1="0" y1="-26" x2="0" y2="26" stroke="#9aa6e0" stroke-width="2"/>
+      <line x1="-60" y1="-10" x2="-14" y2="-10" stroke="#b4bcef" stroke-width="2"/>
+      <line x1="-60" y1="2" x2="-14" y2="2" stroke="#b4bcef" stroke-width="2"/>
+      <line x1="14" y1="-10" x2="60" y2="-10" stroke="#b4bcef" stroke-width="2"/>
+      <line x1="14" y1="2" x2="60" y2="2" stroke="#b4bcef" stroke-width="2"/>
+      <!-- bookmark the trunk curls around -->
+      <path d="M34 -26 L34 44 L46 32 L58 44 L58 -26 Z" fill="#22d3ee"/>
+    </g>
+  </g>
+  <text x="360" y="346" text-anchor="middle" font-family="monospace" font-size="16" letter-spacing="4" fill="#e8ecff">REMEMBER</text>
+</svg>

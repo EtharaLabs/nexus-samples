@@ -59,15 +59,22 @@ Each bundle directory is a complete Harbor task: `task.toml` is the runner manif
 
 ## Cite
 
+A citation for nexus will be published here once it releases its first evidence-backed dataset. The grounding benchmark it builds on is Terminal-Bench.
+
 ```bibtex
-@misc{nexussamples,
-  title = {nexus: samples}
+@misc{terminalbench2026,
+  title        = {Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces},
+  author       = {Merrill, Mike A. and Shaw, Alexander G. and Carlini, Nicholas and others},
+  year         = {2026},
+  eprint       = {2601.11868},
+  archivePrefix= {arXiv},
+  url          = {https://arxiv.org/abs/2601.11868}
 }
 ```
 
 ## License
 
-See the license of the repository that publishes this lane.
+See [LICENSE](LICENSE) for the terms under which this repository is published.
 
 ## Contact
 
