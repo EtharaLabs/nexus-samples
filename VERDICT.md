@@ -15,7 +15,7 @@ CRUCIBLE report for run `crucible-dhawal-bathre-ethara-ai-20261030t000000z-audit
 
 ## Disposition
 
-STALE — retained for a counted pilot and metadata cleanup (both bundles)
+HOLD
 
 ## Findings
 
