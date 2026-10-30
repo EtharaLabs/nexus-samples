@@ -1,0 +1,60 @@
+schema_version = "1.4"
+artifacts = ["/app/stream"]
+
+[task]
+name = "dhawal-bathre/stream-session-window-exactly-once"
+version = "1.0.0"
+description = "Implement a single-threaded deterministic session-window streaming engine with watermark-driven finalization, late-event retraction and re-finalization, and bit-identical exactly-once output across a crash/resume boundary."
+authors = [{ name = "dhawal.bathre", email = "dhawal.bathre@ethara.ai" }]
+keywords = ["streaming", "session-window", "watermark", "exactly-once", "crash-recovery", "retraction", "python"]
+
+[metadata]
+category = "Software"
+subcategory = "StatefulStreaming"
+tags = ["stateful-streaming", "exactly-once", "session-windows", "crash-recovery", "python"]
+null_floor = 0.0
+discrimination_weight = 0.5
+platforms = ["linux/amd64", "linux/arm64"]
+
+[verifier]
+timeout_sec = 900.0
+network_mode = "allowlist"
+allowed_hosts = ["chatgpt.com", "auth.openai.com"]
+environment_mode = "separate"
+user = "0"
+
+[verifier.env]
+CODEX_AUTH_JSON = "${CODEX_AUTH_JSON}"
+REWARDKIT_FORCE_SUBSCRIPTION = "1"
+LITELLM_LOCAL_MODEL_COST_MAP = "True"
+
+[verifier.environment]
+network_mode = "allowlist"
+allowed_hosts = ["chatgpt.com", "auth.openai.com"]
+build_timeout_sec = 1200.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+gpus = 0
+
+[agent]
+timeout_sec = 3600.0
+network_mode = "no-network"
+user = "1000:1000"
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1200.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+gpus = 0
+
+[upstream_provenance]
+origin = "original"
+provenance_date = "2026-10-30"
+source_kind = "synthetic"
+
+[upstream_provenance.source]
+generator = "FORGE author (run forge-dhawal-bathre-ethara-ai-20261029t084806z-c525f3), synthetic in-bundle generation"
+generation_inputs = "solution/grounding.yaml; reference solution/reference.py (linear-scan engine); independent cross-check solution/reference_alt.py (bisect interval-index engine); buggy starter environment/stream.py; config_1 environment/data/config.json; config_2 embedded in tests/test_output.py"

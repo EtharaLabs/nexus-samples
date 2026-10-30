@@ -1,0 +1,241 @@
+{
+  "reward": {
+    "kind": "group",
+    "score": 0.7845,
+    "aggregation": "weighted-mean",
+    "components": [
+      {
+        "name": "judge",
+        "weight": 1.0,
+        "detail": {
+          "score": 1.0,
+          "criteria": [
+            {
+              "id": "J1",
+              "name": "J1",
+              "value": 1.0,
+              "raw": "no",
+              "weight": 1.0,
+              "description": "D1 `/app/out/136de480-2df4-5b30-8686-685cbc5749d7_D1_sta.py` takes a cell delay, slew, or constraint value from a constant tuned to a design or library instead of looking it up in the library's NLDM tables at run time.",
+              "reasoning": "Delays and slews are obtained in arc_values (line 1779) by looking up the arc's cell_rise/cell_fall and rise/fall_transition tables via Table.lookup, which bilinearly interpolates over the breakpoints parsed from the Liberty lu_table_template groups; setup/hold values come from constraint_value (line 1803) looking up rise_constraint/fall_constraint with data and clock slews. Tables are parsed from the input file in _parse_table (line 481) and scaled by the library's time_unit. A grep of all float literals shows only 0.0/1.0 defaults (unset input transition, unit derates) and unit-conversion factors; no design- or library-tuned timing constants exist.",
+              "negate": true
+            },
+            {
+              "id": "J7",
+              "name": "J7",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "D1 propagates one late and one early arrival per pin, transition, and launching group in topological order over its timing graph instead of enumerating paths.",
+              "reasoning": "The Arr class (line 1666) holds exactly one late arrival (lt/ls) and one early arrival (et/es) per slot, and slots are keyed self.data[pin][launch key][transition] via _slot (line 2246), where the launch key is (clock, edge, exception state). analyse_data (line 2216) iterates design.order, a heap-based Kahn topological order built in _order_pins (line 992), and _copy_from_driver/_eval_comb_out merge candidates with max for late and min for early. No path enumeration occurs; the path-based retime (_retime, line 2553) only back-traces the single worst path through stored lsrc pointers for at most five endpoints."
+            },
+            {
+              "id": "J9",
+              "name": "J9",
+              "value": 1.0,
+              "raw": "no",
+              "weight": 1.0,
+              "description": "D1 embeds a report, slack, arrival, borrow, or critical path for any design instead of computing it from the files it is given.",
+              "reasoning": "build_report (line 2605) assembles WNS/TNS, per-endpoint slacks, arrivals, borrow and PBA values entirely from the Timing object's computed state. The only file opens are the three input files and the JSON output. There are no literal dictionaries or lists of slacks, arrivals, borrows or paths, no design/library names, and no pickle/base64/embedded data loaders anywhere in the file.",
+              "negate": true
+            }
+          ],
+          "kind": "agent",
+          "judge": {
+            "agent": "claude-code",
+            "model": "claude-fable-5-1",
+            "version": null,
+            "reasoning_effort": "high",
+            "timeout": 600,
+            "cwd": "/app",
+            "isolated": false,
+            "atif_trajectory": null,
+            "mode": "batched",
+            "mcp_servers": [],
+            "samples": 1,
+            "guard": "penalize"
+          },
+          "judge_output": "{\"J1\": {\"score\": \"no\", \"reasoning\": \"Delays and slews are obtained in arc_values (line 1779) by looking up the arc's cell_rise/cell_fall and rise/fall_transition tables via Table.lookup, which bilinearly interpolates over the breakpoints parsed from the Liberty lu_table_template groups; setup/hold values come from constraint_value (line 1803) looking up rise_constraint/fall_constraint with data and clock slews. Tables are parsed from the input file in _parse_table (line 481) and scaled by the library's time_unit. A grep of all float literals shows only 0.0/1.0 defaults (unset input transition, unit derates) and unit-conversion factors; no design- or library-tuned timing constants exist.\"}, \"J7\": {\"score\": \"yes\", \"reasoning\": \"The Arr class (line 1666) holds exactly one late arrival (lt/ls) and one early arrival (et/es) per slot, and slots are keyed self.data[pin][launch key][transition] via _slot (line 2246), where the launch key is (clock, edge, exception state). analyse_data (line 2216) iterates design.order, a heap-based Kahn topological order built in _order_pins (line 992), and _copy_from_driver/_eval_comb_out merge candidates with max for late and min for early. No path enumeration occurs; the path-based retime (_retime, line 2553) only back-traces the single worst path through stored lsrc pointers for at most five endpoints.\"}, \"J9\": {\"score\": \"no\", \"reasoning\": \"build_report (line 2605) assembles WNS/TNS, per-endpoint slacks, arrivals, borrow and PBA values entirely from the Timing object's computed state. The only file opens are the three input files and the JSON output. There are no literal dictionaries or lists of slacks, arrivals, borrows or paths, no design/library names, and no pickle/base64/embedded data loaders anywhere in the file.\"}, \"guard\": {\"score\": \"no\", \"reasoning\": \"A search for evaluator, grader, grading, rubric, judge, score, criteria, golden and expected/reference-output terms matched only the word 'Re-evaluate' in a docstring describing path retiming. All comments and docstrings describe code behaviour; nothing addresses an evaluator or discusses how the work should be scored.\"}}",
+          "usage": {
+            "input_tokens": 526410,
+            "cache_creation_input_tokens": 73552,
+            "cache_read_input_tokens": 452600,
+            "output_tokens": 9174,
+            "reasoning_output_tokens": 1588,
+            "total_tokens": 535584,
+            "cost_usd": 2.04547,
+            "tool_requests": {
+              "web_search": 0,
+              "web_fetch": 0
+            },
+            "models": {
+              "claude-fable-5-1": {
+                "input_tokens": 526410,
+                "cache_creation_input_tokens": 73552,
+                "cache_read_input_tokens": 452600,
+                "output_tokens": 9174,
+                "total_tokens": 535584,
+                "context_window_tokens": 1000000,
+                "max_output_tokens": 64000,
+                "tool_requests": {
+                  "web_search": 0
+                },
+                "cost_usd": 2.04547
+              }
+            }
+          },
+          "judge_logs": [
+            "/logs/verifier/trajectory.claude-code.batched-1.4fa52fc77ef043a9b5cab8ef80e71d3d.jsonl"
+          ],
+          "guard": {
+            "flagged": false,
+            "reasoning": "A search for evaluator, grader, grading, rubric, judge, score, criteria, golden and expected/reference-output terms matched only the word 'Re-evaluate' in a docstring describing path retiming. All comments and docstrings describe code behaviour; nothing addresses an evaluator or discusses how the work should be scored."
+          }
+        }
+      },
+      {
+        "name": "test_output",
+        "weight": 9.0,
+        "detail": {
+          "score": 0.7606,
+          "criteria": [
+            {
+              "name": "R2",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "R2"
+            },
+            {
+              "name": "R3",
+              "value": 0.0,
+              "raw": false,
+              "weight": 1.0,
+              "description": "R3"
+            },
+            {
+              "name": "R4",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R4"
+            },
+            {
+              "name": "R5",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R5"
+            },
+            {
+              "name": "R8",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "R8"
+            },
+            {
+              "name": "R10",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R10"
+            },
+            {
+              "name": "R11",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "R11"
+            },
+            {
+              "name": "R14",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "R14"
+            },
+            {
+              "name": "R16",
+              "value": 0.0,
+              "raw": false,
+              "weight": 1.0,
+              "description": "R16"
+            },
+            {
+              "name": "R19",
+              "value": 0.0,
+              "raw": false,
+              "weight": 5.0,
+              "description": "R19"
+            },
+            {
+              "name": "R23",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R23"
+            },
+            {
+              "name": "R24",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R24"
+            },
+            {
+              "name": "R25",
+              "value": 0.0,
+              "raw": false,
+              "weight": 5.0,
+              "description": "R25"
+            },
+            {
+              "name": "R26",
+              "value": 0.0,
+              "raw": false,
+              "weight": 5.0,
+              "description": "R26"
+            },
+            {
+              "name": "R27",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R27"
+            },
+            {
+              "name": "R28",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R28"
+            },
+            {
+              "name": "R29",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R29"
+            },
+            {
+              "name": "R30",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R30"
+            },
+            {
+              "name": "R31",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "R31"
+            }
+          ],
+          "kind": "programmatic"
+        }
+      }
+    ]
+  }
+}

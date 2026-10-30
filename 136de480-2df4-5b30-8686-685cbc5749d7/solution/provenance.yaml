@@ -1,0 +1,10 @@
+schema_version: trinity.provenance/v1
+design_id: 136de480-2df4-5b30-8686-685cbc5749d7
+origin: original
+source_kind: synthetic
+generator: tests/gen_design.py (verifier-only; never shipped to the agent)
+generation_inputs: ["parsing samples make_case('stress', 4208) and example_case(), shipped without reports", "hidden cases: 36 per verifier run from a fresh seed (tests/gen_design.py pick_case)"]
+ancestry_attestation_digest: attestation-unavailable
+ancestry_attestation_signer: attestation-unavailable
+event_attestation_digest: attestation-unavailable
+event_attestation_signer: attestation-unavailable

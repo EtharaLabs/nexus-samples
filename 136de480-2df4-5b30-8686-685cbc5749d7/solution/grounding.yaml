@@ -1,0 +1,1498 @@
+# FORGE-CANARY-BEGIN
+# FORGE-CANARY-SLOT-1: 0000000000000000000000000000000000000000000000000000000000000000
+# FORGE-CANARY-SLOT-2: 0000000000000000000000000000000000000000000000000000000000000000
+# FORGE-CANARY-SLOT-3: 0000000000000000000000000000000000000000000000000000000000000000
+# FORGE-CANARY-SLOT-4: 0000000000000000000000000000000000000000000000000000000000000000
+# FORGE-CANARY-END
+schema: forge.grounding/v1
+slot: 7
+archetype: build
+category: domain-expertise-depth
+design_id: 136de480-2df4-5b30-8686-685cbc5749d7
+deliverables:
+  D1: /app/out/136de480-2df4-5b30-8686-685cbc5749d7_D1_sta.py
+obligations:
+- D1
+dimensions:
+- outcome
+- coverage
+- constraints
+- robustness
+- process
+- craft
+environment_sample:
+  family: stress
+  seed: 4208
+  path: /app/design
+  graded: false
+  report_shipped: false
+environment_example:
+  path: /app/design/example
+  builder: tests/gen_design.py example_case()
+  graded: false
+  report_shipped: false
+tolerance_ns: 1.0e-06
+run_timeout_sec: 20
+hidden_cases:
+  rule: fresh seed per verifier run (secrets.randbits(48), passed to the single Reward Kit run through REWARD_SEED and logged to /logs/verifier/seeds.json); every case is drawn by tests/gen_design.py pick_case,
+    which resamples until the family's targeting predicate holds, no decision the report depends on lies within 1e-8 ns of a tie, no exact data-merge tie with different predecessors lies on a path the report
+    reads (CPPR launch traces and the S22 re-timed paths; ties between the two transitions of a pin fed straight from an input port are equivalent and not counted), and no worst-5 membership or traced transition
+    is decided by an exact slack tie; hard families carry weight 5 and guards weight 1 with one case each; guard-sensitive constructs (set_output_delay endpoints, distinct -min input delays, multicycle
+    -setup without -hold on registers, the -data -early derate, the TNS keys) occur only in their guard's family or are not graded elsewhere, so each guard stays the sole rejector of its control
+  items:
+    R2:
+      family: setup
+      count: 1
+      role: guard
+    R3:
+      family: hold
+      count: 1
+      role: guard
+    R4:
+      family: cppr_deep
+      count: 4
+      role: hard
+    R5:
+      family: generated
+      count: 4
+      role: hard
+    R8:
+      family: mcp_hold
+      count: 1
+      role: guard
+    R10:
+      family: latch_derate
+      count: 4
+      role: hard
+    R11:
+      family: derate
+      count: 1
+      role: guard
+    R14:
+      family: summary
+      count: 1
+      role: guard
+    R16:
+      family: malformed
+      count: 1
+      role: guard
+    R19:
+      family: latch_gen_mcp
+      count: 4
+      role: hard
+    R23:
+      family: cppr_opposite
+      count: 6
+      role: hard
+    R24:
+      family: cppr_tie
+      count: 4
+      role: hard
+    R25:
+      family: latch_on_gen
+      count: 4
+      role: hard
+    R26:
+      family: perf
+      count: 3
+      role: hard
+    R27:
+      family: gen_of_gen
+      count: 4
+      role: hard
+    R28:
+      family: mcp_ratio
+      count: 4
+      role: hard
+    R29:
+      family: latch_chain
+      count: 4
+      role: hard
+    R30:
+      family: latch_gen_derate
+      count: 4
+      role: hard
+    R31:
+      family: pba
+      count: 4
+      role: hard
+  total: 59
+  isolation: 'oracle_removal_rework isolation applied: every family except the R2 and R3 guards drops set_output_delay and sets each input delay''s -min equal to its -max (gen_design.IO_FREE); latch_derate
+    carries no -data -early derate; fairness_scale_rework exceptions: R28 uses set_multicycle_path -setup N and -hold M between its two clocks; R26 uses propagated clocks, eight primary and four generated
+    clocks, false paths and paired multicycle -setup/-hold exceptions with -through lists, and the late data derate, but no set_output_delay, no distinct -min input delay, no -setup without -hold, and no
+    -data -early derate, so the guard controls keep their sole rejectors; R26 grades every report value except tns_setup and tns_hold, which stay graded only by R14 (sole rejector of KW-tns-all-slacks);
+    R27, R29, R30, R31 use set_propagated_clock'
+statement:
+  open_points:
+  - S1
+  - S2
+  - S3
+  - S4
+  - S5
+  - S6
+  - S7
+  - S8
+  - S9
+  - S10
+  - S11
+  - S12
+  - S13
+  - S14
+  - S15
+  - S16
+  - S17
+  - S18
+  - S19
+  - S20
+  - S21
+  - S22
+  - S23
+  sha256: a22513275ba7d0e8e5a086202299a1455e2fbf06df353d9b151aaf37cb8e0a39
+reward_ladder:
+  aggregation: weighted-mean
+  carrier_weights:
+    test_output: 9
+    judge: 1
+  item_weight_totals:
+    test_output: 71
+    judge: 3
+  formula: reward = 0.9 x C + 0.1 x J; C = sum(w_i * s_i) / sum(w_i) over the 19 compiled items, J the same over J1, J7, J9; w_i the 10f weight, s_i in {0, 1}; Reward Kit rounds C, J, and the reward to
+    4 decimals
+  discrimination_weight: 1.0
+  reason: task.toml declares discrimination_weight 1, the widest share item 2b.2 admits; the reward descends by 0.9 x each failed compiled item's share of 71 (a hard family 5/71, a guard 1/71) and 0.1 x
+    each failed judged item's share of 3, and an absent, empty, or non-compiling D1 scores 0.0 with no Reward Kit run and no judge call
+judge:
+  backend: codex
+  model: openai/gpt-5.6-sol
+  auth: chatgpt-subscription
+  force_subscription: true
+  codex_cli_version: 0.164.0
+  mode: batched
+  isolated: false
+  cwd: /app
+  reasoning_effort: high
+  timeout_sec: 600
+  guard: penalize
+  files:
+  - /app/out/136de480-2df4-5b30-8686-685cbc5749d7_D1_sta.py
+drafting:
+  model: Anthropic Claude, the FORGE authoring agent of this session (exact model id not exposed to the session)
+  drafted_at: '2026-10-29'
+  method: each criterion drafted against its structured item record (id, obligation, dimension, weight, negate, type, evidence, mode, and for judged items residue) and frozen after the contract drafting_acceptance_predicate
+    held
+  digests: 'solution/recompute.py checks prompt_sha256 and output_sha256 per item: prompt_sha256 is sha256 of the canonical JSON of the item record without criterion and drafting keys; output_sha256 is
+    sha256 of the frozen criterion string'
+grid_not_applicable:
+  D1:
+    craft: every compiled item parses the whole report and fails on a missing, extra, or mistyped report key, pba_setup included, so report shape is graded inside each item; no separate craft check is the
+      sole rejector of a known-wrong control (oracle_removal_rework.grid, kept by fairness_scale_rework.grid)
+rubric:
+- id: R2
+  obligation: D1
+  dimension: outcome
+  weight: 1
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names and every `endpoints[e].setup` within `1e-6` ns of the reference on one hidden ideal-clock single-clock design without exceptions or derates.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: b01c99c9f59f9628dd1768a70a6602c36866033644f9d67d768efb5f5a761434
+    output_sha256: 4d10ec94c7f20395b6612cc8992f3175957b0e46ca761ee9854a61a157d8fe2e
+- id: R3
+  obligation: D1
+  dimension: outcome
+  weight: 1
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names and every `endpoints[e].hold` within `1e-6` ns of the reference on one hidden ideal-clock single-clock design without exceptions or derates.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: b7474160edb2e55c9423bd16c91b4cb0637ce545893d49ed09470477fd8139dd
+    output_sha256: a78a2c567fdeba3fc7019c82836c1103944a738bbf9085c8a9e56fa1f581d2cc
+- id: R4
+  obligation: D1
+  dimension: outcome
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names and every `endpoints[e].setup` and `endpoints[e].hold` within `1e-6` ns of the reference on four hidden propagated-clock designs whose clock
+    tree runs three or four buffer levels deep and reconverges through a gate under clock-network `set_timing_derate` factors, where the late and early clock paths part at the reconvergence and the CPPR
+    credit sits at least three buffer levels below the clock source.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: a8ad2df7c13716dc56fa92d9a64b7dbc9ab34f7bc87cc7702d63d95394ff2e84
+    output_sha256: 41dc4d6f328f7f8a7a3a240a247f3327f00e613f0d7f7150fd71c7b79eacbe51
+- id: R5
+  obligation: D1
+  dimension: coverage
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports setup and hold slack within `1e-6` ns of the reference for every endpoint captured by the generated clock `gclk` on four hidden designs that derive `gclk` from a propagated master
+    through `create_generated_clock` with `-divide_by`, `-multiply_by`, or `-edges`.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: f8d15871e93990f42789cbb3dc4b63d4b82777ab4de6e483e6c5f5e47c61a599
+    output_sha256: 6c0966186d53bcd30c1353e123fb3a55b742df17d40d3cd86121f8c53b1b5920
+- id: R8
+  obligation: D1
+  dimension: outcome
+  weight: 1
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports `endpoints[e].hold` within `1e-6` ns of the reference for every endpoint whose hold slack a `set_multicycle_path -setup` exception changes, with or without a matching `-hold` exception,
+    on one hidden propagated-clock design.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: 2061dbd7901d761d6b8f9dcea90293f654eabe48193b5578abc2131f99b0573a
+    output_sha256: 1625b3e9215a896c13a1fc9f9c5b06b7e38041bb9a507b565b7f6d466495fcac
+- id: R10
+  obligation: D1
+  dimension: coverage
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports every latch's `borrow` and every `endpoints[e].setup` within `1e-6` ns of the reference on four hidden propagated-clock designs under clock and data `set_timing_derate` factors whose
+    level-sensitive `DLATX1` latches borrow time up to the open-window borrow limit.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: fd998be8f4b957992326003edb78ad2e1e5048357c878af58283c8465a360430
+    output_sha256: d244fccddcfae1188155081d4d94d82002cf541c484fc7729397796f8315f7d9
+- id: R11
+  obligation: D1
+  dimension: outcome
+  weight: 1
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names and every `endpoints[e].setup` and `endpoints[e].hold` within `1e-6` ns of the reference on one hidden propagated-clock design under data-path
+    `set_timing_derate -early` and `-late` factors without clock derates.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: e1687528a00a411900a52866f381668a1e4cb10bdd098bc8e07010a0d2a56741
+    output_sha256: 022fd1d97d33fd8c9b60001be1c2889dfa6a81b69d4055a4f1a5bcc25de9c6c4
+- id: R14
+  obligation: D1
+  dimension: outcome
+  weight: 1
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 writes `R` as one JSON object whose keys are exactly the eight report keys, each holding the value type the instruction's Report section states, and reports `wns_setup`, `tns_setup`, `wns_hold`,
+    and `tns_hold` within `1e-6` ns of the reference on one hidden propagated-clock single-clock design with negative setup slack.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: b8fec2a6ae49c72a1c37ad0748e80eb9b25c0b89b3408ebe34de4f75791b5285
+    output_sha256: 4d361358eff1b0286c19216ef3e8f8f4128fdabd392f5b04ff5d9c09c2d10818
+- id: R16
+  obligation: D1
+  dimension: robustness
+  weight: 1
+  negate: false
+  type: EFFECT
+  evaluation_target: process_state
+  criterion: D1 exits 2 and leaves `R` unwritten for one hidden input carrying one defect drawn per run from a library syntax error, a netlist instance of an undefined cell, a netlist connection to an undefined
+    pin, and an SDC object query that matches nothing, while it exits 0 and writes `R` for the same input without the defect.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: dbd73fd5b76c19efe9e29fb3c2b4c2fa5227f8fbb70d3432ca20f9cfee7135b7
+    output_sha256: afcb4b35e2d60def7892f2b7a882cb2eb6fe3a16dd284a98cddc87d0bd66e87d
+- id: R19
+  obligation: D1
+  dimension: coverage
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names, every endpoint slack, every `borrow`, and every `arrivals` entry within `1e-6` ns of the reference, `null` included, on four hidden designs
+    where level-sensitive latches on the master clock capture data launched by the generated clock under `set_multicycle_path -setup`, with CPPR on a reconvergent propagated clock tree.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: ac4213feaffd5ec2569f8493b968b2cd5ee6ebead2a78c8c00bdf7bde83f2210
+    output_sha256: c9ac8a88c7295bf20cff9c70d1e666e7b0579f8bd6193e0f2f13dabeb6451262
+- id: R23
+  obligation: D1
+  dimension: outcome
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names and every `endpoints[e].setup` and `endpoints[e].hold` within `1e-6` ns of the reference on six hidden propagated-clock designs whose last common
+    clock pin carries opposite transitions on the launch and capture paths.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: 63642d03c33fde2f0dcf9d12e0d80f1f2c509ca9c7c4c6d7ac9836b02f13e8df
+    output_sha256: 7d2ed655a117901b21b5a8d36c871bda9d46ac5967915815feb376d872d40daa
+- id: R24
+  obligation: D1
+  dimension: outcome
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names and every `endpoints[e].setup` and `endpoints[e].hold` within `1e-6` ns of the reference on four hidden propagated-clock designs whose clock
+    tree reconverges through a gate whose two inputs arrive at exactly the same time, so the clock-path tie rule decides the last common pin and the CPPR credit.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: d640cde56ceb807b583a63fe424a82da02db83b091969210b19b7bb897b27905
+    output_sha256: f830029536707798efbe4cd830e9123a5930db02315dae214878d8413b677eff
+- id: R25
+  obligation: D1
+  dimension: outcome
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names, every endpoint slack, every `borrow`, and every `arrivals` entry within `1e-6` ns of the reference, `null` included, on four hidden designs
+    whose level-sensitive latches are enabled by the generated clock, capture data under `set_multicycle_path -setup`, and launch Q into the generated-clock domain, with CPPR on a reconvergent propagated
+    clock tree.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: 1729bd8d5d138b189f5008f0180b9febdee5b4d5991e3e6a1b8f09ebdf7cff4e
+    output_sha256: 9ddcbda0dfd1220f009736be050dfb4880e39e8ffc6e49741d84ad187f47b120
+- id: R26
+  obligation: D1
+  dimension: constraints
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names, every endpoint slack, every `arrivals` entry, every `borrow`, every `pba_setup` value, `wns_setup`, and `wns_hold` within `1e-6` ns of the reference,
+    `null` included, on three hidden designs of at least 20000 timing-graph pins with eight primary clocks of distinct periods, four generated clocks one of them derived from another, and at least 40 `-through`
+    exceptions, finishing each run within the 20 s limit.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: fae1937e580c2946e5a46b46318e8760365f41544b821f4c1d8a3b30039d5219
+    output_sha256: 6c28913112e0f91c7ebabc38b8cdd05d12b4025ed0939c84954b25522514916d
+- id: R27
+  obligation: D1
+  dimension: outcome
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names and every `endpoints[e].setup` and `endpoints[e].hold` within `1e-6` ns of the reference on four hidden propagated-clock designs with a generated
+    clock derived from another generated clock, where a launch and capture clock path pair runs through both source registers and shares pins upstream of both.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: f24b7aad09d9fbb95c55857d79ece56c6535c544ed672bbd2b9232cf7f488a9a
+    output_sha256: f75fbdf55cacf7797b10b3b2e56d86afab271dfd334a4ee271bb403cc8f4c114
+- id: R28
+  obligation: D1
+  dimension: outcome
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports exactly the reference endpoint names and every `endpoints[e].setup` and `endpoints[e].hold` within `1e-6` ns of the reference on four hidden propagated-clock designs whose two clocks
+    have a period ratio that is not an integer, under `set_multicycle_path -setup` and `-hold` exceptions between the two clocks.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: 8e722f538f7ea75f80add81030e29da7444165ceacb78c24bd613b42ed9d9041
+    output_sha256: 8dcbb883eae4e3a1ec701dbb26a14d6229efa3a94b1cf93e4e4a341c8aea676f
+- id: R29
+  obligation: D1
+  dimension: coverage
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports every latch's `borrow`, the `arrivals` entry of every latch Q pin, and every `endpoints[e].setup` within `1e-6` ns of the reference on four hidden propagated-clock designs with a
+    chain of at least three level-sensitive latches in which every latch borrows time and passes its D arrival to the next latch through D to Q.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: 108e63f549af95426f1cb60de60a566010171868fcd0d19743b70bfee489566c
+    output_sha256: d9543236795d0a2ce73be77468c001ebfdc65702da91f92704d90f43fb482686
+- id: R30
+  obligation: D1
+  dimension: coverage
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports every latch's `borrow` and every `endpoints[e].setup` and `endpoints[e].hold` within `1e-6` ns of the reference on four hidden designs whose level-sensitive latches are enabled by
+    a generated clock on a propagated tree under clock and late data `set_timing_derate` factors, with a nonzero CPPR credit at a borrowing latch.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: de1381919e677e111ab8478b3ceda496708eb71eb4e258cf0923a25ee9093951
+    output_sha256: 98a951f7ebc6d8d5a2e0f6c93caef755a48563835ad21460756513852407f0a0
+- id: R31
+  obligation: D1
+  dimension: outcome
+  weight: 5
+  negate: false
+  type: VALUE
+  evaluation_target: process_state
+  criterion: D1 reports `pba_setup` for exactly the five worst register and port setup endpoints and every `endpoints[e].setup` within `1e-6` ns of the reference on four hidden propagated-clock designs
+    where path-based re-timing moves at least two of those slacks by at least `1e-3` ns.
+  judgment: binary
+  evidence:
+  - process_state
+  mode: compiled
+  drafting:
+    prompt_sha256: cdce893f04db291ef7505b938cbff07812dafaa296a2fc986b2d5e94ff65082c
+    output_sha256: d6745ca39af8aadfe70e256f8c1082697fa065459821bbfff0d24eeb36240810
+- id: J1
+  obligation: D1
+  dimension: constraints
+  weight: 1
+  negate: true
+  type: ABSENCE
+  evaluation_target: deliverable_file
+  criterion: D1 `/app/out/136de480-2df4-5b30-8686-685cbc5749d7_D1_sta.py` takes a cell delay, slew, or constraint value from a constant tuned to a design or library instead of looking it up in the library's
+    NLDM tables at run time.
+  judgment: binary
+  evidence:
+  - deliverable_file
+  mode: judged
+  residue: whether a constant reproduces table values only on sampled operating points is a reading of the source no finite case set exhausts
+  drafting:
+    prompt_sha256: c45f6cacce8499c19b7b3d8d063367078beeba9dd411a7790f8b19b7fae8e956
+    output_sha256: 490b7d4ca97ae79f6a23fbbcdf20c487465dc81cc5c41c44ad861d334d17cae0
+- id: J7
+  obligation: D1
+  dimension: process
+  weight: 1
+  negate: false
+  type: INVARIANT
+  evaluation_target: deliverable_file
+  criterion: D1 propagates one late and one early arrival per pin, transition, and launching group in topological order over its timing graph instead of enumerating paths.
+  judgment: binary
+  evidence:
+  - deliverable_file
+  mode: judged
+  residue: path enumeration that applies the same merge rule agrees with graph-based analysis on the sampled designs; the algorithm is a property of the code
+  drafting:
+    prompt_sha256: 9c50a1eea3f66b65d812e8e374a16ecc9492b7c762fdc6d7cb2ee57906de5648
+    output_sha256: f76f734d563828fb1a01242b3d4bf26076125474a3b909714d232b66e9234a6d
+- id: J9
+  obligation: D1
+  dimension: constraints
+  weight: 1
+  negate: true
+  type: ABSENCE
+  evaluation_target: deliverable_file
+  criterion: D1 embeds a report, slack, arrival, borrow, or critical path for any design instead of computing it from the files it is given.
+  judgment: binary
+  evidence:
+  - deliverable_file
+  mode: judged
+  residue: whether a constant encodes design-derived results is a reading of program intent
+  drafting:
+    prompt_sha256: 8d2eb993246ce62dc1bea5aa5ac6cbcdabda5514e907693911e4920b1d06e073
+    output_sha256: 198cc710e04223a6c7b381d6b31ffd8d510555f9d160815abc97193fa2029d6b
+known_wrong:
+- id: KW-ideal-clock
+  route: ignore set_propagated_clock
+  control: KW-ideal-clock
+  rejected_by:
+  - R4
+  - R5
+  - R8
+  - R10
+  - R11
+  - R14
+  - R19
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R28
+  - R29
+  - R30
+  - R31
+  measured_reward: 0.138
+- id: KW-no-cppr
+  route: no CPPR credit
+  control: KW-no-cppr
+  rejected_by:
+  - R4
+  - R10
+  - R19
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R29
+  - R30
+  - R31
+  measured_reward: 0.3028
+- id: KW-cppr-opposite
+  route: credit CPPR at the last common pin despite opposite transitions
+  control: KW-cppr-opposite
+  rejected_by:
+  - R23
+  - R25
+  - R29
+  - R30
+  measured_reward: 0.7465
+- id: KW-mcp-hold-unshifted
+  route: no SDC default hold shift under multicycle setup without -hold
+  control: KW-mcp-hold-unshifted
+  rejected_by:
+  - R8
+  measured_reward: 0.9873
+- id: KW-no-borrow
+  route: no latch time borrowing
+  control: KW-no-borrow
+  rejected_by:
+  - R10
+  - R19
+  - R29
+  - R30
+  measured_reward: 0.7465
+- id: KW-latch-master-edge
+  route: launch a latch from the master clock edge when the source is a generated clock
+  control: KW-latch-master-edge
+  rejected_by:
+  - R19
+  measured_reward: 0.9366
+- id: KW-no-derate
+  route: ignore set_timing_derate
+  control: KW-no-derate
+  rejected_by:
+  - R4
+  - R10
+  - R11
+  - R19
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R29
+  - R30
+  - R31
+  measured_reward: 0.2901
+- id: KW-setup-only
+  route: hold computed from late arrivals
+  control: KW-setup-only
+  rejected_by:
+  - R3
+  - R4
+  - R5
+  - R8
+  - R11
+  - R14
+  - R19
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R28
+  - R30
+  measured_reward: 0.3155
+- id: KW-output-delay-added
+  route: add set_output_delay -max to the required time instead of subtracting it
+  control: KW-output-delay-added
+  rejected_by:
+  - R2
+  measured_reward: 0.9873
+- id: KW-input-delay-min-ignored
+  route: launch an input port's early arrival at its -max input delay
+  control: KW-input-delay-min-ignored
+  rejected_by:
+  - R3
+  measured_reward: 0.9873
+- id: KW-data-early-derate-ignored
+  route: apply -early derate factors to clock-network arcs only
+  control: KW-data-early-derate-ignored
+  rejected_by:
+  - R11
+  measured_reward: 0.9873
+- id: KW-tns-all-slacks
+  route: TNS sums every endpoint slack, positive ones included
+  control: KW-tns-all-slacks
+  rejected_by:
+  - R14
+  measured_reward: 0.9873
+- id: KW-accept-malformed
+  route: exit 0 with a report on malformed input
+  control: KW-accept-malformed
+  rejected_by:
+  - R16
+  measured_reward: 0.9873
+- id: KW-parses-only
+  route: parse the inputs and write an empty report
+  control: KW-parses-only
+  rejected_by:
+  - R2
+  - R3
+  - R4
+  - R5
+  - R8
+  - R10
+  - R11
+  - R14
+  - R19
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R28
+  - R29
+  - R30
+  - R31
+  measured_reward: 0.1127
+- id: KW-hold-capture-period
+  route: hold relationship S - PC - N_hold x PL (capture period only) instead of S20
+  control: KW-hold-capture-period
+  rejected_by:
+  - R5
+  - R19
+  - R25
+  - R26
+  - R27
+  - R28
+  - R30
+  measured_reward: 0.5563
+- id: KW-naive-per-launch-group
+  route: exact analysis that re-propagates the whole timing graph once per launch group
+  control: KW-naive-per-launch-group
+  rejected_by:
+  - R26
+  measured_reward: 0.9366
+- id: KW-gen-of-gen-near-source
+  route: trace a generated-of-generated clock path only to the nearer source register
+  control: KW-gen-of-gen-near-source
+  rejected_by:
+  - R26
+  - R27
+  measured_reward: 0.8732
+- id: KW-mcp-integer-ratio
+  route: pair edges by the floor of the period ratio instead of the rational common period
+  control: KW-mcp-integer-ratio
+  rejected_by:
+  - R26
+  - R27
+  - R28
+  measured_reward: 0.8099
+- id: KW-latch-chain-no-through-d
+  route: a latch Q takes no through-D arrival when its D was itself launched through a latch
+  control: KW-latch-chain-no-through-d
+  rejected_by:
+  - R29
+  measured_reward: 0.9366
+- id: KW-latch-gen-no-cppr
+  route: no CPPR credit at a latch on a generated clock
+  control: KW-latch-gen-no-cppr
+  rejected_by:
+  - R25
+  - R30
+  measured_reward: 0.8732
+- id: KW-pba-graph-slew
+  route: report the graph-based setup slack as pba_setup
+  control: KW-pba-graph-slew
+  rejected_by:
+  - R26
+  - R31
+  measured_reward: 0.8732
+- id: KW-pba-no-derate
+  route: re-time the path with path slews but no derates
+  control: KW-pba-no-derate
+  rejected_by:
+  - R26
+  - R31
+  measured_reward: 0.8732
+- id: KW-opus55-v4-d1
+  route: the Opus 5.5 v4 trial D1 (sha256 a119f2fa, 48 [REDACTED] tokens restored to {})
+  control: KW-opus55-v4-d1
+  rejected_by:
+  - R2
+  - R3
+  - R4
+  - R5
+  - R8
+  - R10
+  - R11
+  - R14
+  - R19
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R28
+  - R29
+  - R30
+  - R31
+  measured_reward: 0.1127
+- id: KW-gpt61sol-d1
+  route: the GPT-6.1 Sol trial D1 (sha256 f34d9836); its bytes are absent from the run and from every checked path, so it is not re-measured (named gap KW_GPT61SOL_D1_BYTES_ABSENT); last measured 0.5098
+    under contract afcfc571
+  control: null
+  rejected_by:
+  - R4
+  - R19
+  - R23
+  - R24
+  - R25
+- id: KW-J1
+  route: hard-code library delay values tuned to the sampled designs
+  control: null
+  rejected_by:
+  - J1
+- id: KW-J7
+  route: enumerate every path from every start point
+  control: null
+  rejected_by:
+  - J7
+- id: KW-J9
+  route: return a stored report when the inputs match a sample design
+  control: null
+  rejected_by:
+  - J9
+derivation_table:
+- rule: graph-based propagation, late maximum and early minimum over the arcs into a pin
+  source: 'stated: S3 (instruction.md Propagation)'
+- rule: data arrivals kept apart per pin, transition, launching clock edge, and exception state
+  source: 'stated: S3 (instruction.md Rules 3, Propagation)'
+- rule: clock arrivals record the arc input that set them; ties go to the smaller (pin name, transition) pair; launch path traced from the launching clock pin at rise in the launch analysis, capture path
+    from the capturing clock pin in the capture analysis, a latch hold from its closing transition
+  source: 'stated: S15 (instruction.md CPPR, path tracing)'
+- rule: CPPR credit is the late minus the early clock arrival at the last common pin, for the launch path's transition there, and 0 for opposite transitions, no shared pin, or ideal clocks
+  source: 'stated: S16 (instruction.md CPPR, credit)'
+- rule: latch opening time, open window, borrow limit (window plus closing minus opening early latency minus the setup constraint, never below 0), borrow clamped to [0, limit], setup slack opening plus
+    borrow minus arrival
+  source: 'stated: S17 (instruction.md Level-sensitive latches, setup and borrow)'
+- rule: latch Q launches at the latch's own opening edge from the enable and from every borrowing D arrival less its S through the D-to-Q arc; early Q from the enable alone
+  source: 'stated: S18 (instruction.md Level-sensitive latches, Q launch)'
+- rule: generated clock waveform from the master through -multiply_by, -edges, or -divide_by as -edges {1, n+1, 2n+1}; latches on or fed from a generated clock use its own edges
+  source: 'stated: S19 (instruction.md Generated clocks), cited: SDC 2.1 create_generated_clock'
+- rule: setup edge pairing across unrelated clocks and with generated clocks over the common period
+  source: 'stated: S12 (instruction.md Checks)'
+- rule: a generated clock's source register output is a clock-network pin absent from arrivals
+  source: 'stated: S14 (instruction.md Propagation)'
+- rule: multicycle setup moves the capture edge, multicycle hold the launch edge, default hold follows setup
+  source: 'stated: S5 (instruction.md Checks), cited: SDC 2.1 set_multicycle_path'
+- rule: CPPR applies on propagated clocks only
+  source: 'stated: S6 (instruction.md CPPR)'
+- rule: false paths remove checks; -through lists match any one pin
+  source: 'stated: S8 (instruction.md Exceptions)'
+- rule: table lookup by template variable order with linear interpolation and extrapolation
+  source: 'stated: S2 (instruction.md Lookup and loads), cited: Liberty NLDM lu_table_template'
+- rule: timing_sense selects the input transitions of an arc
+  source: 'cited: Liberty NLDM timing_sense'
+- rule: net load from pin capacitance, set_load, and the default wire load at the fanout
+  source: 'stated: S2 (instruction.md Lookup and loads)'
+- rule: units from time_unit, capacitive_load_unit, and set_units; times reported in ns
+  source: 'stated: S1 (instruction.md Units)'
+- rule: OCV derates scale cell delay arcs only, late on late and early on early, clock and data separately
+  source: 'stated: S4 (instruction.md OCV)'
+- rule: setup with late data and early capture clock; hold with early data and late capture clock; constraint lookup slews
+  source: 'stated: S5 (instruction.md Checks)'
+- rule: latch transparency, opening and closing edges through the clock network's unateness, paths end at latch D, exceptions stop at a latch, latch hold at the closing edge
+  source: 'stated: S7 (instruction.md Level-sensitive latches)'
+- rule: 'ideal clocks: zero latency and set_clock_transition slew; propagated clocks from the source port at time 0'
+  source: 'stated: S3 (instruction.md Propagation)'
+- rule: report schema (wns_setup, tns_setup, wns_hold, tns_hold, endpoints, arrivals, borrow, pba_setup), null rules, WNS and TNS
+  source: 'stated: S9 (instruction.md Report)'
+- rule: exit status 0 with a report, 2 without one on malformed or out-of-subset input
+  source: 'stated: S10 (instruction.md Exit status)'
+- rule: grading tolerance 1e-6 ns, the 20 s run limit, the 0.9 compiled and 0.1 judged reward, and the exact-1.0 pass rule
+  source: 'stated: S11, S21 (instruction.md What to deliver, Grading)'
+- rule: 'hold relationship: setup relationship (with the multicycle setup shift) minus the smaller of the launch and capture periods minus the -hold multiplier times the launch period; a latch uses the
+    setup relationship to its closing edge'
+  source: 'stated: S20 (instruction.md Rules 5, Checks)'
+- rule: each D1 run finishes within 20 s; a run over the limit fails every value of its case
+  source: 'stated: S21 (instruction.md What to deliver, Grading)'
+- rule: path-based re-timing of the 5 worst register and port setup endpoints along the path that set each graph slack, with path slews and the late data derate; capture side and CPPR as graph-based; pba_setup
+  source: 'stated: S22 (instruction.md Rules 10, Path-based re-timing)'
+- rule: a generated clock may be sourced from a pin clocked by another generated clock; waveform, source latency, and clock-path tracing apply through each level
+  source: 'stated: S23 (instruction.md Rules 6, Generated clocks)'
+- rule: periods need not be integer multiples; the common period is the least common multiple of the two periods as exact fractions; multicycle setup shifts by capture periods and multicycle hold by launch
+    periods
+  source: 'stated: S12 (instruction.md Rules 5, Checks)'
+- rule: a Q arrival that came through D feeds the next latch's D, so borrowing passes along latch chains
+  source: 'stated: S18 (instruction.md Rules 8, Level-sensitive latches)'
+controls:
+  pass_bar: 1.0
+  evidence:
+  - ./.seed/runs/forge-kanishk-singh-ethara-ai-20261022t210655z-9200e9/feasibility/136de480-2df4-5b30-8686-685cbc5749d7/controls-v6-oracle.json
+  - ./.seed/runs/forge-kanishk-singh-ethara-ai-20261022t210655z-9200e9/feasibility/136de480-2df4-5b30-8686-685cbc5749d7/controls-v6-rest.json
+  rule: every control through the shipped tests/test.sh in Docker (verifier image built from tests/); standin = the judge carrier line replaced by a fixed 1.0 stand-in because no Codex credential reaches
+    this run; every other byte runs as shipped
+  pass_rule: a trial passes only when its reward is exactly 1.0; the mean reward is reported beside the pass rate
+  invariant: 'no-op reward = 0.0 exactly: no /app/out files, an empty D1, or a non-compiling D1 score 0.0 for reward, test_output, and judge, written inline with no Reward Kit run and no judge call'
+  oracle:
+    expect: 1.0
+    measured: 1.0
+    seed: 149680838002977
+    max_d1_sec: 2.125
+  no_op:
+    expect: 0.0
+    judge: skipped
+  empty_d1:
+    expect: 0.0
+    judge: skipped
+  non_compiling_d1:
+    expect: 0.0
+    judge: skipped
+  rewardkit_failure:
+    expect: no reward file
+    exit: nonzero
+  hand_computed:
+    control: KW-accept-malformed
+    fails:
+    - R16
+    expected_flat: 0.98732
+    expected_rounded: 0.9873
+    measured: 0.9873
+    tolerance: 0.0001
+  guards_sole_rejectors:
+    R2: KW-output-delay-added
+    R3: KW-input-delay-min-ignored
+    R8: KW-mcp-hold-unshifted
+    R11: KW-data-early-derate-ignored
+    R14: KW-tns-all-slacks
+    R16: KW-accept-malformed
+  hard_family_stop: no control at 1.0; KW-opus55-v4-d1 measured below 1.0, so HARD_FAMILIES_DO_NOT_BITE does not fire
+  measured:
+  - control: oracle
+    reward: 1.0
+    exit: 0
+    rewardkit_ran: true
+    failed: []
+  - control: oracle (shipped)
+    reward: null
+    exit: 1
+    rewardkit_ran: true
+    failed: []
+  - control: oracle (rkfail)
+    reward: null
+    exit: 1
+    rewardkit_ran: true
+    failed: []
+  - control: no-op
+    reward: 0.0
+    exit: 0
+    rewardkit_ran: false
+    failed: []
+  - control: empty-d1
+    reward: 0.0
+    exit: 0
+    rewardkit_ran: false
+    failed: []
+  - control: non-compiling-d1
+    reward: 0.0
+    exit: 0
+    rewardkit_ran: false
+    failed: []
+  - control: KW-ideal-clock
+    reward: 0.138
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R4
+    - R5
+    - R8
+    - R10
+    - R11
+    - R14
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+  - control: KW-no-cppr
+    reward: 0.3028
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R4
+    - R10
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R29
+    - R30
+    - R31
+  - control: KW-cppr-opposite
+    reward: 0.7465
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R23
+    - R25
+    - R29
+    - R30
+  - control: KW-mcp-hold-unshifted
+    reward: 0.9873
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R8
+  - control: KW-no-borrow
+    reward: 0.7465
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R10
+    - R19
+    - R29
+    - R30
+  - control: KW-latch-master-edge
+    reward: 0.9366
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R19
+  - control: KW-no-derate
+    reward: 0.2901
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R4
+    - R10
+    - R11
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R29
+    - R30
+    - R31
+  - control: KW-setup-only
+    reward: 0.3155
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R3
+    - R4
+    - R5
+    - R8
+    - R11
+    - R14
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R30
+  - control: KW-output-delay-added
+    reward: 0.9873
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R2
+  - control: KW-input-delay-min-ignored
+    reward: 0.9873
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R3
+  - control: KW-data-early-derate-ignored
+    reward: 0.9873
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R11
+  - control: KW-tns-all-slacks
+    reward: 0.9873
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R14
+  - control: KW-accept-malformed
+    reward: 0.9873
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R16
+  - control: KW-parses-only
+    reward: 0.1127
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R2
+    - R3
+    - R4
+    - R5
+    - R8
+    - R10
+    - R11
+    - R14
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+  - control: KW-hold-capture-period
+    reward: 0.5563
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R5
+    - R19
+    - R25
+    - R26
+    - R27
+    - R28
+    - R30
+  - control: KW-gen-of-gen-near-source
+    reward: 0.8732
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R26
+    - R27
+  - control: KW-mcp-integer-ratio
+    reward: 0.8099
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R26
+    - R27
+    - R28
+  - control: KW-latch-chain-no-through-d
+    reward: 0.9366
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R29
+  - control: KW-latch-gen-no-cppr
+    reward: 0.8732
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R25
+    - R30
+  - control: KW-pba-graph-slew
+    reward: 0.8732
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R26
+    - R31
+  - control: KW-pba-no-derate
+    reward: 0.8732
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R26
+    - R31
+  - control: ideal-setup-clock-slew-zero
+    reward: 0.9873
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R2
+  - control: ideal-hold-clock-slew-zero
+    reward: 0.9873
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R3
+  - control: wrong-schema
+    reward: 0.1127
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R2
+    - R3
+    - R4
+    - R5
+    - R8
+    - R10
+    - R11
+    - R14
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+  - control: cppr-at-first-common-pin
+    reward: 0.3028
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R4
+    - R10
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R29
+    - R30
+    - R31
+  - control: clock-tie-to-larger-pin
+    reward: 0.9366
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R24
+  - control: capture-traced-in-launch-mode
+    reward: 0.6831
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R4
+    - R19
+    - R25
+    - R27
+    - R30
+  - control: generated-as-master
+    reward: 0.6197
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R5
+    - R19
+    - R25
+    - R26
+    - R27
+    - R30
+  - control: borrow-unbounded
+    reward: 0.8732
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R10
+    - R29
+  - control: borrow-window-without-setup
+    reward: 0.8732
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R10
+    - R29
+  - control: latch-q-from-enable-only
+    reward: 0.7465
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R10
+    - R19
+    - R29
+    - R30
+  - control: no-mcp-setup
+    reward: 0.7338
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R8
+    - R19
+    - R25
+    - R26
+    - R28
+  - control: single-period-pairing
+    reward: 0.3662
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R5
+    - R10
+    - R19
+    - R23
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+  - control: cross-clock-first-edge-only
+    reward: 0.6197
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R5
+    - R25
+    - R26
+    - R27
+    - R28
+    - R30
+  - control: clamp-extrapolation
+    reward: 0.138
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R2
+    - R3
+    - R4
+    - R5
+    - R10
+    - R14
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+  - control: ignore-unateness
+    reward: 0.1254
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R2
+    - R3
+    - R4
+    - R5
+    - R10
+    - R11
+    - R14
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+  - control: early-equals-late-arrivals
+    reward: 0.7465
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R19
+    - R25
+    - R26
+    - R29
+  - control: wrong-trace
+    reward: 0.3028
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R4
+    - R10
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R29
+    - R30
+    - R31
+  - control: KW-naive-per-launch-group
+    reward: 0.9366
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R26
+  - control: KW-opus55-v4-d1
+    reward: 0.1127
+    exit: 0
+    rewardkit_ran: true
+    failed:
+    - R2
+    - R3
+    - R4
+    - R5
+    - R8
+    - R10
+    - R11
+    - R14
+    - R19
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+  - control: no-op (shipped)
+    reward: 0.0
+    exit: 0
+    rewardkit_ran: false
+    failed: []
+  - control: empty-d1 (shipped)
+    reward: 0.0
+    exit: 0
+    rewardkit_ran: false
+    failed: []
+  - control: non-compiling-d1 (shipped)
+    reward: 0.0
+    exit: 0
+    rewardkit_ran: false
+    failed: []
+combinations_check:
+  script: feasibility/136de480-2df4-5b30-8686-685cbc5749d7/combinations_v6.py
+  design:
+    sha256_8:
+      cells.nldm: fbe44868
+      top.v: fc6a3462
+      top.sdc: 4bfdebee
+    generated_of_generated: []
+    multicycle_at_non_integer_ratio: []
+    latch_chain: []
+    latch_on_generated_clock: []
+  design/example:
+    sha256_8:
+      cells.nldm: 885030f4
+      top.v: 6f622fec
+      top.sdc: ca096ad6
+    generated_of_generated: []
+    multicycle_at_non_integer_ratio: []
+    latch_chain: []
+    latch_on_generated_clock: []
+  verdict: absent from both samples
+perf_budget:
+  limit_sec: 20
+  oracle_budget_sec: 5
+  naive_floor_sec: 40
+  through_test_sh:
+    control: oracle standin
+    seed: 149680838002977
+    R26_cases:
+    - item: R26
+      case: 0
+      family: perf
+      reference_sec: 5.133
+      d1_sec: 1.845
+      exit: 0
+    - item: R26
+      case: 1
+      family: perf
+      reference_sec: 2.537
+      d1_sec: 1.931
+      exit: 0
+    - item: R26
+      case: 2
+      family: perf
+      reference_sec: 2.429
+      d1_sec: 2.125
+      exit: 0
+  standalone_in_verifier_image:
+    evidence: ./.seed/runs/forge-kanishk-singh-ethara-ai-20261022t210655z-9200e9/feasibility/136de480-2df4-5b30-8686-685cbc5749d7/naive-standalone-v6.json
+    seed: '149680838002977'
+    cases:
+    - case: 0
+      reference_sec: 3.241
+      oracle_sec: 1.955
+      naive_sec: 120.688
+      naive_equals_oracle: true
+      profile:
+        pins: 21229
+        primary_clocks: 8
+        generated: 4
+        generated_of_generated: 1
+        through_exceptions: 48
+        launch_groups: 2099
+        max_cone_fraction: 0.002449479485609308
+    - case: 1
+      reference_sec: 2.381
+      oracle_sec: 1.956
+      naive_sec: 117.977
+      naive_equals_oracle: true
+      profile:
+        pins: 21230
+        primary_clocks: 8
+        generated: 4
+        generated_of_generated: 1
+        through_exceptions: 48
+        launch_groups: 2099
+        max_cone_fraction: 0.002308054639660857
+    - case: 2
+      reference_sec: 2.303
+      oracle_sec: 1.946
+      naive_sec: 119.097
+      naive_equals_oracle: true
+      profile:
+        pins: 21216
+        primary_clocks: 8
+        generated: 4
+        generated_of_generated: 1
+        through_exceptions: 48
+        launch_groups: 2089
+        max_cone_fraction: 0.0024509803921568627
+  naive_under_limit: KW-naive-per-launch-group fails R26 only (every perf run killed at 20 s)
+  verdict: 'met: oracle at most 2.12 s per perf case through tests/test.sh, naive at least 118.0 s standalone; PERF_GAP_UNMET does not fire'
+  verifier_budget: oracle standin run 24.8 s wall for all 59 cases including reference analysis, inside task.toml [verifier] timeout_sec 2700; worst case 59 x 20 s D1 plus reference stays under 1500 s
+  admission: the perf generator's size is fixed (perf_design), so the R26 predicate admits on the structural profile (gen_design.perf_profile) and the oracle budget is measured here on the verifier image
+    for the fresh seeds above rather than re-run inside the verifier, which carries no solution/

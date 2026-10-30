@@ -1,0 +1,42 @@
+{
+    "task": {
+        "path": "/Users/macbookpro/Documents/nexus/harness/nexus/harness/8263dbf4-358b-52b2-8ff0-2b26ffcafa67"
+    },
+    "trial_name": "8263dbf4-358b-52b2-8ff0-2b26ffca__7CBu72N",
+    "agent": {
+        "name": "claude-code",
+        "model_name": "anthropic/claude-opus-5",
+        "override_setup_timeout_sec": 1800.0,
+        "extra_allowed_hosts": [
+            "api.anthropic.com"
+        ],
+        "env": {
+            "CLAUDE_FORCE_OAUTH": "****",
+            "CLAUDE_CODE_OAUTH_TOKEN": "${CLAUDE_CODE_OAUTH_TOKEN}"
+        }
+    },
+    "environment": {
+        "type": "docker",
+        "extra_allowed_hosts": [
+            "deb.debian.org",
+            "security.debian.org",
+            "downloads.claude.ai",
+            "registry.npmjs.org",
+            "nodejs.org",
+            "pypi.org",
+            "files.pythonhosted.org"
+        ]
+    },
+    "verifier": {
+        "override_timeout_sec": 900.0,
+        "env": {
+            "CODEX_AUTH_JSON": "${CODEX_AUTH_JSON}",
+            "REWARDKIT_FORCE_SUBSCRIPTION": "1",
+            "REWARDKIT_MODEL": "openai/gpt-6.1-sol"
+        },
+        "extra_allowed_hosts": [
+            "chatgpt.com",
+            "auth.openai.com"
+        ]
+    }
+}

@@ -1,0 +1,324 @@
+#!/usr/bin/env python3
+"""Deterministic exactly-once session-window streaming engine.
+
+Logical time advances only via watermark messages; no wall clock, no randomness,
+no process/network state is consulted, so the output is a pure function of the
+message sequence and the configuration.
+
+CLI:  stream run <chunk> <out> <ckpt> [--resume] [--final]
+"""
+import heapq
+import json
+import os
+import sys
+
+CFG = os.path.join(os.environ.get("KVD_HOME", "/app/data"), "config.json")
+
+RETRACT = "RETRACT"
+FINAL = "FINAL"
+# Within one triggering message, records are ordered by key, then RETRACT before
+# FINAL, then start, then end.
+_TYPE_RANK = {RETRACT: 0, FINAL: 1}
+
+CKPT_VERSION = 1
+
+
+def _config():
+    with open(CFG) as fh:
+        c = json.load(fh)
+    return int(c["session_gap_ms"]), int(c["allowed_lateness_ms"]), int(c["checkpoint_interval"])
+
+
+class Engine(object):
+    """Per-key gap sessions with finalization, retraction and garbage collection.
+
+    A session is the closed interval [start, end] spanning its members, carrying
+    `count` and `sum`. `fin` marks a session that has already been FINALized and
+    is still retractable (not yet garbage collected).
+    """
+
+    def __init__(self, gap, lateness, out):
+        self.gap = gap
+        self.lateness = lateness
+        self.out = out
+        self.w = None  # current watermark; None sorts below every timestamp
+        self.emit = 0
+        self.dropped = 0
+        self.sessions = {}  # key -> list of session dicts
+        self._pending = []  # records produced by the current triggering message
+        # Deadline index: the next watermark threshold at which a key needs
+        # attention (a close or a garbage collection). Purely derived from
+        # `sessions`, so it is rebuilt on restore rather than checkpointed.
+        self._due = []      # heap of (deadline, key)
+        self._next_due = {}  # key -> its live deadline; older heap entries are stale
+
+    # ---- state serialization -------------------------------------------------
+
+    def snapshot(self):
+        return {
+            "version": CKPT_VERSION,
+            "w": self.w,
+            "emit": self.emit,
+            "dropped_late": self.dropped,
+            "sessions": {
+                key: [[s["start"], s["end"], s["count"], s["sum"], 1 if s["fin"] else 0]
+                      for s in lst]
+                for key, lst in self.sessions.items()
+            },
+        }
+
+    def restore(self, state):
+        if int(state.get("version", CKPT_VERSION)) != CKPT_VERSION:
+            raise ValueError("unsupported checkpoint version")
+        self.w = state["w"]
+        self.emit = int(state["emit"])
+        self.dropped = int(state["dropped_late"])
+        self.sessions = {}
+        self._due = []
+        self._next_due = {}
+        for key, lst in state["sessions"].items():
+            self.sessions[key] = [
+                {"start": r[0], "end": r[1], "count": r[2], "sum": r[3], "fin": bool(r[4])}
+                for r in lst
+            ]
+            self._schedule(key)
+
+    # ---- emission ------------------------------------------------------------
+
+    def _queue(self, typ, key, s):
+        self._pending.append((key, _TYPE_RANK[typ], s["start"], s["end"], typ,
+                              s["count"], s["sum"]))
+
+    def _flush(self):
+        if not self._pending:
+            return
+        self._pending.sort(key=lambda r: (r[0], r[1], r[2], r[3]))
+        for key, _rank, start, end, typ, count, total in self._pending:
+            self.emit += 1
+            self.out.write(json.dumps({
+                "type": typ,
+                "emit": self.emit,
+                "key": key,
+                "start": start,
+                "end": end,
+                "count": count,
+                "sum": total,
+            }, sort_keys=True) + "\n")
+        del self._pending[:]
+
+    def _closed(self, end):
+        """True when the watermark has passed the session end by more than gap."""
+        return self.w is not None and self.w > end + self.gap
+
+    # ---- deadline index ------------------------------------------------------
+
+    def _deadline(self, s):
+        """Watermark value that must be exceeded for this session's next action."""
+        if s["fin"]:
+            return s["end"] + self.gap + self.lateness  # garbage collection
+        return s["end"] + self.gap  # close
+
+    def _schedule(self, key):
+        lst = self.sessions.get(key)
+        if not lst:
+            self._next_due.pop(key, None)
+            return
+        d = min(self._deadline(s) for s in lst)
+        self._next_due[key] = d
+        heapq.heappush(self._due, (d, key))
+
+    # ---- message handling ----------------------------------------------------
+
+    def event(self, key, ts, val):
+        if self.w is not None and self.w - ts > self.lateness:
+            # Too late: never applied, only counted.
+            self.dropped += 1
+            return
+        lst = self.sessions.setdefault(key, [])
+        start = end = ts
+        count = 1
+        total = val
+        retracted = []
+        remaining = lst
+        # Absorb every session the growing interval is within gap of. The first
+        # round applies the membership test for the event itself; later rounds
+        # cannot match anything extra (sessions of a key are kept pairwise more
+        # than gap apart) but keep the merge closed under the invariant.
+        while True:
+            keep = []
+            merged_any = False
+            for s in remaining:
+                if s["start"] - self.gap <= end and start - self.gap <= s["end"]:
+                    if s["start"] < start:
+                        start = s["start"]
+                    if s["end"] > end:
+                        end = s["end"]
+                    count += s["count"]
+                    total += s["sum"]
+                    if s["fin"]:
+                        retracted.append(s)
+                    merged_any = True
+                else:
+                    keep.append(s)
+            remaining = keep
+            if not merged_any:
+                break
+        session = {"start": start, "end": end, "count": count, "sum": total, "fin": False}
+        remaining.append(session)
+        self.sessions[key] = remaining
+        # Retract each finalized session the merge consumed, then re-finalize the
+        # merged session if the watermark has already passed it.
+        for s in sorted(retracted, key=lambda s: (s["start"], s["end"])):
+            self._queue(RETRACT, key, s)
+        if self._closed(end):
+            session["fin"] = True
+            self._queue(FINAL, key, session)
+        self._schedule(key)
+
+    def _advance_key(self, key):
+        """Close and garbage collect this key's sessions that the watermark passed."""
+        lst = self.sessions[key]
+        for s in lst:
+            if not s["fin"] and self._closed(s["end"]):
+                s["fin"] = True
+                self._queue(FINAL, key, s)
+        # Garbage collect sessions no allowed-late event could ever reach.
+        kept = [s for s in lst
+                if not (s["fin"] and self.w > s["end"] + self.gap + self.lateness)]
+        if kept:
+            self.sessions[key] = kept
+        else:
+            del self.sessions[key]
+        self._schedule(key)
+
+    def watermark(self, ts):
+        if self.w is None or ts > self.w:
+            self.w = ts
+        # Only keys whose earliest deadline the watermark has passed can change.
+        while self._due and self._due[0][0] < self.w:
+            d, key = heapq.heappop(self._due)
+            if self._next_due.get(key) != d:
+                continue  # superseded entry
+            if key not in self.sessions:
+                self._next_due.pop(key, None)
+                continue
+            self._advance_key(key)
+
+    def finish(self):
+        """End of trace: advance past everything and flush remaining windows."""
+        for key in sorted(self.sessions):
+            for s in self.sessions[key]:
+                if not s["fin"]:
+                    s["fin"] = True
+                    self._queue(FINAL, key, s)
+        self._flush()
+        self.emit += 1
+        self.out.write(json.dumps({
+            "type": "EOF",
+            "emit": self.emit,
+            "dropped_late": self.dropped,
+        }, sort_keys=True) + "\n")
+
+    def feed(self, msg):
+        typ = msg.get("type")
+        if typ == "event":
+            self.event(msg["key"], int(msg["ts"]), int(msg["val"]))
+            self._flush()
+            sys.stdout.write("ACK %d\n" % int(msg["seq"]))
+            sys.stdout.flush()
+        elif typ == "watermark":
+            self.watermark(int(msg["ts"]))
+            self._flush()
+
+
+def _write_atomic(path, text, durable=True):
+    """Write `text` to `path` via a temp file and a rename, never in place."""
+    tmp = path + ".tmp"
+    with open(tmp, "w") as fh:
+        fh.write(text)
+        fh.flush()
+        if durable:
+            os.fsync(fh.fileno())
+    os.replace(tmp, path)
+    if not durable:
+        return
+    dirname = os.path.dirname(os.path.abspath(path)) or "."
+    try:
+        dfd = os.open(dirname, os.O_RDONLY)
+    except OSError:
+        return
+    try:
+        os.fsync(dfd)
+    except OSError:
+        pass
+    finally:
+        os.close(dfd)
+
+
+def run(chunk, out_path, ckpt_path, resume, final):
+    gap, lateness, interval = _config()
+    if resume and not os.path.exists(ckpt_path):
+        sys.stderr.write("stream: cannot resume, no checkpoint at %s\n" % ckpt_path)
+        return 1
+    out = open(out_path, "a" if resume else "w")
+    eng = Engine(gap, lateness, out)
+    if resume:
+        with open(ckpt_path) as fh:
+            eng.restore(json.load(fh))
+
+    pending_ckpt = 0
+    with open(chunk) as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            eng.feed(json.loads(line))
+            pending_ckpt += 1
+            if interval > 0 and pending_ckpt >= interval and not final:
+                # Advisory durability cadence: keep the output and the state we
+                # would restore from in lockstep. The enforced resume points are
+                # the chunk boundaries, so these intermediate snapshots skip the
+                # fsyncs and stay cheap on long chunks.
+                out.flush()
+                _write_atomic(ckpt_path, json.dumps(eng.snapshot(), sort_keys=True) + "\n",
+                              durable=False)
+                pending_ckpt = 0
+
+    if final:
+        eng.finish()
+    out.flush()
+    os.fsync(out.fileno())
+    out.close()
+    if not final:
+        # The checkpoint is written only after the output it accounts for is
+        # durable, so emit ids can never be replayed or skipped.
+        _write_atomic(ckpt_path, json.dumps(eng.snapshot(), sort_keys=True) + "\n")
+    return 0
+
+
+def main(argv):
+    if not argv or argv[0] != "run":
+        return _usage()
+    pos = []
+    resume = final = False
+    for arg in argv[1:]:
+        if arg == "--resume":
+            resume = True
+        elif arg == "--final":
+            final = True
+        elif arg.startswith("--"):
+            return _usage()
+        else:
+            pos.append(arg)
+    if len(pos) != 3:
+        return _usage()
+    return run(pos[0], pos[1], pos[2], resume, final)
+
+
+def _usage():
+    sys.stderr.write("usage: stream run <chunk> <out> <ckpt> [--resume] [--final]\n")
+    return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

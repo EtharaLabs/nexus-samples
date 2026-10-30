@@ -1,0 +1,62 @@
+schema_version = "1.4"
+artifacts = [
+  { source = "/app/out/136de480-2df4-5b30-8686-685cbc5749d7_D1_sta.py", destination = "deliverables/136de480-2df4-5b30-8686-685cbc5749d7_D1_sta.py" },
+]
+
+[task]
+name = "ethara/nldm-static-timing-136de480"
+version = "1.0.0"
+description = "Build a graph-based static timing analyser over Liberty NLDM, structural Verilog, and SDC: propagated clocks with CPPR, generated and multiple clocks, setup and hold, multicycle and false paths, latch time borrowing, and OCV derates."
+authors = [{ name = "kanishk.singh", email = "kanishk.singh@ethara.ai" }]
+keywords = ["static-timing-analysis", "eda", "nldm", "liberty", "sdc", "cppr", "ocv", "latch-time-borrowing", "digital-design", "parsing"]
+
+[metadata]
+category = "Hardware"
+subcategory = "static-timing-analysis"
+platforms = ["linux/amd64", "linux/arm64"]
+null_floor = 0.0
+discrimination_weight = 1.0
+expert_time_estimate_hours = 16.0
+
+[verifier]
+timeout_sec = 2700.0
+network_mode = "allowlist"
+allowed_hosts = ["chatgpt.com", "auth.openai.com"]
+environment_mode = "separate"
+user = "0"
+
+[verifier.env]
+CODEX_AUTH_JSON = "${CODEX_AUTH_JSON}"
+REWARDKIT_FORCE_SUBSCRIPTION = "1"
+LITELLM_LOCAL_MODEL_COST_MAP = "True"
+
+[verifier.environment]
+network_mode = "allowlist"
+allowed_hosts = ["chatgpt.com", "auth.openai.com"]
+build_timeout_sec = 900.0
+cpus = 2
+memory_mb = 2048
+storage_mb = 4096
+gpus = 0
+
+[agent]
+timeout_sec = 3600.0
+network_mode = "no-network"
+user = "1000:1000"
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 900.0
+cpus = 2
+memory_mb = 2048
+storage_mb = 4096
+gpus = 0
+
+[upstream_provenance]
+origin = "original"
+provenance_date = "2026-10-23"
+source_kind = "synthetic"
+
+[upstream_provenance.source]
+generator = "tests/gen_design.py (verifier-only)"
+generation_inputs = ["parsing samples: make_case('stress', 4208) and example_case(), shipped without reports", "hidden cases: 59 per verifier run from fresh seeds drawn at verify time"]

@@ -1,0 +1,18 @@
+[
+  {
+    "source": "/logs/artifacts",
+    "destination": "artifacts/logs/artifacts",
+    "type": "directory",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/app/out/136de480-2df4-5b30-8686-685cbc5749d7_D1_sta.py",
+    "destination": "artifacts/deliverables/136de480-2df4-5b30-8686-685cbc5749d7_D1_sta.py",
+    "type": "file",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  }
+]

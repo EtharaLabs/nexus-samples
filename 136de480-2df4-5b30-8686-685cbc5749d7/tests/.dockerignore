@@ -1,0 +1,12 @@
+*
+!requirements.txt
+!test.sh
+!reward.toml
+!core.toml
+!floor.toml
+!test_output.py
+!judge.toml
+!precondition.py
+!reward_guard.py
+!gen_design.py
+!sta_ref.py

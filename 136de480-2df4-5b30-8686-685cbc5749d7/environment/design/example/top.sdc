@@ -1,0 +1,32 @@
+set_units -time ns -capacitance pF
+create_clock -name clk -period 0.28 -waveform {0 0.15} [get_ports clk]
+create_clock -name clk2 -period 0.7 -waveform {0.1 0.45} [get_ports clk2]
+set_propagated_clock [all_clocks]
+set_clock_transition 0.03 [get_clocks clk]
+set_clock_transition 0.04 [get_clocks clk2]
+set_input_transition 0.02 [get_ports clk]
+set_input_transition 0.025 [get_ports clk2]
+set_input_transition 0.04 [get_ports a]
+set_input_transition 0.06 [get_ports b]
+set_input_transition 0.03 [get_ports c]
+set_input_transition 0.05 [get_ports e]
+set_input_delay -clock clk -max 0.06 [get_ports a]
+set_input_delay -clock clk -min 0.02 [get_ports a]
+set_input_delay -clock clk -max 0.05 [get_ports b]
+set_input_delay -clock clk -min 0.01 [get_ports b]
+set_input_delay -clock clk -max 0.04 [get_ports c]
+set_input_delay -clock clk -min 0.015 [get_ports c]
+set_input_delay -clock clk2 -max 0.08 [get_ports e]
+set_input_delay -clock clk2 -min 0.03 [get_ports e]
+set_output_delay -clock clk -max 0.05 [get_ports y0]
+set_output_delay -clock clk -min 0 [get_ports y0]
+set_output_delay -clock clk -max 0.04 [get_ports y1]
+set_output_delay -clock clk -min -0.01 [get_ports y1]
+set_load 0.004 [get_ports y0]
+set_load 0.006 [get_ports y1]
+set_multicycle_path 2 -setup -from [get_cells f0]
+set_false_path -through [get_pins u8/B]
+set_timing_derate -early -clock -cell_delay 0.9
+set_timing_derate -late -clock -cell_delay 1.1
+set_timing_derate -early -data -cell_delay 0.95
+set_timing_derate -late -data -cell_delay 1.05

@@ -1,0 +1,303 @@
+{
+  "reward": {
+    "kind": "group",
+    "score": 0.59,
+    "aggregation": "weighted-mean",
+    "components": [
+      {
+        "name": "judge",
+        "weight": 1.0,
+        "detail": {
+          "score": 0.8235,
+          "criteria": [
+            {
+              "id": "J1",
+              "name": "logical_time_advances_only_through_water",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 5.0,
+              "description": "Logical time advances only through watermark messages; no wall-clock or system-time call influences windowing, finalization, or the crash point.",
+              "reasoning": "Only watermark messages update logical time. No wall-clock or system-time calls influence processing."
+            },
+            {
+              "id": "J2",
+              "name": "a_session_groups_events_for_one_key_whos",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "A session groups events for one key whose timestamps lie within the configured gap, and its window is the minimum and maximum timestamp of its member events.",
+              "reasoning": "Sessions merge within the configured gap for the same key, retaining minimum start and maximum end timestamps."
+            },
+            {
+              "id": "J3",
+              "name": "a_window_is_finalized_when_the_watermark",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "A window is finalized when the watermark passes end plus gap using the strict greater-than direction specified.",
+              "reasoning": "stream:111 uses watermark > end + gap. Boundary tests confirmed strict greater-than behavior."
+            },
+            {
+              "id": "J4",
+              "name": "a_late_event_within_allowed_lateness_tha",
+              "value": 0.0,
+              "raw": "no",
+              "weight": 3.0,
+              "description": "A late event within allowed lateness that falls within gap of one or more finalized sessions retracts each of them and emits a single merged re-FINAL.",
+              "reasoning": "A replacement FINAL is conditional on the merged end already being closed (stream:173). With gap 30, watermark 31, finalized session [0,0], and late event at 20, the program emits only RETRACT."
+            },
+            {
+              "id": "J5",
+              "name": "an_event_whose_watermark_minus_timestamp",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "An event whose watermark-minus-timestamp exceeds allowed lateness is dropped and counted, never applied to any window.",
+              "reasoning": "stream:133-136 increments the dropped counter and returns before modifying sessions when watermark minus timestamp exceeds allowed lateness."
+            },
+            {
+              "id": "J6",
+              "name": "the_checkpoint_records_the_emit_counter",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "The checkpoint records the emit counter so a resumed invocation continues the gapless 1..N numbering instead of restarting it.",
+              "reasoning": "Snapshots save emit and restore reloads it. A two-invocation test confirmed consecutive numbering through resume and EOF."
+            },
+            {
+              "id": "J7",
+              "name": "records_emitted_for_a_single_triggering",
+              "value": 0.0,
+              "raw": "no",
+              "weight": 3.0,
+              "description": "Records emitted for a single triggering message are ordered by the canonical key of key then start then end with RETRACT before FINAL, not by processing or insertion order.",
+              "reasoning": "stream:95 sorts by (key, type rank, start, end), whereas the required order is (key, start, end, type rank). A bridging-event test confirmed the difference."
+            },
+            {
+              "id": "J8",
+              "name": "checkpoints_are_written_atomically_by_wr",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "Checkpoints are written atomically by writing a temporary file and renaming it, so a crash never leaves a partially written checkpoint.",
+              "reasoning": "stream:234-255 writes a temporary file and replaces the checkpoint using os.replace."
+            },
+            {
+              "id": "J9",
+              "name": "the_count_and_sum_reported_for_a_session",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "The count and sum reported for a session are the exact totals of its member events after every merge.",
+              "reasoning": "Each merge adds the incoming event and every absorbed session exactly once. A three-event bridge produced count 3 and the correct sum."
+            },
+            {
+              "id": "J10",
+              "name": "the_program_makes_no_network_call_and_sp",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "The program makes no network call and spawns no subprocess.",
+              "reasoning": "The implementation contains no networking or subprocess operations."
+            },
+            {
+              "id": "J11",
+              "name": "no_per_trace_output_session_boundary_o",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "No per-trace output, session boundary, or dropped count is hard-coded in the program.",
+              "reasoning": "Outputs, session boundaries, and dropped counts are computed from input messages and configuration."
+            },
+            {
+              "id": "J12",
+              "name": "the_deliverable_is_one_self_contained_ex",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "The deliverable is one self-contained executable using only the Python standard library.",
+              "reasoning": "stream is one executable Python script using only standard-library modules."
+            },
+            {
+              "id": "J13",
+              "name": "a_finalized_session_is_garbage_collected",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "A finalized session is garbage-collected only once no allowed-late event can still reach it, when the watermark passes end plus gap plus allowed lateness.",
+              "reasoning": "stream:186-187 removes finalized sessions only when watermark > end + gap + lateness. Boundary tests passed."
+            },
+            {
+              "id": "J14",
+              "name": "the_output_is_json_lines_with_sorted_key",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "The output is JSON Lines with sorted keys and a single terminating EOF record carrying the dropped-late count.",
+              "reasoning": "Output records use json.dumps with sort_keys=True and newline termination. Final processing appends one EOF carrying dropped_late; the resume test confirmed this."
+            }
+          ],
+          "kind": "agent",
+          "judge": {
+            "agent": "codex",
+            "model": "openai/gpt-6.1-sol",
+            "version": "0.164.0",
+            "reasoning_effort": "high",
+            "timeout": 600,
+            "cwd": "/app",
+            "isolated": false,
+            "atif_trajectory": null,
+            "mode": "batched",
+            "mcp_servers": [],
+            "samples": 1,
+            "guard": "penalize"
+          },
+          "judge_output": "{\n  \"logical_time_advances_only_through_water\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Only watermark messages update logical time. No wall-clock or system-time calls influence processing.\"\n  },\n  \"a_session_groups_events_for_one_key_whos\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Sessions merge within the configured gap for the same key, retaining minimum start and maximum end timestamps.\"\n  },\n  \"a_window_is_finalized_when_the_watermark\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"stream:111 uses watermark > end + gap. Boundary tests confirmed strict greater-than behavior.\"\n  },\n  \"a_late_event_within_allowed_lateness_tha\": {\n    \"score\": \"no\",\n    \"reasoning\": \"A replacement FINAL is conditional on the merged end already being closed (stream:173). With gap 30, watermark 31, finalized session [0,0], and late event at 20, the program emits only RETRACT.\"\n  },\n  \"an_event_whose_watermark_minus_timestamp\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"stream:133-136 increments the dropped counter and returns before modifying sessions when watermark minus timestamp exceeds allowed lateness.\"\n  },\n  \"the_checkpoint_records_the_emit_counter\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Snapshots save emit and restore reloads it. A two-invocation test confirmed consecutive numbering through resume and EOF.\"\n  },\n  \"records_emitted_for_a_single_triggering\": {\n    \"score\": \"no\",\n    \"reasoning\": \"stream:95 sorts by (key, type rank, start, end), whereas the required order is (key, start, end, type rank). A bridging-event test confirmed the difference.\"\n  },\n  \"checkpoints_are_written_atomically_by_wr\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"stream:234-255 writes a temporary file and replaces the checkpoint using os.replace.\"\n  },\n  \"the_count_and_sum_reported_for_a_session\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Each merge adds the incoming event and every absorbed session exactly once. A three-event bridge produced count 3 and the correct sum.\"\n  },\n  \"the_program_makes_no_network_call_and_sp\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"The implementation contains no networking or subprocess operations.\"\n  },\n  \"no_per_trace_output_session_boundary_o\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Outputs, session boundaries, and dropped counts are computed from input messages and configuration.\"\n  },\n  \"the_deliverable_is_one_self_contained_ex\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"stream is one executable Python script using only standard-library modules.\"\n  },\n  \"a_finalized_session_is_garbage_collected\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"stream:186-187 removes finalized sessions only when watermark > end + gap + lateness. Boundary tests passed.\"\n  },\n  \"the_output_is_json_lines_with_sorted_key\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Output records use json.dumps with sort_keys=True and newline termination. Final processing appends one EOF carrying dropped_late; the resume test confirmed this.\"\n  },\n  \"guard\": {\n    \"score\": \"no\",\n    \"reasoning\": \"The inspected files contain no text addressed to the evaluator or instructions about scoring.\"\n  }\n}",
+          "usage": {
+            "input_tokens": 107604,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 85888,
+            "output_tokens": 2612,
+            "reasoning_output_tokens": 563,
+            "total_tokens": 110216,
+            "cost_usd": 0.0781408,
+            "cost_source": "litellm_estimate",
+            "models": {
+              "gpt-6.1-sol": {
+                "input_tokens": 107604,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 85888,
+                "output_tokens": 2612,
+                "reasoning_output_tokens": 563,
+                "total_tokens": 110216,
+                "cost_usd": 0.0781408
+              }
+            }
+          },
+          "judge_logs": [
+            "/logs/verifier/trajectory.codex.batched-1.db6540379f0d4dd8b08097ee1cd0617e.jsonl"
+          ],
+          "guard": {
+            "flagged": false,
+            "reasoning": "The inspected files contain no text addressed to the evaluator or instructions about scoring."
+          }
+        }
+      },
+      {
+        "name": "test_output",
+        "weight": 9.0,
+        "detail": {
+          "score": 0.5641,
+          "criteria": [
+            {
+              "name": "c1_clean_bytes",
+              "value": 0.0,
+              "raw": false,
+              "weight": 5.0,
+              "description": "c1_clean_bytes"
+            },
+            {
+              "name": "c2_crash_bytes",
+              "value": 0.0,
+              "raw": false,
+              "weight": 5.0,
+              "description": "c2_crash_bytes"
+            },
+            {
+              "name": "c3_dropped_count",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c3_dropped_count"
+            },
+            {
+              "name": "c4_atomic_no_tmp",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c4_atomic_no_tmp"
+            },
+            {
+              "name": "c5_clean_config2",
+              "value": 0.0,
+              "raw": false,
+              "weight": 3.0,
+              "description": "c5_clean_config2"
+            },
+            {
+              "name": "c6_retract_records",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c6_retract_records"
+            },
+            {
+              "name": "c7_final_records",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c7_final_records"
+            },
+            {
+              "name": "c8_double_crash",
+              "value": 0.0,
+              "raw": false,
+              "weight": 3.0,
+              "description": "c8_double_crash"
+            },
+            {
+              "name": "c9_session_boundaries",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c9_session_boundaries"
+            },
+            {
+              "name": "c10_crash_config2",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c10_crash_config2"
+            },
+            {
+              "name": "c11_json_sorted",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "c11_json_sorted"
+            },
+            {
+              "name": "c12_emit_contiguous",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "c12_emit_contiguous"
+            },
+            {
+              "name": "c13_determinism",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "c13_determinism"
+            },
+            {
+              "name": "c14_crash_before_ckpt",
+              "value": 0.0,
+              "raw": false,
+              "weight": 1.0,
+              "description": "c14_crash_before_ckpt"
+            },
+            {
+              "name": "c15_single_eof",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "c15_single_eof"
+            }
+          ],
+          "kind": "programmatic"
+        }
+      }
+    ]
+  }
+}

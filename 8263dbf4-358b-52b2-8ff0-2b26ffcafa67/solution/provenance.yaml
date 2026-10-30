@@ -1,0 +1,14 @@
+schema: forge.provenance/v1
+task: dhawal-bathre/stream-session-window-exactly-once
+upstream_provenance:
+  origin: original
+  provenance_date: "2026-10-30"
+  source_kind: synthetic
+  source:
+    generator: "FORGE author (run forge-dhawal-bathre-ethara-ai-20261029t084806z-c525f3), synthetic in-bundle generation"
+    generation_inputs: "solution/grounding.yaml; reference solution/reference.py (linear-scan session engine); independent cross-check solution/reference_alt.py (bisect interval-index engine, byte-identical across 20 seeds incl crash/resume); buggy starter environment/stream.py; config_1 environment/data/config.json (session_gap_ms 30, allowed_lateness_ms 60, checkpoint_interval 7); config_2 embedded in tests/test_output.py (50/100/5)"
+contamination_screen:
+  applies: all-tasks
+  status: "HOLD:PILOT_REQUIRED reason screening-unverified (no ENGRAM roots projected)"
+binding:
+  canonical_bundle_hash: 29685e11f3cb5acc3b952c50f1e1a915730b291f90844c3a505b658935e00121

@@ -1,0 +1,7 @@
+Claude Code is already available at the requested version
+Agent 'claude-code': automatically applied disable_web_search=True because the rollout network policy is restricted.
+Running command: mkdir -p $CLAUDE_CONFIG_DIR/debug $CLAUDE_CONFIG_DIR/projects/-app $CLAUDE_CONFIG_DIR/shell-snapshots $CLAUDE_CONFIG_DIR/statsig $CLAUDE_CONFIG_DIR/todos $CLAUDE_CONFIG_DIR/skills && if [ -d ~/.claude/skills ]; then cp -r ~/.claude/skills/. $CLAUDE_CONFIG_DIR/skills/ 2>/dev/null || true; fi
+Command outputs captured
+Running command: export PATH="$HOME/.local/bin:$PATH"; claude_code_instruction_eef1ca47689a44a0b03d0756970054d5="$CLAUDE_CODE_INSTRUCTION_EEF1CA47689A44A0B03D0756970054D5"; unset CLAUDE_CODE_INSTRUCTION_EEF1CA47689A44A0B03D0756970054D5; printf "%s" "$claude_code_instruction_eef1ca47689a44a0b03d0756970054d5" | claude --verbose --output-format=stream-json --disallowedTools WebSearch,WebFetch --permission-mode=bypassPermissions --print 2>&1 | tee /logs/agent/claude-code.txt
+Wrote Claude Code trajectory to jobs/136de480-v5-opus-5/136de480-2df4-5b30-8686-685cbc57__EQnBskd/agent/trajectory.json
+Collecting main service artifacts
