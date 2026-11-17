@@ -1,0 +1,261 @@
+[
+ {
+  "section": "8",
+  "kind": "plan",
+  "database": {
+   "tables": {
+    "a": {
+     "columns": [
+      {
+       "name": "x",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": []
+    },
+    "b": {
+     "columns": [
+      {
+       "name": "y",
+       "type": "REAL"
+      }
+     ],
+     "rows": [
+      [
+       1.0
+      ],
+      [
+       2.0
+      ],
+      [
+       3.0
+      ],
+      [
+       4.0
+      ],
+      [
+       5.0
+      ],
+      [
+       6.0
+      ],
+      [
+       7.0
+      ],
+      [
+       8.0
+      ]
+     ]
+    }
+   }
+  },
+  "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y"
+ },
+ {
+  "section": "5",
+  "kind": "answer",
+  "database": {
+   "tables": {
+    "t": {
+     "columns": [
+      {
+       "name": "s",
+       "type": "TEXT"
+      }
+     ],
+     "rows": [
+      [
+       "a"
+      ]
+     ]
+    },
+    "u": {
+     "columns": [
+      {
+       "name": "n",
+       "type": "TEXT",
+       "collation": "NOCASE"
+      }
+     ],
+     "rows": [
+      [
+       "A"
+      ]
+     ]
+    }
+   }
+  },
+  "sql": "SELECT t.s FROM t t WHERE 'a' IN (SELECT u.n FROM u u)"
+ },
+ {
+  "section": "5",
+  "kind": "answer",
+  "database": {
+   "tables": {
+    "t": {
+     "columns": [
+      {
+       "name": "s",
+       "type": "TEXT",
+       "collation": "NOCASE"
+      }
+     ],
+     "rows": [
+      [
+       "a"
+      ]
+     ]
+    }
+   }
+  },
+  "sql": "SELECT t.s FROM t t WHERE COALESCE(t.s, 'z') = 'A'"
+ },
+ {
+  "section": "7",
+  "kind": "answer",
+  "database": {
+   "tables": {
+    "t": {
+     "columns": [
+      {
+       "name": "s",
+       "type": "TEXT",
+       "collation": "NOCASE"
+      }
+     ],
+     "rows": [
+      [
+       "A"
+      ],
+      [
+       "_"
+      ]
+     ]
+    }
+   },
+   "indexes": [
+    {
+     "name": "i",
+     "table": "t",
+     "column": "s"
+    }
+   ]
+  },
+  "sql": "SELECT t.s FROM t t ORDER BY t.s"
+ },
+ {
+  "section": "6.3",
+  "kind": "plan",
+  "database": {
+   "tables": {
+    "a": {
+     "columns": [
+      {
+       "name": "x",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": []
+    },
+    "b": {
+     "columns": [
+      {
+       "name": "y",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": []
+    },
+    "c": {
+     "columns": [
+      {
+       "name": "z",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": []
+    }
+   }
+  },
+  "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE b.y = 1"
+ },
+ {
+  "section": "6.3",
+  "kind": "answer",
+  "database": {
+   "tables": {
+    "a": {
+     "columns": [
+      {
+       "name": "x",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": [
+      [
+       1
+      ]
+     ]
+    },
+    "b": {
+     "columns": [
+      {
+       "name": "y",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": []
+    },
+    "c": {
+     "columns": [
+      {
+       "name": "z",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": [
+      [
+       1
+      ]
+     ]
+    }
+   }
+  },
+  "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE c.z IS NULL"
+ },
+ {
+  "section": "2",
+  "kind": "error",
+  "database": {
+   "tables": {
+    "t": {
+     "columns": [
+      {
+       "name": "x",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": [
+      [
+       1
+      ]
+     ]
+    },
+    "u": {
+     "columns": [
+      {
+       "name": "y",
+       "type": "INTEGER"
+      }
+     ],
+     "rows": [
+      [
+       1
+      ]
+     ]
+    }
+   }
+  },
+  "sql": "SELECT t.x FROM t t JOIN u u ON u.y IN (SELECT v.y FROM u v)"
+ }
+]

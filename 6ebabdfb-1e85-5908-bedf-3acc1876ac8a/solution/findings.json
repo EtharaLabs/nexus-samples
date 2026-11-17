@@ -1,0 +1,880 @@
+[
+  {
+    "section": "8",
+    "kind": "answer",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "f0",
+              "effect": "allow",
+              "action": [
+                "filler:0"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f1",
+              "effect": "allow",
+              "action": [
+                "filler:1"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f2",
+              "effect": "allow",
+              "action": [
+                "filler:2"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f3",
+              "effect": "allow",
+              "action": [
+                "filler:3"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f4",
+              "effect": "allow",
+              "action": [
+                "filler:4"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f5",
+              "effect": "allow",
+              "action": [
+                "filler:5"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f6",
+              "effect": "allow",
+              "action": [
+                "filler:6"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f7",
+              "effect": "allow",
+              "action": [
+                "filler:7"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "q",
+              "effect": "allow",
+              "action": [
+                "svc:rea?"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {}
+    },
+    "expected": {
+      "decision": "allow"
+    },
+    "observed": {
+      "decision": "deny"
+    },
+    "rationale": "Section 8 says the action-index path must agree with the scanning path. With nine effective statements the index misses the statement whose action pattern holds a '?'."
+  },
+  {
+    "section": "6",
+    "kind": "answer",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "a",
+              "effect": "allow",
+              "action": [
+                "abc"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "b",
+              "effect": "deny",
+              "action": [
+                "a**b**"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "abc",
+      "resource": "res",
+      "context": {}
+    },
+    "expected": {
+      "decision": "allow"
+    },
+    "observed": {
+      "decision": "deny"
+    },
+    "rationale": "Section 6 says action-specificity is the count of non-wildcard characters. The exact 'abc' allow must beat 'a**b**', a deny with fewer non-wildcard characters but the same length."
+  },
+  {
+    "section": "6",
+    "kind": "answer",
+    "input": {
+      "roles": {
+        "r0": {
+          "inherits": [
+            "r1"
+          ]
+        },
+        "r1": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r0"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "Pa",
+          "attach": "r0",
+          "statements": [
+            {
+              "id": "sa",
+              "effect": "allow",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "Pd",
+          "attach": "r1",
+          "statements": [
+            {
+              "id": "sd",
+              "effect": "deny",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {}
+    },
+    "expected": {
+      "decision": "deny"
+    },
+    "observed": {
+      "decision": "allow"
+    },
+    "rationale": "Section 6 orders effect before depth, so at equal specificity the deny at depth 1 beats the allow at depth 0."
+  },
+  {
+    "section": "4",
+    "kind": "answer",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "a",
+              "effect": "allow",
+              "action": [
+                "svc:*"
+              ],
+              "resource": [
+                "*"
+              ],
+              "when": [
+                {
+                  "key": "team",
+                  "op": "allOf",
+                  "values": [
+                    "x"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {}
+    },
+    "expected": {
+      "decision": "allow"
+    },
+    "observed": {
+      "decision": "deny"
+    },
+    "rationale": "Section 4 says allOf over a key the context does not hold is vacuously TRUE, so the statement applies when 'team' is absent."
+  },
+  {
+    "section": "5",
+    "kind": "trace",
+    "input": {
+      "roles": {
+        "top": {
+          "inherits": [
+            "base",
+            "chainA"
+          ]
+        },
+        "chainA": {
+          "inherits": [
+            "chainB"
+          ]
+        },
+        "chainB": {
+          "inherits": [
+            "base"
+          ]
+        },
+        "base": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "top"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "Pb",
+          "attach": "base",
+          "statements": [
+            {
+              "id": "s2",
+              "effect": "allow",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "Px",
+          "attach": "chainB",
+          "statements": [
+            {
+              "id": "s1",
+              "effect": "allow",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {}
+    },
+    "expected": {
+      "deciding": "s2"
+    },
+    "observed": {
+      "deciding": "s1"
+    },
+    "rationale": "Section 5 records a role reached by two paths at its shallowest depth, so base at depth 1 beats chainB at depth 2 and s2 decides."
+  },
+  {
+    "section": "4",
+    "kind": "answer",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "a",
+              "effect": "allow",
+              "action": [
+                "svc:*"
+              ],
+              "resource": [
+                "*"
+              ],
+              "when": [
+                {
+                  "key": "u",
+                  "op": "equalsFold",
+                  "values": [
+                    "\u00c4dmin"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {
+        "u": "\u00e4dmin"
+      }
+    },
+    "expected": {
+      "decision": "deny"
+    },
+    "observed": {
+      "decision": "allow"
+    },
+    "rationale": "Section 4 says equalsFold folds the ASCII letters A-Z only, so '\u00e4dmin' and '\u00c4dmin' stay distinct and the condition fails."
+  },
+  {
+    "section": "6",
+    "kind": "answer",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "na",
+              "effect": "deny",
+              "notAction": [
+                "xxxxxxxxxx"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "aa",
+              "effect": "allow",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {}
+    },
+    "expected": {
+      "decision": "allow"
+    },
+    "observed": {
+      "decision": "deny"
+    },
+    "rationale": "Section 6 says a notAction statement has action-specificity 0, so the specific action allow beats the notAction deny."
+  },
+  {
+    "section": "9",
+    "kind": "trace",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "a",
+              "effect": "allow",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "z",
+              "effect": "allow",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {}
+    },
+    "expected": {
+      "deciding": "a"
+    },
+    "observed": {
+      "deciding": "z"
+    },
+    "rationale": "Section 9 with the section 6 id tie-break: among equal matches that share an effect the deciding id is the smallest, 'a'."
+  },
+  {
+    "section": "4",
+    "kind": "error",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "a",
+              "effect": "allow",
+              "action": [
+                "svc:*"
+              ],
+              "resource": [
+                "*"
+              ],
+              "when": [
+                {
+                  "key": "u",
+                  "op": "equals",
+                  "values": [
+                    "x"
+                  ]
+                },
+                {
+                  "key": "n",
+                  "op": "numLt",
+                  "values": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {
+        "n": "notnum"
+      }
+    },
+    "expected": {
+      "error": "WARD-203"
+    },
+    "observed": {
+      "decision": "deny"
+    },
+    "rationale": "Section 4 says every condition is evaluated and an error propagates, so the numLt on a non-number raises WARD-203 even though the first condition, an equals on an absent key, is FALSE."
+  },
+  {
+    "section": "8",
+    "kind": "trace",
+    "input": {
+      "roles": {
+        "r0": {
+          "inherits": [
+            "r1"
+          ]
+        },
+        "r1": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r0"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "Pa",
+          "attach": "r0",
+          "statements": [
+            {
+              "id": "f0",
+              "effect": "allow",
+              "action": [
+                "filler:0"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f1",
+              "effect": "allow",
+              "action": [
+                "filler:1"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f2",
+              "effect": "allow",
+              "action": [
+                "filler:2"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f3",
+              "effect": "allow",
+              "action": [
+                "filler:3"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f4",
+              "effect": "allow",
+              "action": [
+                "filler:4"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f5",
+              "effect": "allow",
+              "action": [
+                "filler:5"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "f6",
+              "effect": "allow",
+              "action": [
+                "filler:6"
+              ],
+              "resource": [
+                "*"
+              ]
+            },
+            {
+              "id": "saa",
+              "effect": "allow",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "Pz",
+          "attach": "r1",
+          "statements": [
+            {
+              "id": "szz",
+              "effect": "allow",
+              "action": [
+                "svc:read"
+              ],
+              "resource": [
+                "*"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {}
+    },
+    "expected": {
+      "deciding": "saa"
+    },
+    "observed": {
+      "deciding": "szz"
+    },
+    "rationale": "Section 8 says the action-index path must agree with the scanning path. With nine statements the index keeps only the last statement for the exact action 'svc:read', so it drops 'saa' at depth 0 and explain names 'szz' at depth 1."
+  },
+  {
+    "section": "4",
+    "kind": "answer",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "a",
+              "effect": "allow",
+              "action": [
+                "svc:*"
+              ],
+              "resource": [
+                "*"
+              ],
+              "when": [
+                {
+                  "key": "n",
+                  "op": "numLt",
+                  "values": [
+                    9007199254740993
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {
+        "n": 9007199254740992
+      }
+    },
+    "expected": {
+      "decision": "allow"
+    },
+    "observed": {
+      "decision": "deny"
+    },
+    "rationale": "Section 4 says numLt compares exactly, so 9007199254740992 is less than 9007199254740993 even though both are nearest the same float; converting to float first makes them equal and the allow is lost."
+  },
+  {
+    "section": "4",
+    "kind": "answer",
+    "input": {
+      "roles": {
+        "r": {}
+      },
+      "principals": {
+        "p": {
+          "roles": [
+            "r"
+          ]
+        }
+      },
+      "policies": [
+        {
+          "id": "P",
+          "attach": "r",
+          "statements": [
+            {
+              "id": "a",
+              "effect": "allow",
+              "action": [
+                "svc:*"
+              ],
+              "resource": [
+                "*"
+              ],
+              "when": [
+                {
+                  "key": "g",
+                  "op": "anyOf",
+                  "values": [
+                    "5"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "request": {
+      "principal": "p",
+      "action": "svc:read",
+      "resource": "res",
+      "context": {
+        "g": 5
+      }
+    },
+    "expected": {
+      "decision": "deny"
+    },
+    "observed": {
+      "decision": "allow"
+    },
+    "rationale": "Section 4 says anyOf equality is by exact value and kind, so the number 5 does not equal the string '5'; comparing by text form makes the condition hold and allows."
+  }
+]

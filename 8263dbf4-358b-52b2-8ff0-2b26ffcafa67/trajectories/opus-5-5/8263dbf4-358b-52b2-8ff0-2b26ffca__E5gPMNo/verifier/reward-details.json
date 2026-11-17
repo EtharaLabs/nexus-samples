@@ -1,0 +1,317 @@
+{
+  "reward": {
+    "kind": "group",
+    "score": 0.0,
+    "aggregation": "weighted-mean",
+    "components": [
+      {
+        "name": "judge",
+        "weight": 0.0,
+        "detail": {
+          "score": 1.0,
+          "criteria": [
+            {
+              "id": "J1",
+              "name": "logical_time_advances_only_through_water",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 5.0,
+              "description": "Logical time advances only through watermark messages from the input, or the single documented end-of-trace advance that flushes remaining open windows before the EOF record (instruction Section 5); no wall-clock, system-time, or random source influences windowing, finalization, or the crash point. A program that implements no windowing or finalization logic does not satisfy this.",
+              "reasoning": "Watermarks exclusively control logical time; finish() flushes remaining windows before EOF. No clock or randomness affects processing."
+            },
+            {
+              "id": "J2",
+              "name": "a_session_groups_events_for_one_key_whos",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "A session groups events for one key whose timestamps lie within the configured gap, and its window is the minimum and maximum timestamp of its member events.",
+              "reasoning": "Events merge with same-key sessions within the configured gap, preserving minimum and maximum member timestamps."
+            },
+            {
+              "id": "J3",
+              "name": "a_window_is_finalized_when_the_watermark",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "A window is finalized when the watermark passes end plus gap using the strict greater-than direction specified.",
+              "reasoning": "Finalization uses the strict condition W > end + gap; boundary tests passed."
+            },
+            {
+              "id": "J4",
+              "name": "a_late_event_within_allowed_lateness_tha",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "A late event within allowed lateness that falls within gap of one or more finalized sessions retracts each of them and merges; the merged session is then immediately re-finalized with one FINAL if it still satisfies watermark greater than end plus gap, or otherwise reopened with no re-FINAL, per instruction Section 3. The RETRACT records must always be emitted and both the re-FINAL and reopen branches are correct.",
+              "reasoning": "Each matched finalized session emits RETRACT. The merged session immediately emits FINAL when eligible, otherwise reopens. Both branches passed tests."
+            },
+            {
+              "id": "J5",
+              "name": "an_event_whose_watermark_minus_timestamp",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "An event whose watermark-minus-timestamp exceeds allowed lateness is dropped and counted, never applied to any window.",
+              "reasoning": "Events satisfying W - timestamp > lateness increment dropped and return before modifying sessions."
+            },
+            {
+              "id": "J6",
+              "name": "the_checkpoint_records_the_emit_counter",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "The checkpoint records the emit counter so a resumed invocation continues the gapless 1..N numbering instead of restarting it.",
+              "reasoning": "Checkpoints serialize emit and restore it on resume. Split-invocation testing confirmed gapless numbering."
+            },
+            {
+              "id": "J7",
+              "name": "records_emitted_for_a_single_triggering",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "Records emitted for a single triggering message are ordered by the tuple (key, start, end), with RETRACT before FINAL only as the tie-break for records sharing an identical (key, start, end); start and end take priority over record type, not processing or insertion order.",
+              "reasoning": "_flush sorts by key, start, end, then record type, with RETRACT first only for identical boundaries."
+            },
+            {
+              "id": "J8",
+              "name": "checkpoints_are_written_atomically_by_wr",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "Checkpoints are written atomically by writing a temporary file and renaming it, so a crash never leaves a partially written checkpoint.",
+              "reasoning": "Checkpoint writing flushes and fsyncs a temporary file, then atomically replaces the destination using os.replace."
+            },
+            {
+              "id": "J9",
+              "name": "the_count_and_sum_reported_for_a_session",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 3.0,
+              "description": "The count and sum reported for a session are the exact totals of its member events after every merge.",
+              "reasoning": "Merges add the incoming event and every matched session's count and sum. Multi-session and repeated-merge tests passed."
+            },
+            {
+              "id": "J10",
+              "name": "the_program_makes_no_network_call_and_sp",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "The program makes no network call and spawns no subprocess, and it actually implements the documented session-window engine; a stub or no-op that merely avoids forbidden calls by doing nothing does not satisfy this.",
+              "reasoning": "The implemented engine performs local file and stream operations without networking or subprocess calls."
+            },
+            {
+              "id": "J11",
+              "name": "no_per_trace_output_session_boundary_o",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "No per-trace output, session boundary, or dropped count is hard-coded in the program.",
+              "reasoning": "Session boundaries, aggregates, outputs, and dropped counts are computed from input and configuration."
+            },
+            {
+              "id": "J12",
+              "name": "the_deliverable_is_one_self_contained_ex",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "The deliverable is one self-contained executable using only the Python standard library that implements the documented session-window, finalization, retraction, and checkpoint/resume behavior, not a stub.",
+              "reasoning": "stream is one executable Python script using only standard-library modules, with working session processing, retractions, checkpoints, and resume."
+            },
+            {
+              "id": "J13",
+              "name": "a_finalized_session_is_garbage_collected",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "A finalized session is garbage-collected only once no allowed-late event can still reach it, when the watermark passes end plus gap plus allowed lateness.",
+              "reasoning": "Finalized sessions are removed only when W > end + gap + lateness. Strict-boundary tests passed."
+            },
+            {
+              "id": "J14",
+              "name": "the_output_is_json_lines_with_sorted_key",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "The output is JSON Lines with sorted keys and a single terminating EOF record carrying the dropped-late count.",
+              "reasoning": "Output records use sorted JSON keys and newline delimiters. Final completion emits one terminating EOF containing dropped_late."
+            }
+          ],
+          "kind": "agent",
+          "judge": {
+            "agent": "codex",
+            "model": "openai/gpt-6.1-sol",
+            "version": "0.164.0",
+            "reasoning_effort": "high",
+            "timeout": 600,
+            "cwd": "/app",
+            "isolated": false,
+            "atif_trajectory": null,
+            "mode": "batched",
+            "mcp_servers": [],
+            "samples": 1,
+            "guard": "penalize"
+          },
+          "judge_output": "{\n  \"logical_time_advances_only_through_water\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Watermarks exclusively control logical time; finish() flushes remaining windows before EOF. No clock or randomness affects processing.\"\n  },\n  \"a_session_groups_events_for_one_key_whos\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Events merge with same-key sessions within the configured gap, preserving minimum and maximum member timestamps.\"\n  },\n  \"a_window_is_finalized_when_the_watermark\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Finalization uses the strict condition W > end + gap; boundary tests passed.\"\n  },\n  \"a_late_event_within_allowed_lateness_tha\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Each matched finalized session emits RETRACT. The merged session immediately emits FINAL when eligible, otherwise reopens. Both branches passed tests.\"\n  },\n  \"an_event_whose_watermark_minus_timestamp\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Events satisfying W - timestamp > lateness increment dropped and return before modifying sessions.\"\n  },\n  \"the_checkpoint_records_the_emit_counter\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Checkpoints serialize emit and restore it on resume. Split-invocation testing confirmed gapless numbering.\"\n  },\n  \"records_emitted_for_a_single_triggering\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"_flush sorts by key, start, end, then record type, with RETRACT first only for identical boundaries.\"\n  },\n  \"checkpoints_are_written_atomically_by_wr\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Checkpoint writing flushes and fsyncs a temporary file, then atomically replaces the destination using os.replace.\"\n  },\n  \"the_count_and_sum_reported_for_a_session\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Merges add the incoming event and every matched session's count and sum. Multi-session and repeated-merge tests passed.\"\n  },\n  \"the_program_makes_no_network_call_and_sp\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"The implemented engine performs local file and stream operations without networking or subprocess calls.\"\n  },\n  \"no_per_trace_output_session_boundary_o\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Session boundaries, aggregates, outputs, and dropped counts are computed from input and configuration.\"\n  },\n  \"the_deliverable_is_one_self_contained_ex\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"stream is one executable Python script using only standard-library modules, with working session processing, retractions, checkpoints, and resume.\"\n  },\n  \"a_finalized_session_is_garbage_collected\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Finalized sessions are removed only when W > end + gap + lateness. Strict-boundary tests passed.\"\n  },\n  \"the_output_is_json_lines_with_sorted_key\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Output records use sorted JSON keys and newline delimiters. Final completion emits one terminating EOF containing dropped_late.\"\n  },\n  \"guard\": {\n    \"score\": \"no\",\n    \"reasoning\": \"No evaluator-directed text or instructions about scoring were found.\"\n  }\n}",
+          "usage": {
+            "input_tokens": 103339,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 67712,
+            "output_tokens": 2831,
+            "reasoning_output_tokens": 730,
+            "total_tokens": 106170,
+            "cost_usd": 0.10633519999999999,
+            "cost_source": "litellm_estimate",
+            "models": {
+              "gpt-6.1-sol": {
+                "input_tokens": 103339,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 67712,
+                "output_tokens": 2831,
+                "reasoning_output_tokens": 730,
+                "total_tokens": 106170,
+                "cost_usd": 0.10633519999999999
+              }
+            }
+          },
+          "judge_logs": [
+            "/logs/verifier/trajectory.codex.batched-1.0afd25e364e64c9aa91de15837c4132a.jsonl"
+          ],
+          "guard": {
+            "flagged": false,
+            "reasoning": "No evaluator-directed text or instructions about scoring were found."
+          }
+        }
+      },
+      {
+        "name": "test_output",
+        "weight": 1.0,
+        "detail": {
+          "score": 0.0,
+          "criteria": [
+            {
+              "name": "c1_clean_bytes",
+              "value": 0.0,
+              "raw": false,
+              "weight": 5.0,
+              "description": "c1_clean_bytes"
+            },
+            {
+              "name": "c2_crash_bytes",
+              "value": 1.0,
+              "raw": true,
+              "weight": 5.0,
+              "description": "c2_crash_bytes"
+            },
+            {
+              "name": "c3_dropped_count",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c3_dropped_count"
+            },
+            {
+              "name": "c4_atomic_no_tmp",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c4_atomic_no_tmp"
+            },
+            {
+              "name": "c5_clean_config2",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c5_clean_config2"
+            },
+            {
+              "name": "c6_retract_records",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c6_retract_records"
+            },
+            {
+              "name": "c7_final_records",
+              "value": 0.0,
+              "raw": false,
+              "weight": 3.0,
+              "description": "c7_final_records"
+            },
+            {
+              "name": "c8_double_crash",
+              "value": 0.0,
+              "raw": false,
+              "weight": 3.0,
+              "description": "c8_double_crash"
+            },
+            {
+              "name": "c9_session_boundaries",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c9_session_boundaries"
+            },
+            {
+              "name": "c10_crash_config2",
+              "value": 1.0,
+              "raw": true,
+              "weight": 3.0,
+              "description": "c10_crash_config2"
+            },
+            {
+              "name": "c11_json_sorted",
+              "value": 0.0,
+              "raw": false,
+              "weight": 1.0,
+              "description": "c11_json_sorted"
+            },
+            {
+              "name": "c12_emit_contiguous",
+              "value": 0.0,
+              "raw": false,
+              "weight": 1.0,
+              "description": "c12_emit_contiguous"
+            },
+            {
+              "name": "c13_determinism",
+              "value": 0.0,
+              "raw": false,
+              "weight": 1.0,
+              "description": "c13_determinism"
+            },
+            {
+              "name": "c14_crash_before_ckpt",
+              "value": 0.0,
+              "raw": false,
+              "weight": 1.0,
+              "description": "c14_crash_before_ckpt"
+            },
+            {
+              "name": "c15_single_eof",
+              "value": 0.0,
+              "raw": false,
+              "weight": 1.0,
+              "description": "c15_single_eof"
+            },
+            {
+              "name": "c16_ack_stream",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "c16_ack_stream"
+            },
+            {
+              "name": "c17_usage_exit2",
+              "value": 1.0,
+              "raw": true,
+              "weight": 1.0,
+              "description": "c17_usage_exit2"
+            }
+          ],
+          "kind": "programmatic"
+        }
+      }
+    ]
+  }
+}

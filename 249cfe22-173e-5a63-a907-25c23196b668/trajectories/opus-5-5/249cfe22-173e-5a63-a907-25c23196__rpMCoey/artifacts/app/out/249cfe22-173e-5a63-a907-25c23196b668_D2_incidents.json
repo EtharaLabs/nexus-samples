@@ -1,0 +1,10 @@
+[
+  {"kind": "sensor", "subject": "PM-TOWN", "onset_hour": 0.0, "value": null},
+  {"kind": "equipment", "subject": "G2", "onset_hour": 13.52, "value": null},
+  {"kind": "sensor", "subject": "RTU-HOSP", "onset_hour": 23.75, "value": null},
+  {"kind": "sensor", "subject": "PM-MILL", "onset_hour": 29.9, "value": null},
+  {"kind": "sensor", "subject": "PM-TELCO", "onset_hour": 40.39, "value": null},
+  {"kind": "operating_limit", "subject": "PG-GEN", "onset_hour": null, "value": 1.52},
+  {"kind": "operating_limit", "subject": "PT-BAT", "onset_hour": null, "value": 1.28},
+  {"kind": "contract", "subject": "DOCK", "onset_hour": null, "value": null}
+]

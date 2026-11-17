@@ -1,0 +1,10 @@
+[
+  {"kind": "sensor", "subject": "JQ-S1", "onset_hour": 0.0, "value": null},
+  {"kind": "equipment", "subject": "B2", "onset_hour": 12.95, "value": null},
+  {"kind": "sensor", "subject": "RTU-S2", "onset_hour": 23.75, "value": null},
+  {"kind": "sensor", "subject": "JQ-S5", "onset_hour": 30.0, "value": null},
+  {"kind": "sensor", "subject": "FT-S6", "onset_hour": 40.36, "value": null},
+  {"kind": "operating_limit", "subject": "FT-120", "onset_hour": null, "value": 104.6},
+  {"kind": "operating_limit", "subject": "FT-100", "onset_hour": null, "value": 203.0},
+  {"kind": "contract", "subject": "S3", "onset_hour": null, "value": null}
+]

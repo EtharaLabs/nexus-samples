@@ -1,0 +1,753 @@
+[
+ {
+  "section": "4",
+  "kind": "answer",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "s",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ],
+       "when": [
+        {
+         "key": "k",
+         "op": "equalsFold",
+         "values": [
+          "é"
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {
+    "k": "É"
+   }
+  },
+  "expected": {
+   "decision": "deny"
+  },
+  "observed": {
+   "decision": "allow"
+  },
+  "rationale": "Section 4 says equalsFold folds only the twenty-six ASCII letters A to Z, and that 'É and é stay distinct'. The engine folds É to é and the condition holds."
+ },
+ {
+  "section": "4",
+  "kind": "answer",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "s",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ],
+       "when": [
+        {
+         "key": "k",
+         "op": "numLt",
+         "values": [
+          9007199254740993
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {
+    "k": 9007199254740992
+   }
+  },
+  "expected": {
+   "decision": "allow"
+  },
+  "observed": {
+   "decision": "deny"
+  },
+  "rationale": "Section 4 says the numLt comparison is exact and that '9007199254740992 is less than 9007199254740993'. The engine converts to floating point and finds them equal."
+ },
+ {
+  "section": "4",
+  "kind": "error",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "s",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ],
+       "when": [
+        {
+         "key": "j",
+         "op": "equals",
+         "values": [
+          "v"
+         ]
+        },
+        {
+         "key": "k",
+         "op": "equals",
+         "values": [
+          "v"
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {
+    "k": [
+     "v"
+    ]
+   }
+  },
+  "expected": {
+   "error": "WARD-203"
+  },
+  "observed": {
+   "decision": "deny"
+  },
+  "rationale": "Section 4 says 'Every condition in the list is evaluated; an error raised while evaluating any condition is the statement's error, whether or not an earlier condition is FALSE'. Also, 'a scalar operator on a key that holds a list is WARD-203'. The engine stops after the first FALSE condition."
+ },
+ {
+  "section": "4",
+  "kind": "answer",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "s",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ],
+       "when": [
+        {
+         "key": "k",
+         "op": "anyOf",
+         "values": [
+          "5"
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {
+    "k": 5
+   }
+  },
+  "expected": {
+   "decision": "deny"
+  },
+  "observed": {
+   "decision": "allow"
+  },
+  "rationale": "Section 4 says an element equals a listed value only when the two have the same kind, 'so the number 5 does not equal the string \"5\"'. The engine's anyOf treats them as equal."
+ },
+ {
+  "section": "4",
+  "kind": "answer",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "s",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ],
+       "when": [
+        {
+         "key": "k",
+         "op": "allOf",
+         "values": [
+          "v"
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {}
+  },
+  "expected": {
+   "decision": "allow"
+  },
+  "observed": {
+   "decision": "deny"
+  },
+  "rationale": "Section 4 says allOf 'over a key that holds no elements it is vacuously TRUE' and 'allOf over an absent key is TRUE, not FALSE'. The engine returns FALSE for an absent key."
+ },
+ {
+  "section": "5",
+  "kind": "error",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": []
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "zz",
+     "statements": []
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {}
+  },
+  "expected": {
+   "error": "WARD-210"
+  },
+  "observed": {
+   "decision": "deny"
+  },
+  "rationale": "Section 5 says 'A reference to a role that the world does not define is WARD-210', and a policy's attach names a role. The engine ignores the undefined attach role 'zz' and decides."
+ },
+ {
+  "section": "5",
+  "kind": "error",
+  "input": {
+   "roles": {
+    "x": {
+     "inherits": [
+      "y"
+     ]
+    },
+    "y": {
+     "inherits": [
+      "x"
+     ]
+    }
+   },
+   "principals": {
+    "p": {
+     "roles": []
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "x",
+     "statements": []
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {}
+  },
+  "expected": {
+   "error": "WARD-220"
+  },
+  "observed": {
+   "decision": "deny"
+  },
+  "rationale": "Section 5 says 'A cycle in the inheritance graph, where a role inherits itself directly or through others, is WARD-220'. The engine misses the x<->y cycle when the principal does not reach it."
+ },
+ {
+  "section": "6",
+  "kind": "trace",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "a",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "b",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {}
+  },
+  "expected": {
+   "deciding": "a"
+  },
+  "observed": {
+   "deciding": "b"
+  },
+  "rationale": "Section 6 orders tied matches last by '4. statement id, ascending'. The engine picks the greatest id instead."
+ },
+ {
+  "section": "5",
+  "kind": "trace",
+  "input": {
+   "roles": {
+    "t": {
+     "inherits": [
+      "m",
+      "b"
+     ]
+    },
+    "m": {
+     "inherits": [
+      "n"
+     ]
+    },
+    "n": {
+     "inherits": [
+      "b"
+     ]
+    },
+    "b": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "t"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "PB",
+     "attach": "b",
+     "statements": [
+      {
+       "id": "sb",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "PN",
+     "attach": "n",
+     "statements": [
+      {
+       "id": "sn",
+       "effect": "allow",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {}
+  },
+  "expected": {
+   "deciding": "sb"
+  },
+  "observed": {
+   "deciding": "sn"
+  },
+  "rationale": "Section 5 says 'A role reached along several paths is recorded at its shallowest depth'. Role b is reachable at depth 1 via t, but the engine records the deeper depth 3, so sn (depth 2) wins under 'depth, ascending'."
+ },
+ {
+  "section": "6",
+  "kind": "trace",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "sa",
+       "effect": "allow",
+       "action": [
+        "ab"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "sd",
+       "effect": "deny",
+       "action": [
+        "a*"
+       ],
+       "resource": [
+        "*"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "ab",
+   "resource": "x",
+   "context": {}
+  },
+  "expected": {
+   "deciding": "sa"
+  },
+  "observed": {
+   "deciding": "sd"
+  },
+  "rationale": "Section 6 defines action-specificity as 'the number of non-wildcard characters, those that are neither * nor ?'. Here a* has 1 against 2 for ab, so the allow should win. The engine counts the * and treats the two as a tie, which deny wins."
+ },
+ {
+  "section": "6",
+  "kind": "trace",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "sa",
+       "effect": "allow",
+       "notAction": [
+        "zzzz"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "sd",
+       "effect": "deny",
+       "action": [
+        "a"
+       ],
+       "resource": [
+        "*"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "a",
+   "resource": "x",
+   "context": {}
+  },
+  "expected": {
+   "deciding": "sd"
+  },
+  "observed": {
+   "deciding": "sa"
+  },
+  "rationale": "Section 6 says 'A statement written with notAction has action-specificity 0'. So the deny with specificity 1 must win. The engine gives the notAction statement a positive specificity, and it wins."
+ },
+ {
+  "section": "8",
+  "kind": "answer",
+  "input": {
+   "roles": {
+    "r": {}
+   },
+   "principals": {
+    "p": {
+     "roles": [
+      "r"
+     ]
+    }
+   },
+   "policies": [
+    {
+     "id": "P",
+     "attach": "r",
+     "statements": [
+      {
+       "id": "s1",
+       "effect": "allow",
+       "action": [
+        "x1"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "s2",
+       "effect": "allow",
+       "action": [
+        "x2"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "s3",
+       "effect": "allow",
+       "action": [
+        "x3"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "s4",
+       "effect": "allow",
+       "action": [
+        "x4"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "s5",
+       "effect": "allow",
+       "action": [
+        "x5"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "s6",
+       "effect": "allow",
+       "action": [
+        "x6"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "s7",
+       "effect": "allow",
+       "action": [
+        "x7"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "s8",
+       "effect": "allow",
+       "action": [
+        "x8"
+       ],
+       "resource": [
+        "*"
+       ]
+      },
+      {
+       "id": "t",
+       "effect": "allow",
+       "action": [
+        "a?"
+       ],
+       "resource": [
+        "*"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "request": {
+   "principal": "p",
+   "action": "ab",
+   "resource": "x",
+   "context": {}
+  },
+  "expected": {
+   "decision": "allow"
+  },
+  "observed": {
+   "decision": "deny"
+  },
+  "rationale": "Section 8 says the action-index path used at nine or more effective statements 'must agree with the scanning path on every query'. With nine statements the index fails to match a? against ab, which section 3 and the scanning path both match."
+ }
+]

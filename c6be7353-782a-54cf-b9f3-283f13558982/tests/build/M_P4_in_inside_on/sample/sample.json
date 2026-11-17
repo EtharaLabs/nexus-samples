@@ -1,0 +1,87 @@
+{
+  "tables": {
+    "customers": {
+      "columns": [
+        {"name": "id", "type": "INTEGER", "nullable": false},
+        {"name": "name", "type": "TEXT", "collation": "NOCASE", "nullable": true},
+        {"name": "region", "type": "TEXT", "nullable": true}
+      ],
+      "rows": [
+        [1, "McAllister", "west"],
+        [2, "Baker", "east"],
+        [3, "chen", "west"],
+        [4, "\u00c9cole", "north"],
+        [5, null, "east"]
+      ]
+    },
+    "tickets": {
+      "columns": [
+        {"name": "id", "type": "INTEGER", "nullable": false},
+        {"name": "cust", "type": "INTEGER", "nullable": true},
+        {"name": "status", "type": "TEXT", "nullable": true}
+      ],
+      "rows": [
+        [10, 1, "open"],
+        [11, 1, "shut"],
+        [12, 2, "shut"],
+        [13, null, "open"]
+      ]
+    },
+    "emp": {
+      "columns": [
+        {"name": "id", "type": "INTEGER", "nullable": false},
+        {"name": "mgr", "type": "INTEGER", "nullable": true},
+        {"name": "dept", "type": "TEXT", "nullable": true}
+      ],
+      "rows": [
+        [1, null, "a"],
+        [2, 10, "a"],
+        [3, 20, "b"],
+        [4, null, "b"],
+        [5, 10, "c"]
+      ]
+    },
+    "rates": {
+      "columns": [
+        {"name": "k", "type": "INTEGER", "nullable": true},
+        {"name": "v", "type": "TEXT", "nullable": true}
+      ],
+      "rows": [
+        [null, "n1"],
+        [10, "r10"],
+        [20, "r20"],
+        [null, "n2"],
+        [10, "r10b"]
+      ]
+    },
+    "quotas": {
+      "columns": [
+        {"name": "k", "type": "INTEGER", "nullable": true},
+        {"name": "w", "type": "TEXT", "nullable": true}
+      ],
+      "rows": [
+        [10, "q10"],
+        [null, "qn"],
+        [20, "q20"],
+        [30, "q30"]
+      ]
+    },
+    "depts": {
+      "columns": [
+        {"name": "code", "type": "TEXT", "nullable": false},
+        {"name": "label", "type": "TEXT", "nullable": false}
+      ],
+      "rows": [
+        ["a", "Alpha"],
+        ["b", "Beta"],
+        ["c", "Gamma"]
+      ]
+    }
+  },
+  "indexes": [
+    {"name": "emp_mgr", "table": "emp", "column": "mgr"},
+    {"name": "rates_k", "table": "rates", "column": "k"},
+    {"name": "quotas_k", "table": "quotas", "column": "k"},
+    {"name": "customers_name", "table": "customers", "column": "name"}
+  ]
+}

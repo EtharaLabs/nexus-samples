@@ -1,0 +1,26 @@
+[
+  {
+    "source": "/logs/artifacts",
+    "destination": "artifacts/logs/artifacts",
+    "type": "directory",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/app/out/6c55cb9f-e734-5025-8e5f-43ef2f4336fa_D2_incidents.json",
+    "destination": "artifacts/app/out/6c55cb9f-e734-5025-8e5f-43ef2f4336fa_D2_incidents.json",
+    "type": "file",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/var/scada/export/trial.json",
+    "destination": "artifacts/var/scada/export/trial.json",
+    "type": "file",
+    "status": "ok",
+    "service": "scada-sim",
+    "exclude": []
+  }
+]

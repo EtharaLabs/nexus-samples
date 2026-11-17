@@ -1,0 +1,36 @@
+compiled items passed: 0/20  gate_ok=False  calls_used=108
+  FALSE CLAIM: entry 5 shows no difference
+  FALSE CLAIM: entry 6 shows no difference
+  P1_index_drops_qmark           0
+  P2_specificity_length          0
+  P3_depth_before_effect         0
+  P4_allof_not_vacuous           0
+  P5_closure_deepest             0
+  P6_fold_unicode                0
+  P7_notaction_specificity       0
+  P8_explain_tiebreak            0
+  P9_condition_short_circuit     0
+  P10_index_dedup_trace          0
+  P11_numlt_float                0
+  P12_anyof_stringify            0
+  minimal_structure              0
+  minimal_data                   0
+  minimal_request                0
+  reproduced                     0
+  bounded                        0
+  bounded_both_axes              0
+  expected_correct               0
+  observed_correct               0
+  finding 0: verdict=credited expected_ok=True observed_ok=True
+  finding 1: verdict=credited expected_ok=True observed_ok=True
+  finding 2: verdict=credited expected_ok=True observed_ok=True
+  finding 3: verdict=credited expected_ok=True observed_ok=True
+  finding 4: verdict=credited expected_ok=True observed_ok=True
+  finding 5: expected_ok=False observed_ok=True
+  finding 6: expected_ok=False observed_ok=True
+  finding 7: verdict=credited expected_ok=True observed_ok=True
+  finding 8: verdict=credited expected_ok=True observed_ok=True
+  finding 9: verdict=credited expected_ok=True observed_ok=True
+  finding 10: verdict=credited expected_ok=True observed_ok=True
+  finding 11: verdict=credited expected_ok=True observed_ok=True
+reward: 0 (a compiled item failed, so the judge is not consulted)

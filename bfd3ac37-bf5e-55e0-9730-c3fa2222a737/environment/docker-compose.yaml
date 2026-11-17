@@ -1,0 +1,19 @@
+# Harbor configures the main (agent) service itself. scada-sim holds the trial seed, the plant
+# parameters, the action log, and the request log on its own filesystem; no volume is shared with
+# the agent's container. Readiness is a file the sidecar writes after it draws the trial seed, so
+# the health check never calls the API (the first API call starts plant time).
+services:
+  main:
+    depends_on:
+      scada-sim:
+        condition: service_healthy
+
+  scada-sim:
+    build:
+      context: ./scada-sim
+    healthcheck:
+      test: ["CMD", "test", "-f", "/var/scada/ready"]
+      interval: 5s
+      timeout: 5s
+      retries: 120
+      start_period: 10s

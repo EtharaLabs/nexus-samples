@@ -1,0 +1,18 @@
+Inference credentials: 1 mappings across 1 trial
+claude-code / anthropic (1 trial): native authentication; base URL=unknown (configured/default); API format=anthropic_messages (agent_default)
+Skipping image OS validation for hb__e267ca66768a01d084bfa42710dec24f: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl nodejs npm procps
+Command outputs captured
+Running command: set -euo pipefail; if command -v apk &> /dev/null; then  npm install -g @anthropic-ai/claude-code; else  curl -fsSL https://downloads.claude.ai/claude-code-releases/bootstrap.sh | bash -s --; fi && echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && export PATH="$HOME/.local/bin:$PATH" && claude --version
+Command outputs captured
+Agent 'claude-code': automatically applied disable_web_search=True because the rollout network policy is restricted.
+Running command: mkdir -p $CLAUDE_CONFIG_DIR/debug $CLAUDE_CONFIG_DIR/projects/-app $CLAUDE_CONFIG_DIR/shell-snapshots $CLAUDE_CONFIG_DIR/statsig $CLAUDE_CONFIG_DIR/todos $CLAUDE_CONFIG_DIR/skills && if [ -d ~/.claude/skills ]; then cp -r ~/.claude/skills/. $CLAUDE_CONFIG_DIR/skills/ 2>/dev/null || true; fi
+Command outputs captured
+Running command: export PATH="$HOME/.local/bin:$PATH"; claude_code_instruction_4b5f7a22dfd748d59cf06df7fbf4c741="$CLAUDE_CODE_INSTRUCTION_4B5F7A22DFD748D59CF06DF7FBF4C741"; unset CLAUDE_CODE_INSTRUCTION_4B5F7A22DFD748D59CF06DF7FBF4C741; printf "%s" "$claude_code_instruction_4b5f7a22dfd748d59cf06df7fbf4c741" | claude --verbose --output-format=stream-json --disallowedTools WebSearch,WebFetch --permission-mode=bypassPermissions --print 2>&1 | tee /logs/agent/claude-code.txt
+Command outputs captured
+Wrote Claude Code trajectory to jobs/2026-11-17__12-13-54/8263dbf4-358b-52b2-8ff0-2b26ffca__E5gPMNo/agent/trajectory.json
+Collecting main service artifacts
+Skipping image OS validation for hb__35083e42314bb0dd190fb9daea3b6218: docker inspect returned 1
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Command outputs captured

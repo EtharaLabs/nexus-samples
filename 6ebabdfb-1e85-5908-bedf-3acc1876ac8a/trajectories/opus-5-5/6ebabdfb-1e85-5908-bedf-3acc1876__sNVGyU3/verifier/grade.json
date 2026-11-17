@@ -1,0 +1,173 @@
+{
+  "items": {
+    "P1_index_drops_qmark": 0.0,
+    "P2_specificity_length": 0.0,
+    "P3_depth_before_effect": 0.0,
+    "P4_allof_not_vacuous": 0.0,
+    "P5_closure_deepest": 0.0,
+    "P6_fold_unicode": 0.0,
+    "P7_notaction_specificity": 0.0,
+    "P8_explain_tiebreak": 0.0,
+    "P9_condition_short_circuit": 0.0,
+    "P10_index_dedup_trace": 0.0,
+    "P11_numlt_float": 0.0,
+    "P12_anyof_stringify": 0.0,
+    "minimal_structure": 0.0,
+    "minimal_data": 0.0,
+    "minimal_request": 0.0,
+    "reproduced": 0.0,
+    "bounded": 0.0,
+    "bounded_both_axes": 0.0,
+    "expected_correct": 0.0,
+    "observed_correct": 0.0
+  },
+  "gate": {
+    "calls_used": 108,
+    "false_claims": [
+      "entry 5 shows no difference",
+      "entry 6 shows no difference"
+    ],
+    "ok": false
+  },
+  "findings": [
+    {
+      "index": 0,
+      "section": "4",
+      "kind": "answer",
+      "seen": true,
+      "owners": [
+        "P6_fold_unicode"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 1,
+      "section": "4",
+      "kind": "answer",
+      "seen": true,
+      "owners": [
+        "P11_numlt_float"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 2,
+      "section": "4",
+      "kind": "error",
+      "seen": true,
+      "owners": [
+        "P9_condition_short_circuit"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 3,
+      "section": "4",
+      "kind": "answer",
+      "seen": true,
+      "owners": [
+        "P12_anyof_stringify"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 4,
+      "section": "4",
+      "kind": "answer",
+      "seen": true,
+      "owners": [
+        "P4_allof_not_vacuous"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 5,
+      "section": "5",
+      "kind": "error",
+      "seen": false,
+      "owners": [],
+      "expected_ok": false,
+      "observed_ok": true
+    },
+    {
+      "index": 6,
+      "section": "5",
+      "kind": "error",
+      "seen": false,
+      "owners": [],
+      "expected_ok": false,
+      "observed_ok": true
+    },
+    {
+      "index": 7,
+      "section": "6",
+      "kind": "trace",
+      "seen": true,
+      "owners": [
+        "P8_explain_tiebreak"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 8,
+      "section": "5",
+      "kind": "trace",
+      "seen": true,
+      "owners": [
+        "P5_closure_deepest"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 9,
+      "section": "6",
+      "kind": "trace",
+      "seen": true,
+      "owners": [
+        "P2_specificity_length"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 10,
+      "section": "6",
+      "kind": "trace",
+      "seen": true,
+      "owners": [
+        "P7_notaction_specificity"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    },
+    {
+      "index": 11,
+      "section": "8",
+      "kind": "answer",
+      "seen": true,
+      "owners": [
+        "P1_index_drops_qmark"
+      ],
+      "verdict": "credited",
+      "expected_ok": true,
+      "observed_ok": true
+    }
+  ],
+  "compiled": 0.0
+}

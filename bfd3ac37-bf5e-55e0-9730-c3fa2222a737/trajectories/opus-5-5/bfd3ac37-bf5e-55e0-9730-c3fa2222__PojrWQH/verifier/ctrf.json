@@ -1,0 +1,37 @@
+{
+ "results": {
+  "tool": {
+   "name": "dh-plant-coldsnap-ops tests/grade.py"
+  },
+  "summary": {
+   "tests": 3,
+   "passed": 3,
+   "failed": 0,
+   "pending": 0,
+   "skipped": 0,
+   "other": 0,
+   "start": 1794868089533,
+   "stop": 1794868089533
+  },
+  "tests": [
+   {
+    "name": "J2",
+    "status": "passed",
+    "duration": 0,
+    "message": "judge verdict: value 1.0, raw no"
+   },
+   {
+    "name": "J13",
+    "status": "passed",
+    "duration": 0,
+    "message": "judge verdict: value 1.0, raw no"
+   },
+   {
+    "name": "action-log-replay",
+    "status": "passed",
+    "duration": 0,
+    "message": "no collect-step replay failure in the trial export"
+   }
+  ]
+ }
+}

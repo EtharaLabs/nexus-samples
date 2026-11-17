@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""Ask the decision service to answer one call.
+
+    ward-cli decide  --world world.json --query query.json
+    ward-cli explain --world world.json --query '{"principal":"p","action":"a","resource":"r"}'
+    ward-cli budget
+
+A world is a JSON file in the shape sample/sample.json uses, or `-` to read one from
+standard input. A query is a JSON file or an inline JSON string. `decide` prints the
+decision, `explain` prints the deciding statement id. Both print the calls left on
+standard error. `budget` spends nothing. The exit status is 0 for an answer, 2 for a
+domain error, and 3 when the service cannot be reached.
+"""
+
+import argparse
+import json
+import os
+import socket
+import sys
+import urllib.error
+import urllib.request
+
+BASE = os.environ.get("WARDD_URL", "http://wardd:8080")
+# Where the services share one network namespace, the service answers on the
+# loopback address rather than under its name.
+LOOPBACK = "http://127.0.0.1:8080"
+
+
+def _open(path, data=None):
+    """Open `path` on the service. The loopback address is tried only when the service's
+    name does not resolve or nothing listens there, so no call is ever sent twice."""
+    failure = None
+    for base in dict.fromkeys((BASE, LOOPBACK)):
+        request = urllib.request.Request(f"{base}/{path}", data=data,
+                                         method="POST" if data is not None else "GET",
+                                         headers={"Content-Type": "application/json"})
+        try:
+            return urllib.request.urlopen(request, timeout=120)
+        except urllib.error.HTTPError:
+            raise
+        except urllib.error.URLError as exc:
+            failure = exc
+            if not isinstance(exc.reason, (socket.gaierror, ConnectionRefusedError)):
+                break
+    print(f"cannot reach the decision service at {BASE}: {failure.reason}", file=sys.stderr)
+    raise SystemExit(3)
+
+
+def _post(path, payload):
+    try:
+        with _open(path, json.dumps(payload).encode("utf-8")) as response:
+            return json.loads(response.read())
+    except urllib.error.HTTPError as exc:
+        try:
+            return json.loads(exc.read())
+        except Exception:
+            return {"ok": False, "code": "WARD-500", "message": f"service returned {exc.code}"}
+
+
+def _get(path):
+    try:
+        with _open(path) as response:
+            return json.loads(response.read())
+    except urllib.error.URLError as exc:
+        print(f"cannot reach the decision service at {BASE}: {exc.reason}", file=sys.stderr)
+        raise SystemExit(3)
+
+
+def _load_world(path):
+    if path == "-":
+        return json.load(sys.stdin)
+    with open(path, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def _load_query(text):
+    stripped = text.strip()
+    if stripped.startswith("{"):
+        return json.loads(stripped)
+    with open(text, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(prog="ward-cli", description=__doc__)
+    sub = parser.add_subparsers(dest="verb", required=True)
+    for verb in ("decide", "explain"):
+        one = sub.add_parser(verb)
+        one.add_argument("--world", required=True)
+        one.add_argument("--query", required=True)
+        one.add_argument("--json", action="store_true")
+    sub.add_parser("budget")
+    args = parser.parse_args(argv)
+
+    if args.verb == "budget":
+        body = _get("health")
+        print(f"calls used: {body.get('calls_used')} of {body.get('budget')}")
+        return 0
+
+    body = _post(args.verb, {"world": _load_world(args.world), "query": _load_query(args.query)})
+    if args.json:
+        print(json.dumps(body, indent=2))
+        return 0 if body.get("ok") else 2
+    if not body.get("ok"):
+        print(f"{body.get('code', 'WARD-000')}: {body.get('message', '')}", file=sys.stderr)
+        if "calls_remaining" in body:
+            print(f"calls remaining: {body['calls_remaining']}", file=sys.stderr)
+        return 2
+    print(json.dumps(body["result"]))
+    print(f"calls remaining: {body.get('calls_remaining')}", file=sys.stderr)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,46 @@
+{
+    "job_name": "2026-11-17__12-13-54",
+    "n_attempts": 1,
+    "agent_setup_timeout_multiplier": 1.5,
+    "n_concurrent_trials": 1,
+    "environment": {
+        "type": "docker",
+        "extra_allowed_hosts": [
+            "deb.debian.org",
+            "security.debian.org",
+            "downloads.claude.ai",
+            "registry.npmjs.org",
+            "nodejs.org",
+            "pypi.org",
+            "files.pythonhosted.org"
+        ]
+    },
+    "verifier": {
+        "env": {
+            "CODEX_AUTH_JSON": "${CODEX_AUTH_JSON}",
+            "REWARDKIT_FORCE_SUBSCRIPTION": "1"
+        },
+        "extra_allowed_hosts": [
+            "chatgpt.com",
+            "auth.openai.com"
+        ]
+    },
+    "agents": [
+        {
+            "name": "claude-code",
+            "model_name": "anthropic/claude-opus-5-5",
+            "extra_allowed_hosts": [
+                "api.anthropic.com"
+            ],
+            "env": {
+                "CLAUDE_FORCE_OAUTH": "****",
+                "CLAUDE_CODE_OAUTH_TOKEN": "${CLAUDE_CODE_OAUTH_TOKEN}"
+            }
+        }
+    ],
+    "tasks": [
+        {
+            "path": "smoldata/8263dbf4-358b-52b2-8ff0-2b26ffcafa67"
+        }
+    ]
+}

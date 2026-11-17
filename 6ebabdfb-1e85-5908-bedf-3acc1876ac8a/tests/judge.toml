@@ -1,0 +1,80 @@
+[judge]
+judge = "codex"
+model = "openai/gpt-6.1-sol"
+version = "0.164.0"
+files = [
+  "judge/findings.json",
+  "judge/calls.jsonl",
+  "judge/SPEC.md",
+]
+mode = "batched"
+isolated = false
+reasoning_effort = "high"
+timeout = 600
+guard = "penalize"
+
+[scoring]
+aggregation = "all-pass"
+
+# The judge reviews the list under "How to run the investigation" in instruction.md. Its
+# criteria keep the ids they had when the list held sixteen items: J6 is item 6, J8-J10 are
+# items 7-9, J12-J14 are items 11-13 and J16 is item 14. Items 1-5 and 10 are enforced before
+# the judge runs: a submission that breaks one of them fails a compiled item in
+# tests/grade.py, so the judge never sees it. tests/reward.toml gives this judge a weight of 0:
+# its verdicts are reported in reward-details.json beside the reward and never change it.
+
+[[criterion]]
+id = "J6"
+name = "J6"
+description = "`calls.jsonl` reads as experiments: the investigation is made of series of related calls, each series varying one feature at a time, so each reads as testing one idea, rather than a run of unrelated calls. A call that re-runs a finding, or runs a reduction of it to bound it, belongs to that finding's series wherever in the log it is made."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J8"
+name = "J8"
+description = "`calls.jsonl` shows no sign of a call being resent unchanged, the same verb on the same world digest and query, more than twice, which would spend the budget without adding evidence."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J9"
+name = "J9"
+description = "No entry in `findings.json` reports behaviour that rests on something `SPEC.md` does not define, as opposed to the decision the request returns, the deciding-statement id, or the error code it raises."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J10"
+name = "J10"
+description = "No entry reports a behaviour whose correctness `SPEC.md` leaves open: a `trace` finding turns on the deciding-statement id and nothing else about any longer trace."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J12"
+name = "J12"
+description = "`calls.jsonl` holds at least one `explain` call, so the investigation looked at the deciding statement and not only at the decision."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J13"
+name = "J13"
+description = "Every call in `calls.jsonl` whose outcome is `WARD-000` is followed later in the log by a call with the same world digest whose request differs from the failing one in one respect only, so the investigation narrowed the failure to one construct."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J14"
+name = "J14"
+description = "For every entry in `findings.json` whose `kind` is `error`, `calls.jsonl` holds a call made after that entry's own request was run, whose request is the entry's own, unchanged or with one element taken away or changed, and whose outcome is not that entry's error, so the log shows which element raises it."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J16"
+name = "J16"
+description = "Every entry's `rationale` names a specific sentence of the cited `SPEC.md` section, quoting or paraphrasing the rule the engine breaks, rather than citing the section number alone."
+type = "binary"
+weight = 1

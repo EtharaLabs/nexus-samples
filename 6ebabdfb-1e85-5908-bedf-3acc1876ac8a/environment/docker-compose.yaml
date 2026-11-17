@@ -1,0 +1,30 @@
+# Merged on top of the base compose config. The `main` service is the agent's
+# container. `wardd` is the only route to the engine, and the engine source exists
+# only inside that image.
+services:
+  main:
+    depends_on:
+      wardd:
+        condition: service_healthy
+    environment:
+      - WARDD_URL=http://wardd:8080
+
+  wardd:
+    build:
+      context: ./wardd
+    # The call log lives on this volume, mounted on the results/ directory beside the
+    # server (Docker takes only an absolute mount target). The log is collected from this
+    # container as an artifact (see task.toml). `main` never mounts the volume, so the
+    # agent can neither read its own log nor edit it.
+    volumes:
+      - wardd-results:/srv/results
+    healthcheck:
+      test: ["CMD", "python3", "-c",
+             "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 40
+      start_period: 2s
+
+volumes:
+  wardd-results:

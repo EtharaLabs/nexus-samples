@@ -1,0 +1,108 @@
+{"call": 1, "calls_remaining": 239, "outcome": "ok", "query": {"action": "doc:write:x", "context": {"mfa": "true"}, "principal": "ada", "resource": "doc:1"}, "verb": "decide", "world_digest": "e63d4fc087854579"}
+{"call": 2, "calls_remaining": 238, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "97f60fed8cfe4c9c"}
+{"call": 3, "calls_remaining": 237, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "17737e39c6449c89"}
+{"call": 4, "calls_remaining": 236, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "e23bb4cbdb8d2657"}
+{"call": 5, "calls_remaining": 235, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "0ae3a4f390bb6330"}
+{"call": 6, "calls_remaining": 234, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "0aa007acaf157294"}
+{"call": 7, "calls_remaining": 233, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "52ee28415824598e"}
+{"call": 8, "calls_remaining": 232, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "48172b79afcbd532"}
+{"call": 9, "calls_remaining": 231, "outcome": "ok", "query": {"action": "abab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "9291635a0b5aa235"}
+{"call": 10, "calls_remaining": 230, "outcome": "ok", "query": {"action": "aab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "bbe8f9068bcbedd0"}
+{"call": 11, "calls_remaining": 229, "outcome": "ok", "query": {"action": "\u00e9", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "5b45332c6562e2a8"}
+{"call": 12, "calls_remaining": 228, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "87cba6024cde0747"}
+{"call": 13, "calls_remaining": 227, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "fa4510ca6b18255b"}
+{"call": 14, "calls_remaining": 226, "outcome": "ok", "query": {"action": "axb", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "42556dde5557ba7d"}
+{"call": 15, "calls_remaining": 225, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "81e382ae14bb73d3"}
+{"call": 16, "calls_remaining": 224, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "c64d15e3bb11c545"}
+{"call": 17, "calls_remaining": 223, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "a44a469eb1ab3ff5"}
+{"call": 18, "calls_remaining": 222, "outcome": "ok", "query": {"action": "abc", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "9f14fe9a5d55b02e"}
+{"call": 19, "calls_remaining": 221, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "c30ef9474ecd815a"}
+{"call": 20, "calls_remaining": 220, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "1e6a89fbcc212a91"}
+{"call": 21, "calls_remaining": 219, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "29c235e3b3c6d8d8"}
+{"call": 22, "calls_remaining": 218, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "a3382d663623ad30"}
+{"call": 23, "calls_remaining": 217, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": ["v"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "a3382d663623ad30"}
+{"call": 24, "calls_remaining": 216, "outcome": "ok", "query": {"action": "a", "context": {"k": "v"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "a3382d663623ad30"}
+{"call": 25, "calls_remaining": 215, "outcome": "ok", "query": {"action": "a", "context": {"k": "ABC"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "ba12e62b610ac5d0"}
+{"call": 26, "calls_remaining": 214, "outcome": "ok", "query": {"action": "a", "context": {"k": "\u00c9"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "73de3bebed6ef72a"}
+{"call": 27, "calls_remaining": 213, "outcome": "ok", "query": {"action": "a", "context": {"k": "\u00df"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "3bc2e4826c59f896"}
+{"call": 28, "calls_remaining": 212, "outcome": "ok", "query": {"action": "a", "context": {"k": "\u212a"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "13b61acd9b563690"}
+{"call": 29, "calls_remaining": 211, "outcome": "ok", "query": {"action": "a", "context": {"k": "a"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "747bf15af1017984"}
+{"call": 30, "calls_remaining": 210, "outcome": "ok", "query": {"action": "a", "context": {"k": "a"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "1de73693651c5b33"}
+{"call": 31, "calls_remaining": 209, "outcome": "ok", "query": {"action": "a", "context": {"k": 5}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "2c50db8fb506f86c"}
+{"call": 32, "calls_remaining": 208, "outcome": "ok", "query": {"action": "a", "context": {"k": 4}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "2c50db8fb506f86c"}
+{"call": 33, "calls_remaining": 207, "outcome": "ok", "query": {"action": "a", "context": {"k": 9007199254740992}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "fac7f6d6eb5529b1"}
+{"call": 34, "calls_remaining": 206, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": "4"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "2c50db8fb506f86c"}
+{"call": 35, "calls_remaining": 205, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": true}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "2c50db8fb506f86c"}
+{"call": 36, "calls_remaining": 204, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": 5}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "c9561e0ed19e1440"}
+{"call": 37, "calls_remaining": 203, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": true}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "9c040a0fe031a55e"}
+{"call": 38, "calls_remaining": 202, "outcome": "ok", "query": {"action": "a", "context": {"j": "w", "k": ["v"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "fac8e8b8bc89c35f"}
+{"call": 39, "calls_remaining": 201, "outcome": "WARD-203", "query": {"action": "a", "context": {"j": "w", "k": ["v"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "44ccb3a32607f6a7"}
+{"call": 40, "calls_remaining": 200, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": [4]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "2c50db8fb506f86c"}
+{"call": 41, "calls_remaining": 199, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": ["a"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "8d36c97b3d5ddf34"}
+{"call": 42, "calls_remaining": 198, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": ["a"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "23afa442a0181cc6"}
+{"call": 43, "calls_remaining": 197, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": 1}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "8d36c97b3d5ddf34"}
+{"call": 44, "calls_remaining": 196, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": 1}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "23afa442a0181cc6"}
+{"call": 45, "calls_remaining": 195, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "2c50db8fb506f86c"}
+{"call": 46, "calls_remaining": 194, "outcome": "WARD-211", "query": {"action": "a", "context": {"k": "v"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "8dab682e9029868f"}
+{"call": 47, "calls_remaining": 193, "outcome": "ok", "query": {"action": "a", "context": {"k": 5}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "6da980c3cd7b5261"}
+{"call": 48, "calls_remaining": 192, "outcome": "ok", "query": {"action": "a", "context": {"k": true}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "d6a716d708f66766"}
+{"call": 49, "calls_remaining": 191, "outcome": "ok", "query": {"action": "a", "context": {"k": "v"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "7d2a9a83966e444b"}
+{"call": 50, "calls_remaining": 190, "outcome": "ok", "query": {"action": "a", "context": {"k": ["w", "v"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "524d56541f7f272a"}
+{"call": 51, "calls_remaining": 189, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "5ad3316f1a6d6ade"}
+{"call": 52, "calls_remaining": 188, "outcome": "ok", "query": {"action": "a", "context": {"k": "v"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "5ad3316f1a6d6ade"}
+{"call": 53, "calls_remaining": 187, "outcome": "ok", "query": {"action": "a", "context": {"k": ["v", "w"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "5ad3316f1a6d6ade"}
+{"call": 54, "calls_remaining": 186, "outcome": "ok", "query": {"action": "a", "context": {"k": ["v"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "d0f474cad3c6d46a"}
+{"call": 55, "calls_remaining": 185, "outcome": "ok", "query": {"action": "a", "context": {"k": []}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "00d6c3c7fef16ccf"}
+{"call": 56, "calls_remaining": 184, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "2795237eadddb541"}
+{"call": 57, "calls_remaining": 183, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "caf4bf599eb58dc9"}
+{"call": 58, "calls_remaining": 182, "outcome": "WARD-210", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "74656d91fa35beb5"}
+{"call": 59, "calls_remaining": 181, "outcome": "WARD-210", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "0668f59f72010235"}
+{"call": 60, "calls_remaining": 180, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "09ddbca0bade4c0a"}
+{"call": 61, "calls_remaining": 179, "outcome": "WARD-210", "query": {"action": "a", "context": {}, "principal": "q", "resource": "x"}, "verb": "decide", "world_digest": "7a4af7f4c75045ff"}
+{"call": 62, "calls_remaining": 178, "outcome": "WARD-220", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "f6a8e0fa2d3a2988"}
+{"call": 63, "calls_remaining": 177, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "2e06c20f028f5974"}
+{"call": 64, "calls_remaining": 176, "outcome": "WARD-220", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "79808f2548716788"}
+{"call": 65, "calls_remaining": 175, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "a2a31024a30b52ec"}
+{"call": 66, "calls_remaining": 174, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "4cf85b7ea7f7557a"}
+{"call": 67, "calls_remaining": 173, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "81d87985f0fe0274"}
+{"call": 68, "calls_remaining": 172, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "406b2d9aa91a736b"}
+{"call": 69, "calls_remaining": 171, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "ff6bfcf6c9b3cea6"}
+{"call": 70, "calls_remaining": 170, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "115375811fc45d02"}
+{"call": 71, "calls_remaining": 169, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "602c90d93a3687ff"}
+{"call": 72, "calls_remaining": 168, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "52eeeaa174a67133"}
+{"call": 73, "calls_remaining": 167, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "ae57898776485f69"}
+{"call": 74, "calls_remaining": 166, "outcome": "ok", "query": {"action": "abc", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "b8fe7dec5694686d"}
+{"call": 75, "calls_remaining": 165, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "883bec1c3d790bbe"}
+{"call": 76, "calls_remaining": 164, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "1e2b37c0922095d7"}
+{"call": 77, "calls_remaining": 163, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "097c44c7b2a4a0e9"}
+{"call": 78, "calls_remaining": 162, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "911f2935e654a6b4"}
+{"call": 79, "calls_remaining": 161, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "81e3f0abca10e043"}
+{"call": 80, "calls_remaining": 160, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "be3737d741c0e095"}
+{"call": 81, "calls_remaining": 159, "outcome": "ok", "query": {"action": "abc", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "30a70487c50d689d"}
+{"call": 82, "calls_remaining": 158, "outcome": "ok", "query": {"action": "abc", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "0629164d16c22514"}
+{"call": 83, "calls_remaining": 157, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "61d3e2b435f01b9c"}
+{"call": 84, "calls_remaining": 156, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "c4c26268ad42bf93"}
+{"call": 85, "calls_remaining": 155, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "f238ea9a39919702"}
+{"call": 86, "calls_remaining": 154, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "41b9f7693a460d1b"}
+{"call": 87, "calls_remaining": 153, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "c903e1a84a7d71ce"}
+{"call": 88, "calls_remaining": 152, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "e05179ea6490c954"}
+{"call": 89, "calls_remaining": 151, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "fe8672aab253954f"}
+{"call": 90, "calls_remaining": 150, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "4eaea4d33bb769e0"}
+{"call": 91, "calls_remaining": 149, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "73de3bebed6ef72a"}
+{"call": 92, "calls_remaining": 148, "outcome": "ok", "query": {"action": "a", "context": {"k": 9007199254740992}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "7a4af7f4c75045ff"}
+{"call": 93, "calls_remaining": 147, "outcome": "ok", "query": {"action": "a", "context": {"k": ["v"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "fac8e8b8bc89c35f"}
+{"call": 94, "calls_remaining": 146, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "fac8e8b8bc89c35f"}
+{"call": 95, "calls_remaining": 145, "outcome": "WARD-203", "query": {"action": "a", "context": {"k": ["v"]}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "a3382d663623ad30"}
+{"call": 96, "calls_remaining": 144, "outcome": "ok", "query": {"action": "a", "context": {"k": 5}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "7a4af7f4c75045ff"}
+{"call": 97, "calls_remaining": 143, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "7a4af7f4c75045ff"}
+{"call": 98, "calls_remaining": 142, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "f3f6ff5b155ebfb8"}
+{"call": 99, "calls_remaining": 141, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "22a607065ceddfe6"}
+{"call": 100, "calls_remaining": 140, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "3c10d0a533601066"}
+{"call": 101, "calls_remaining": 139, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "2ae1fb1e11cccc54"}
+{"call": 102, "calls_remaining": 138, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "030c2aefa2934df8"}
+{"call": 103, "calls_remaining": 137, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "f108a872eb9e25e8"}
+{"call": 104, "calls_remaining": 136, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "1880fcf490164663"}
+{"call": 105, "calls_remaining": 135, "outcome": "ok", "query": {"action": "ab", "context": {}, "principal": "p", "resource": "x"}, "verb": "explain", "world_digest": "fd9d9f5f5d73684c"}
+{"call": 106, "calls_remaining": 134, "outcome": "ok", "query": {"action": "a", "context": {"k": "\u00c9"}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "7a4af7f4c75045ff"}
+{"call": 107, "calls_remaining": 133, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "fac7f6d6eb5529b1"}
+{"call": 108, "calls_remaining": 132, "outcome": "ok", "query": {"action": "a", "context": {}, "principal": "p", "resource": "x"}, "verb": "decide", "world_digest": "6da980c3cd7b5261"}

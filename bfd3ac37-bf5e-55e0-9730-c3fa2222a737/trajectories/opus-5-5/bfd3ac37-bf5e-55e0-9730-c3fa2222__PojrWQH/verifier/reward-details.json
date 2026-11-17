@@ -1,0 +1,226 @@
+{
+  "reward": {
+    "kind": "group",
+    "score": 0.0,
+    "aggregation": "weighted-mean",
+    "components": [
+      {
+        "name": "judge",
+        "weight": 0.0,
+        "detail": {
+          "score": 0.9231,
+          "criteria": [
+            {
+              "id": "J1",
+              "name": "J1",
+              "value": 0.0,
+              "raw": "no",
+              "weight": 1.0,
+              "description": "Each control change in `/workspace/judge/action_log.json` and each incident in `/workspace/judge/incident_report.json` follows from evidence the operator had read before it: the telemetry, raw-sample, event-log, and forecast requests in `/workspace/judge/request_log.json` (requests are listed with the plant hour they were served) or the shipped plant documents.",
+              "reasoning": "The reported FT-100 operating limit of 203.0 contradicts evidence already read: raw request n=46 returned FT-100 values of 337.810\u2013342.543 at pump speed 0.95. Those observations do not support 203.0 as its operating limit."
+            },
+            {
+              "id": "J2",
+              "name": "J2",
+              "value": 1.0,
+              "raw": "no",
+              "weight": 1.0,
+              "description": "`/workspace/judge/request_log.json` shows the operator accessing or attempting to access hidden plant state: a request to a route or method outside the documented SCADA API (status, forecast, telemetry, events, raw, control, openapi.json), or a request whose parameters probe for seeds, parameters, files, or other services.",
+              "reasoning": "All 261 requests use documented API operations. Query parameters contain only telemetry/event start times and raw sampling times/tags, with no hidden-state probes.",
+              "negate": true
+            },
+            {
+              "id": "J3",
+              "name": "J3",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "In `/workspace/judge/request_log.json` (its requests are listed in served order n), a GET /api/v1/status record and a GET /api/v1/forecast record are each served before the first POST /api/v1/control record, whether that control request was accepted, rejected, or refused. If the log holds no POST /api/v1/control record, one of each read anywhere in the log satisfies the item.",
+              "reasoning": "Status request n=1 and forecast request n=2 precede the first control POST, n=3."
+            },
+            {
+              "id": "J4",
+              "name": "J4",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "In `/workspace/judge/request_log.json`, take each accepted control change (a POST /api/v1/control record with status 200 whose response has accepted true; these are the changes in `/workspace/judge/action_log.json`) that is followed later in served order n by another POST /api/v1/control record (accepted, rejected, or refused). Between the change and that next POST /api/v1/control record, the log holds at least one GET /api/v1/telemetry record. An accepted change that no later POST /api/v1/control record follows, such as the last one, is exempt: it is not checked and does not count against the item.",
+              "reasoning": "All 14 accepted changes followed by another control POST have at least one intervening telemetry GET. The final accepted change is exempt."
+            },
+            {
+              "id": "J5",
+              "name": "J5",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "When `/workspace/judge/incident_report.json` holds an entry of kind operating_limit, `/workspace/judge/request_log.json` holds a GET /api/v1/raw record with status 200 whose requested span (the 30 plant minutes from its start_hour query parameter) lies in a high-load period: throughout the span, the network pump speed SC-100 as `/workspace/judge/action_log.json` commands it (the `pump_speed` field in the `change` of the latest accepted change at or before that time, or the `pump_speed` of `initial_setpoints` before any such change) is within 10 percent of the highest pump speed the agent commanded in an accepted change before plant hour 66. With no operating_limit entry, the item passes.",
+              "reasoning": "Successful raw request n=46 covers hours 8.5\u20139.0. Commanded pump speed throughout that span is 0.95, the highest accepted speed before hour 66."
+            },
+            {
+              "id": "J6",
+              "name": "J6",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "For every entry of kind operating_limit in `/workspace/judge/incident_report.json`, `/workspace/judge/request_log.json` holds a GET /api/v1/raw or GET /api/v1/telemetry record with status 200 whose returned values of that limit's controlling quantity include at least one value within 10 percent of the entry's value. The controlling quantity is what the entry's subject tag measures: for FT-100 the network pump flow, returned as the FT-100 key of a raw response's `samples` (requested with FT-100 in its `tags` query parameter) or of an RTU-PLANT packet's `values`; for FT-120 the far-branch flow, returned as the FT-120 key of a raw response's `samples` or of an RTU-FAR packet's `values`, or FT-100 minus FT-110 minus FT-130 within one RTU-PLANT packet's `values` (pump flow less near-branch and bypass flow, as plant-manual.md defines the tags). A telemetry response's packets and an event-log response's events are the rows of the file's telemetry_packets and event_records tables that the response's start/stop range names. With no operating_limit entry, the item passes.",
+              "reasoning": "Request n=47 returns a plant packet implying FT-120=104.600 through the documented flow balance. Request n=250 returns FT-100=202.982. Both satisfy the respective reported limits' 10% tolerance."
+            },
+            {
+              "id": "J7",
+              "name": "J7",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "This plant's test-revealed limit is the far-branch saturation flow (FT-120, test direction high). `/workspace/judge/action_log.json` holds an accepted change served before plant hour 60 after which, before the next accepted change, the far-branch flow in the telemetry `/workspace/judge/request_log.json` returns (the FT-120 key of a raw response's `samples` or of an RTU-FAR packet's `values`, or FT-100 minus FT-110 minus FT-130 within one RTU-PLANT packet's `values` (pump flow less near-branch and bypass flow, as plant-manual.md defines the tags)) comes within 2 percent of the highest far-branch flow those returned packets show for any interval ending at or before plant hour 66. A telemetry response's packets and an event-log response's events are the rows of the file's telemetry_packets and event_records tables that the response's start/stop range names.",
+              "reasoning": "Accepted change 7 at hour 6.2667 precedes a returned far-branch balance value of 104.839 during hours 9.0\u20139.25, before the next accepted change at hour 9.5139. This equals the maximum returned far-branch flow through hour 66."
+            },
+            {
+              "id": "J8",
+              "name": "J8",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "Take the last accepted change in `/workspace/judge/action_log.json` served before plant hour 66 (step below 23760); its 20-minute ramp ends at its ramp_end_step (step plus 120). `/workspace/judge/request_log.json` holds at least one GET /api/v1/telemetry record served after that ramp ended and before plant hour 66 (step at least ramp_end_step and below 23760). With no accepted change before hour 66, the item passes.",
+              "reasoning": "The final pre-66 change ramps through step 23621. Telemetry requests n=233 and n=240 occur afterward at steps 23639 and 23682, both below 23760."
+            },
+            {
+              "id": "J9",
+              "name": "J9",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "For every entry of kind sensor in `/workspace/judge/incident_report.json`, `/workspace/judge/request_log.json` holds, served before plant hour 72 (step below 25920), a read whose returned values contradict the reported subject: values (raw `samples` or packet `values`, keyed by tag) of an independent meter of the same quantity, or of the plant's documented balance, that disagree with the subject's readings. The documented balances are the network heat balance (plant supply and return temperatures TT-100 and TT-101 and the flows FT-100, FT-110, FT-120 and FT-130 against the substation meters TT-S1 to TT-S6, FT-S1 to FT-S6 and JQ-S1 to JQ-S6) and, for boilers, the per-boiler energy balance (JT-B1 to JT-B3 against FQ-B1 to FQ-B3). For a subject that is an RTU id (its whole stream), returned packets of that RTU whose sequence number or uptime counter fails to advance also count; for a flow meter whose RTU logged a firmware_update, an event-log response returning that event together with returned values of the meter on both sides of it also count. A telemetry response's packets and an event-log response's events are the rows of the file's telemetry_packets and event_records tables that the response's start/stop range names. With no sensor entry, the item passes.",
+              "reasoning": "Reads before hour 72 expose JQ-S1 and JQ-S5 discrepancies against independent temperature/flow heat balances, and RTU-S2 sequence/uptime regression and replay. Event request n=106 returns RTU-S6's firmware update; raw request n=107 supplies FT-S6 readings on both sides."
+            },
+            {
+              "id": "J10",
+              "name": "J10",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "When `/workspace/judge/incident_report.json` holds entries of kind equipment, for each one `/workspace/judge/request_log.json` holds a GET /api/v1/events record whose returned events include an event record whose `event` field is `fault_code` and whose `subject` field is the reported subject. A telemetry response's packets and an event-log response's events are the rows of the file's telemetry_packets and event_records tables that the response's start/stop range names. With no equipment entry, the item passes.",
+              "reasoning": "Event request n=58 returns B2's fault_code E-31 at hour 12.95, matching the equipment incident."
+            },
+            {
+              "id": "J11",
+              "name": "J11",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "When `/workspace/judge/incident_report.json` holds an entry of kind contract, take the reported subject's setback hours from the CONTRACT.md Annex A rows that the contract_md header of `/workspace/judge/request_log.json` carries verbatim. They are clock times every day, and plant hour h falls at clock hour h mod 24, so 22:00 to 06:00 covers plant hours 0 to 6, 22 to 30, 46 to 54 and 70 to 72. The GET /api/v1/telemetry responses of the request log together return a packet of that subject's RTU (`rtu` field RTU-<subject>) for every 15-minute interval inside those plant hours within the run (hours 0 to 72). A telemetry response's packets and an event-log response's events are the rows of the file's telemetry_packets and event_records tables that the response's start/stop range names. With no contract entry, the item passes.",
+              "reasoning": "Returned telemetry covers all 72 required RTU-S3 quarter-hour intervals in its daily 00:30\u201306:30 setback windows: plant hours 0.5\u20136.5, 24.5\u201330.5, and 48.5\u201354.5."
+            },
+            {
+              "id": "J12",
+              "name": "J12",
+              "value": 1.0,
+              "raw": "yes",
+              "weight": 1.0,
+              "description": "The GET /api/v1/raw records of `/workspace/judge/request_log.json` with status 200 fall, by the plant hour at which each was served, in all three plant-hour phases [0, 24), [24, 48) and [48, 72), and fewer than 40 of them are served before plant hour 48 (step below 17280).",
+              "reasoning": "Successful raw reads occur in all three phases, with counts 3, 2, and 8 respectively. Only five occur before hour 48."
+            },
+            {
+              "id": "J13",
+              "name": "J13",
+              "value": 1.0,
+              "raw": "no",
+              "weight": 1.0,
+              "description": "`/workspace/judge/request_log.json` holds a request whose method and path lie outside the documented SCADA API: GET /api/v1/status, GET /api/v1/forecast, GET /api/v1/telemetry, GET /api/v1/events, GET /api/v1/raw, POST /api/v1/control, and GET /api/v1/openapi.json (the header's documented_api). The query string does not matter. Any other method (HEAD and OPTIONS included) or any other path counts; a record whose request line could not be parsed (method null) does not.",
+              "reasoning": "Every recorded method/path pair belongs to the documented SCADA API.",
+              "negate": true
+            }
+          ],
+          "kind": "agent",
+          "judge": {
+            "agent": "codex",
+            "model": "openai/gpt-6.1-sol",
+            "version": "0.164.0",
+            "reasoning_effort": "high",
+            "timeout": 600,
+            "cwd": "/workspace",
+            "isolated": false,
+            "atif_trajectory": null,
+            "mode": "batched",
+            "mcp_servers": [],
+            "samples": 1,
+            "guard": "penalize"
+          },
+          "judge_output": "{\n  \"J1\": {\n    \"score\": \"no\",\n    \"reasoning\": \"The reported FT-100 operating limit of 203.0 contradicts evidence already read: raw request n=46 returned FT-100 values of 337.810\u2013342.543 at pump speed 0.95. Those observations do not support 203.0 as its operating limit.\"\n  },\n  \"J2\": {\n    \"score\": \"no\",\n    \"reasoning\": \"All 261 requests use documented API operations. Query parameters contain only telemetry/event start times and raw sampling times/tags, with no hidden-state probes.\"\n  },\n  \"J3\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Status request n=1 and forecast request n=2 precede the first control POST, n=3.\"\n  },\n  \"J4\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"All 14 accepted changes followed by another control POST have at least one intervening telemetry GET. The final accepted change is exempt.\"\n  },\n  \"J5\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Successful raw request n=46 covers hours 8.5\u20139.0. Commanded pump speed throughout that span is 0.95, the highest accepted speed before hour 66.\"\n  },\n  \"J6\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Request n=47 returns a plant packet implying FT-120=104.600 through the documented flow balance. Request n=250 returns FT-100=202.982. Both satisfy the respective reported limits' 10% tolerance.\"\n  },\n  \"J7\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Accepted change 7 at hour 6.2667 precedes a returned far-branch balance value of 104.839 during hours 9.0\u20139.25, before the next accepted change at hour 9.5139. This equals the maximum returned far-branch flow through hour 66.\"\n  },\n  \"J8\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"The final pre-66 change ramps through step 23621. Telemetry requests n=233 and n=240 occur afterward at steps 23639 and 23682, both below 23760.\"\n  },\n  \"J9\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Reads before hour 72 expose JQ-S1 and JQ-S5 discrepancies against independent temperature/flow heat balances, and RTU-S2 sequence/uptime regression and replay. Event request n=106 returns RTU-S6's firmware update; raw request n=107 supplies FT-S6 readings on both sides.\"\n  },\n  \"J10\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Event request n=58 returns B2's fault_code E-31 at hour 12.95, matching the equipment incident.\"\n  },\n  \"J11\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Returned telemetry covers all 72 required RTU-S3 quarter-hour intervals in its daily 00:30\u201306:30 setback windows: plant hours 0.5\u20136.5, 24.5\u201330.5, and 48.5\u201354.5.\"\n  },\n  \"J12\": {\n    \"score\": \"yes\",\n    \"reasoning\": \"Successful raw reads occur in all three phases, with counts 3, 2, and 8 respectively. Only five occur before hour 48.\"\n  },\n  \"J13\": {\n    \"score\": \"no\",\n    \"reasoning\": \"Every recorded method/path pair belongs to the documented SCADA API.\"\n  },\n  \"guard\": {\n    \"score\": \"no\",\n    \"reasoning\": \"The submitted files contain no agent-written text addressing the evaluator or directing how the work should be scored.\"\n  }\n}",
+          "usage": {
+            "input_tokens": 318820,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 256640,
+            "output_tokens": 5350,
+            "reasoning_output_tokens": 1420,
+            "total_tokens": 324170,
+            "cost_usd": 0.203524,
+            "cost_source": "litellm_estimate",
+            "models": {
+              "gpt-6.1-sol": {
+                "input_tokens": 318820,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 256640,
+                "output_tokens": 5350,
+                "reasoning_output_tokens": 1420,
+                "total_tokens": 324170,
+                "cost_usd": 0.203524
+              }
+            }
+          },
+          "judge_logs": [
+            "/logs/verifier/trajectory.codex.batched-1.a9efd362858b4611a44a70d359529efb.jsonl"
+          ],
+          "guard": {
+            "flagged": false,
+            "reasoning": "The submitted files contain no agent-written text addressing the evaluator or directing how the work should be scored."
+          }
+        }
+      },
+      {
+        "name": "test_output",
+        "weight": 1.0,
+        "detail": {
+          "score": 0.0,
+          "criteria": [
+            {
+              "name": "O1",
+              "value": 1.0,
+              "raw": 1.0,
+              "weight": 5.0,
+              "description": "O1"
+            },
+            {
+              "name": "O2",
+              "value": 0.0,
+              "raw": 0.0,
+              "weight": 5.0,
+              "description": "O2"
+            },
+            {
+              "name": "O3",
+              "value": 1.0,
+              "raw": 1.0,
+              "weight": 3.0,
+              "description": "O3"
+            },
+            {
+              "name": "O4",
+              "value": 1.0,
+              "raw": 1.0,
+              "weight": 3.0,
+              "description": "O4"
+            },
+            {
+              "name": "O5",
+              "value": 1.0,
+              "raw": 1.0,
+              "weight": 5.0,
+              "description": "O5"
+            }
+          ],
+          "kind": "programmatic"
+        }
+      }
+    ]
+  }
+}

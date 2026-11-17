@@ -1,0 +1,62 @@
+schema_version = "1.4"
+reward_type = "binary"
+# The agent's findings come back from its container. The engine never leaves the
+# sidecar, and the call log comes from the sidecar's volume, not from /app.
+artifacts = [
+  { source = "/app/out/findings.json" },
+  { source = "/results/calls.jsonl", service = "tarnd" },
+]
+
+[task]
+name = "ethara/c6be7353-782a-54cf-b9f3-283f13558982"
+version = "0.1.0"
+description = "Diagnose seven defects in a relational engine reachable only as a network service, under a budget of 250 queries, and report each one with the specification section it breaks, the observable it shows in, and a minimal statement and database that demonstrate it, each reproduced and bounded in the service's call log."
+authors = [{ name = "kanishk.singh", email = "kanishk.singh@ethara.ai" }]
+keywords = ["black-box-diagnosis", "sql", "query-optimizer", "observation-budget", "experiment-design", "python"]
+
+[metadata]
+category = "Software"
+subcategory = "Databases"
+tags = ["diagnosis", "black-box", "budgeted-observation", "python"]
+platforms = ["linux/amd64", "linux/arm64"]
+null_floor = 0.0
+compilation_floor = 0.90
+expert_time_estimate_hours = 6.0
+reward_reading = "The reward is binary: 1 only when all twelve compiled items pass (the seven defects, minimality in rows, schema and statement, reproduction and boundary) with the precision gate clear; otherwise 0. tests/reward.toml gives the judged criteria of tests/judge.toml a weight of 0, so they are reported without changing the reward. The mean reward is the pass rate."
+
+[verifier]
+timeout_sec = 3000.0
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com", "host.docker.internal"]
+environment_mode = "separate"
+user = "0"
+
+[verifier.env]
+ANTHROPIC_API_BASE = "${ANTHROPIC_API_BASE:-https://api.anthropic.com}"
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+OPENAI_BASE_URL = "${OPENAI_BASE_URL:-https://api.openai.com/v1}"
+LITELLM_LOCAL_MODEL_COST_MAP = "True"
+
+[verifier.environment]
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com", "host.docker.internal"]
+build_timeout_sec = 1200.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 8192
+gpus = 0
+
+[agent]
+# One hour. The reference investigation spends 42 of the 250 calls.
+timeout_sec = 3600.0
+network_mode = "public"
+user = "1000:1000"
+
+[environment]
+network_mode = "public"
+build_timeout_sec = 900.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 8192
+gpus = 0

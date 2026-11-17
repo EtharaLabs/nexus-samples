@@ -1,0 +1,21 @@
+Inference credentials: 1 mappings across 1 trials
+claude-code / anthropic (1 trials): native authentication; base URL=unknown (configured/default); API format=anthropic_messages (agent_default)
+Task ethara/c6be7353-782a-54cf-b9f3-283f13558982: Configured runtime overrides apply only to the agent environment and are not propagated to separate verifier environments (mounts: ../agent-bin/claude/2.1.310/claude -> /usr/local/bin/claude). Bake grading dependencies into the verifier image under tests/ or declare required agent outputs as artifacts.
+Run-specific allowlist host(s) ['api.anthropic.com'] are ignored because the effective network policy is public.
+Run-specific allowlist host(s) ['api.anthropic.com'] are ignored because the effective network policy is public.
+Skipping image OS validation for hb__d448ee872d4d1d5d1c5d00f4bfa9048e: docker inspect returned 1
+Claude Code is already available at the requested version
+Run-specific allowlist host(s) ['api.anthropic.com'] are ignored because the effective network policy is public.
+Running command: mkdir -p $CLAUDE_CONFIG_DIR/debug $CLAUDE_CONFIG_DIR/projects/-app $CLAUDE_CONFIG_DIR/shell-snapshots $CLAUDE_CONFIG_DIR/statsig $CLAUDE_CONFIG_DIR/todos $CLAUDE_CONFIG_DIR/skills && if [ -d ~/.claude/skills ]; then cp -r ~/.claude/skills/. $CLAUDE_CONFIG_DIR/skills/ 2>/dev/null || true; fi
+Command outputs captured
+Running command: export PATH="$HOME/.local/bin:$PATH"; claude_code_instruction_3dd5919c7ebc44e8aaf35ab0ace8d5d4="$CLAUDE_CODE_INSTRUCTION_3DD5919C7EBC44E8AAF35AB0ACE8D5D4"; unset CLAUDE_CODE_INSTRUCTION_3DD5919C7EBC44E8AAF35AB0ACE8D5D4; printf "%s" "$claude_code_instruction_3dd5919c7ebc44e8aaf35ab0ace8d5d4" | claude --verbose --output-format=stream-json --permission-mode=bypassPermissions --print 2>&1 | tee /logs/agent/claude-code.txt
+Command outputs captured
+Wrote Claude Code trajectory to jobs/c6be7353-opus55-p1/c6be7353-782a-54cf-b9f3-283f1355__gq7XpZe/agent/trajectory.json
+Collecting main service artifacts
+Stopping main service before sidecar evidence collection
+Main service stopped
+Collecting sidecar artifacts from services: ['tarnd']
+Run-specific allowlist host(s) ['api.anthropic.com'] are ignored because the effective network policy is public.
+Skipping image OS validation for hb__c2d8d5cf7fa7d0fd84ef4403d66480f3: docker inspect returned 1
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

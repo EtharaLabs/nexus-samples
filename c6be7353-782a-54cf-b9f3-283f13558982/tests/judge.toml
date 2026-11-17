@@ -1,0 +1,72 @@
+[judge]
+judge = "codex"
+model = "openai/gpt-6.1-sol"
+version = "0.164.0"
+files = [
+  "/workspace/judge/findings.json",
+  "/workspace/judge/calls.jsonl",
+  "/workspace/judge/DESIGN.md",
+]
+mode = "batched"
+isolated = false
+cwd = "/workspace"
+reasoning_effort = "high"
+timeout = 600
+guard = "penalize"
+
+[scoring]
+aggregation = "all-pass"
+
+# The judge reviews items 6, 7, 8, 10, 12, 13 and 14 of the list under "How to run the
+# investigation" in instruction.md (criterion Jn is item n). Items 1-5, 9 and 11 are enforced
+# before the judge runs: a submission that breaks one of them fails a compiled item in
+# tests/grade.py.
+
+[[criterion]]
+id = "J6"
+name = "J6"
+description = "`calls.jsonl` shows series of related calls where consecutive statements vary one feature at a time, rather than a run of unrelated statements, so each series reads as testing one idea."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J7"
+name = "J7"
+description = "`calls.jsonl` contains at least one call that establishes what the shipped engine does in the ordinary case for a rule, alongside the call that shows the departure from it."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J8"
+name = "J8"
+description = "`calls.jsonl` shows no sign of a statement being resent unchanged with the same database more than twice, which would spend the budget without adding evidence."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J10"
+name = "J10"
+description = "No entry in `findings.json` reports a behaviour whose correctness `DESIGN.md` leaves open, such as the text of a plan beyond each join's operator and kind, or the name given to an unaliased select expression."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J12"
+name = "J12"
+description = "`calls.jsonl` shows at least one `explain` call, so the investigation looked at a statement's plan and not only at the rows it returned."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J13"
+name = "J13"
+description = "Every call in `calls.jsonl` whose outcome is `TARN-000` is followed later in the log by a call with the same `database` digest whose statement differs from the failing statement in one respect only, so the investigation narrowed the failure down to one construct instead of moving on."
+type = "binary"
+weight = 1
+
+[[criterion]]
+id = "J14"
+name = "J14"
+description = "For every entry in `findings.json` whose `kind` is `error`, `calls.jsonl` holds a call made after that entry's own statement was run, whose statement is the entry's own, unchanged or with one element taken away or changed, and whose outcome is not that entry's error, so the log shows which element raises it."
+type = "binary"
+weight = 1

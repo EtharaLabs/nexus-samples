@@ -1,0 +1,54 @@
+schema_version = "1.4"
+artifacts = ["/app/stream"]
+reward_type = "binary"
+
+[task]
+name = "ethara/8263dbf4-358b-52b2-8ff0-2b26ffcafa67"
+version = "1.0.0"
+description = "Implement a single-threaded deterministic session-window streaming engine with watermark-driven finalization, late-event retraction and re-finalization, and bit-identical exactly-once output across a crash/resume boundary."
+authors = [{ name = "dhawal.bathre", email = "dhawal.bathre@ethara.ai" }]
+keywords = ["streaming", "session-window", "watermark", "exactly-once", "crash-recovery", "retraction", "python"]
+
+[metadata]
+category = "Software"
+subcategory = "StatefulStreaming"
+tags = ["stateful-streaming", "exactly-once", "session-windows", "crash-recovery", "python"]
+null_floor = 0.0
+discrimination_weight = 0.5
+platforms = ["linux/amd64", "linux/arm64"]
+
+[verifier]
+timeout_sec = 2400.0
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com", "host.docker.internal"]
+environment_mode = "separate"
+user = "0"
+
+[verifier.env]
+ANTHROPIC_API_BASE = "${ANTHROPIC_API_BASE:-https://api.anthropic.com}"
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+OPENAI_BASE_URL = "${OPENAI_BASE_URL:-https://api.openai.com/v1}"
+LITELLM_LOCAL_MODEL_COST_MAP = "True"
+
+[verifier.environment]
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com", "host.docker.internal"]
+build_timeout_sec = 1200.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+gpus = 0
+
+[agent]
+timeout_sec = 3600.0
+network_mode = "no-network"
+user = "1000:1000"
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1200.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+gpus = 0

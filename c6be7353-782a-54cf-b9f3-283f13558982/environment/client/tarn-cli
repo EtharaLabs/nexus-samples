@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+"""Ask the query service to run a statement.
+
+    tarn-cli execute --db sample/sample.json --sql "SELECT c.id FROM customers c"
+    tarn-cli explain --db sample/sample.json --sql "..."
+    tarn-cli budget
+
+A database is a JSON file in the shape sample/sample.json uses, or `-` to read one
+from standard input. Every execute and every explain spends one call from the
+service's call budget; `budget` spends none.
+"""
+
+import argparse
+import json
+import os
+import socket
+import sys
+import urllib.error
+import urllib.request
+
+BASE = os.environ.get("TARND_URL", "http://tarnd:8080")
+# Where the services share one network namespace, the service answers on the
+# loopback address rather than under its name.
+LOOPBACK = "http://127.0.0.1:8080"
+
+
+def _call(path: str, payload: dict | None):
+    data = json.dumps(payload).encode("utf-8") if payload is not None else None
+    failure = None
+    for base in dict.fromkeys((BASE, LOOPBACK)):
+        request = urllib.request.Request(
+            f"{base}/{path}", data=data, method="POST" if data else "GET",
+            headers={"Content-Type": "application/json"},
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                return json.loads(response.read())
+        except urllib.error.HTTPError as exc:
+            try:
+                return json.loads(exc.read())
+            except Exception:
+                return {"ok": False, "code": "TARN-500", "message": f"service returned {exc.code}"}
+        except urllib.error.URLError as exc:
+            failure = exc
+            # Only a request that never reached a server is tried again, so no call is spent twice.
+            if not isinstance(exc.reason, (socket.gaierror, ConnectionRefusedError)):
+                break
+    print(f"cannot reach the query service at {BASE}: {failure.reason}", file=sys.stderr)
+    raise SystemExit(3)
+
+
+def load_database(path: str):
+    if path == "-":
+        return json.load(sys.stdin)
+    with open(path, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def render(body: dict, as_json: bool) -> int:
+    if as_json:
+        print(json.dumps(body, indent=2))
+        return 0 if body.get("ok") else 2
+    if not body.get("ok"):
+        print(f"{body.get('code', 'TARN-000')}: {body.get('message', '')}", file=sys.stderr)
+        if "calls_remaining" in body:
+            print(f"calls remaining: {body['calls_remaining']}", file=sys.stderr)
+        return 2
+    if "plan" in body:
+        print(body["plan"])
+    else:
+        columns = body.get("columns") or []
+        if columns:
+            print(" | ".join(columns))
+            print("-" * max(1, len(" | ".join(columns))))
+        for row in body.get("rows", []):
+            print(" | ".join("NULL" if cell is None else str(cell) for cell in row))
+        print(f"({len(body.get('rows', []))} row"
+              f"{'' if len(body.get('rows', [])) == 1 else 's'})")
+    print(f"rows_processed: {body.get('rows_processed')}", file=sys.stderr)
+    print(f"calls remaining: {body.get('calls_remaining')}", file=sys.stderr)
+    return 0
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(prog="tarn-cli", description=__doc__)
+    sub = parser.add_subparsers(dest="verb", required=True)
+    for verb in ("execute", "explain"):
+        one = sub.add_parser(verb)
+        one.add_argument("--db", required=True)
+        one.add_argument("--sql", required=True)
+        one.add_argument("--json", action="store_true")
+    sub.add_parser("budget")
+    args = parser.parse_args(argv)
+
+    if args.verb == "budget":
+        body = _call("health", None)
+        print(f"calls used: {body.get('calls_used')} of {body.get('budget')}")
+        return 0
+    return render(_call(args.verb, {"database": load_database(args.db), "sql": args.sql}),
+                  args.json)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,216 @@
+{
+  "tables": {
+    "a": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false
+        },
+        {
+          "name": "n",
+          "type": "TEXT",
+          "collation": "NOCASE",
+          "nullable": true
+        },
+        {
+          "name": "b",
+          "type": "TEXT",
+          "collation": "BINARY",
+          "nullable": true
+        },
+        {
+          "name": "r",
+          "type": "REAL",
+          "nullable": true
+        },
+        {
+          "name": "k",
+          "type": "INTEGER",
+          "nullable": true
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "abc",
+          "abc",
+          1.0,
+          10
+        ],
+        [
+          2,
+          "ABC",
+          "ABC",
+          2.0,
+          null
+        ],
+        [
+          3,
+          "zed",
+          "zed",
+          3.0,
+          20
+        ],
+        [
+          4,
+          null,
+          null,
+          null,
+          10
+        ],
+        [
+          5,
+          "Zed",
+          "Zed",
+          5.0,
+          30
+        ]
+      ]
+    },
+    "t": {
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false
+        },
+        {
+          "name": "aid",
+          "type": "INTEGER",
+          "nullable": true
+        },
+        {
+          "name": "s",
+          "type": "TEXT",
+          "nullable": true
+        },
+        {
+          "name": "amt",
+          "type": "INTEGER",
+          "nullable": true
+        }
+      ],
+      "rows": [
+        [
+          100,
+          1,
+          "open",
+          5
+        ],
+        [
+          101,
+          1,
+          "shut",
+          7
+        ],
+        [
+          102,
+          2,
+          "shut",
+          9
+        ],
+        [
+          103,
+          null,
+          "open",
+          11
+        ]
+      ]
+    },
+    "u": {
+      "columns": [
+        {
+          "name": "k",
+          "type": "INTEGER",
+          "nullable": true
+        },
+        {
+          "name": "v",
+          "type": "TEXT",
+          "collation": "NOCASE",
+          "nullable": true
+        }
+      ],
+      "rows": [
+        [
+          10,
+          "abc"
+        ],
+        [
+          20,
+          "ZED"
+        ],
+        [
+          null,
+          "qq"
+        ],
+        [
+          30,
+          "zz"
+        ],
+        [
+          10,
+          "ABC"
+        ],
+        [
+          20,
+          "zed"
+        ],
+        [
+          40,
+          "mm"
+        ],
+        [
+          50,
+          "nn"
+        ],
+        [
+          60,
+          "oo"
+        ]
+      ]
+    },
+    "w": {
+      "columns": [
+        {
+          "name": "code",
+          "type": "TEXT",
+          "nullable": false
+        },
+        {
+          "name": "label",
+          "type": "TEXT",
+          "nullable": false
+        }
+      ],
+      "rows": [
+        [
+          "open",
+          "Open"
+        ],
+        [
+          "shut",
+          "Shut"
+        ]
+      ]
+    }
+  },
+  "indexes": [
+    {
+      "name": "a_k",
+      "table": "a",
+      "column": "k"
+    },
+    {
+      "name": "a_n",
+      "table": "a",
+      "column": "n"
+    },
+    {
+      "name": "u_k",
+      "table": "u",
+      "column": "k"
+    }
+  ]
+}

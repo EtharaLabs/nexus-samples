@@ -1,0 +1,26 @@
+[
+  {
+    "source": "/logs/artifacts",
+    "destination": "artifacts/logs/artifacts",
+    "type": "directory",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/app/out/249cfe22-173e-5a63-a907-25c23196b668_D2_incidents.json",
+    "destination": "artifacts/app/out/249cfe22-173e-5a63-a907-25c23196b668_D2_incidents.json",
+    "type": "file",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/var/ems/export/trial.json",
+    "destination": "artifacts/var/ems/export/trial.json",
+    "type": "file",
+    "status": "ok",
+    "service": "ems-sim",
+    "exclude": []
+  }
+]

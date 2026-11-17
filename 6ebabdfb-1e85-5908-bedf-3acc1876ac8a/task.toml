@@ -1,0 +1,62 @@
+schema_version = "1.4"
+reward_type = "binary"
+
+artifacts = [
+  { source = "/app/out/findings.json" },
+  { source = "/srv/results/calls.jsonl", service = "wardd" },
+]
+
+[task]
+name = "ethara/6ebabdfb-1e85-5908-bedf-3acc1876ac8a"
+version = "0.1.0"
+description = "Diagnose twelve defects in an access-policy decision engine reachable only as a budgeted network service, and report each as a minimal, reproduced and bounded finding citing the specification rule it breaks."
+authors = [{ name = "kanishk.singh", email = "kanishk.singh@ethara.ai" }]
+keywords = ["black-box-diagnosis", "access-policy", "authorization", "observation-budget", "experiment-design", "python"]
+
+[metadata]
+category = "Software"
+subcategory = "Authorization"
+tags = ["diagnosis", "black-box", "budgeted-observation", "python"]
+platforms = ["linux/amd64", "linux/arm64"]
+null_floor = 0.0
+compilation_floor = 0.90
+expert_time_estimate_hours = 6.0
+reward_reading = "The reward is binary: 1 only when all twenty compiled items pass (the twelve defects, minimality in structure, data and request, reproduction, boundary, boundary on both axes, and correct expected and observed outputs) with the precision gate clear; otherwise 0. tests/reward.toml gives the judged criteria of tests/judge.toml a weight of 0, so they are reported without changing the reward. The mean reward is the pass rate."
+
+[verifier]
+timeout_sec = 2400.0
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com", "host.docker.internal"]
+environment_mode = "separate"
+user = "0"
+
+[verifier.env]
+ANTHROPIC_API_BASE = "${ANTHROPIC_API_BASE:-https://api.anthropic.com}"
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+OPENAI_BASE_URL = "${OPENAI_BASE_URL:-https://api.openai.com/v1}"
+LITELLM_LOCAL_MODEL_COST_MAP = "True"
+
+[verifier.environment]
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com", "host.docker.internal"]
+build_timeout_sec = 1200.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 8192
+gpus = 0
+
+[agent]
+timeout_sec = 3600.0
+network_mode = "public"
+user = "1000:1000"
+
+[environment]
+# "public" for [environment] and [agent] alike: the agent works only through the wardd
+# service, which `main` cannot reach under "no-network", and a compose sandbox takes no allowlist.
+network_mode = "public"
+build_timeout_sec = 900.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 8192
+gpus = 0

@@ -1,0 +1,28 @@
+# Merged on top of Harbor's base compose config. Harbor configures `main`, which is
+# the agent's container. `tarnd` is the only route to the engine, and the engine
+# source exists only inside that image.
+services:
+  main:
+    depends_on:
+      tarnd:
+        condition: service_healthy
+    environment:
+      - TARND_URL=http://tarnd:8080
+
+  tarnd:
+    build:
+      context: ./tarnd
+    # The call log goes to a volume the verifier reads. `main` does not mount it,
+    # so the agent can neither read its own log nor edit it.
+    volumes:
+      - tarnd-results:/results
+    healthcheck:
+      test: ["CMD", "python3", "-c",
+             "import urllib.request,sys; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 40
+      start_period: 2s
+
+volumes:
+  tarnd-results:

@@ -1,0 +1,320 @@
+[
+  {
+    "section": "6.3",
+    "kind": "plan",
+    "database": {
+      "tables": {
+        "a": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": []
+        },
+        "b": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "nullable": true
+            },
+            {
+              "name": "a",
+              "type": "INTEGER",
+              "nullable": true
+            },
+            {
+              "name": "v",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": []
+        },
+        "c": {
+          "columns": [
+            {
+              "name": "b",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": []
+        }
+      },
+      "indexes": []
+    },
+    "sql": "SELECT a.id FROM a a LEFT JOIN b b ON a.id = b.a LEFT JOIN c c ON c.b = b.id WHERE b.v = 5"
+  },
+  {
+    "section": "8",
+    "kind": "plan",
+    "database": {
+      "tables": {
+        "a": {
+          "columns": [
+            {
+              "name": "k",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": []
+        },
+        "b": {
+          "columns": [
+            {
+              "name": "k",
+              "type": "REAL",
+              "nullable": true
+            }
+          ],
+          "rows": [
+            [
+              1.0
+            ],
+            [
+              2.0
+            ],
+            [
+              3.0
+            ],
+            [
+              4.0
+            ],
+            [
+              5.0
+            ],
+            [
+              6.0
+            ],
+            [
+              7.0
+            ],
+            [
+              8.0
+            ]
+          ]
+        }
+      },
+      "indexes": []
+    },
+    "sql": "SELECT a.k FROM a a JOIN b b ON a.k = b.k"
+  },
+  {
+    "section": "5",
+    "kind": "answer",
+    "database": {
+      "tables": {
+        "o": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": [
+            [
+              1
+            ]
+          ]
+        },
+        "n": {
+          "columns": [
+            {
+              "name": "k",
+              "type": "TEXT",
+              "nullable": true,
+              "collation": "NOCASE"
+            }
+          ],
+          "rows": [
+            [
+              "A"
+            ]
+          ]
+        }
+      },
+      "indexes": []
+    },
+    "sql": "SELECT o.id FROM o o WHERE 'a' IN (SELECT n.k FROM n n)"
+  },
+  {
+    "section": "2",
+    "kind": "error",
+    "database": {
+      "tables": {
+        "a": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": [
+            [
+              1
+            ]
+          ]
+        },
+        "e": {
+          "columns": [
+            {
+              "name": "y",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": [
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "indexes": []
+    },
+    "sql": "SELECT a.id FROM a a JOIN e e ON a.id IN (SELECT x.y FROM e x)"
+  },
+  {
+    "section": "7",
+    "kind": "answer",
+    "database": {
+      "tables": {
+        "t": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "nullable": true
+            },
+            {
+              "name": "n",
+              "type": "TEXT",
+              "nullable": true,
+              "collation": "NOCASE"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              "A"
+            ],
+            [
+              2,
+              "_"
+            ]
+          ]
+        }
+      },
+      "indexes": [
+        {
+          "name": "t_n",
+          "table": "t",
+          "column": "n"
+        }
+      ]
+    },
+    "sql": "SELECT t.id FROM t t ORDER BY t.n"
+  },
+  {
+    "section": "6.3",
+    "kind": "answer",
+    "database": {
+      "tables": {
+        "a": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": [
+            [
+              1
+            ]
+          ]
+        },
+        "b": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "nullable": true
+            },
+            {
+              "name": "a",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        "c": {
+          "columns": [
+            {
+              "name": "b",
+              "type": "INTEGER",
+              "nullable": true
+            },
+            {
+              "name": "u",
+              "type": "INTEGER",
+              "nullable": true
+            }
+          ],
+          "rows": [
+            [
+              1,
+              10
+            ]
+          ]
+        }
+      },
+      "indexes": []
+    },
+    "sql": "SELECT a.id FROM a a LEFT JOIN b b ON a.id = b.a LEFT JOIN c c ON c.b = b.id WHERE c.u IS NULL"
+  },
+  {
+    "section": "5",
+    "kind": "answer",
+    "database": {
+      "tables": {
+        "t": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "nullable": true
+            },
+            {
+              "name": "n",
+              "type": "TEXT",
+              "nullable": true,
+              "collation": "NOCASE"
+            }
+          ],
+          "rows": [
+            [
+              1,
+              "A"
+            ]
+          ]
+        }
+      },
+      "indexes": []
+    },
+    "sql": "SELECT t.id FROM t t WHERE COALESCE(t.n, 'x') = 'a'"
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "roles": {
+    "viewer": {},
+    "editor": {"inherits": ["viewer"]},
+    "admin": {"inherits": ["editor"]}
+  },
+  "principals": {
+    "ada": {"roles": ["editor"]},
+    "basil": {"roles": ["viewer"]}
+  },
+  "policies": [
+    {
+      "id": "read-policy",
+      "attach": "viewer",
+      "statements": [
+        {"id": "s-read", "effect": "allow", "action": ["doc:read:*"], "resource": ["doc:*"]}
+      ]
+    },
+    {
+      "id": "write-policy",
+      "attach": "editor",
+      "statements": [
+        {"id": "s-write", "effect": "allow", "action": ["doc:write:*"], "resource": ["doc:*"],
+         "when": [{"key": "mfa", "op": "equals", "values": ["true"]}]},
+        {"id": "s-no-legal", "effect": "deny", "action": ["doc:write:legal"], "resource": ["doc:*"]}
+      ]
+    }
+  ]
+}

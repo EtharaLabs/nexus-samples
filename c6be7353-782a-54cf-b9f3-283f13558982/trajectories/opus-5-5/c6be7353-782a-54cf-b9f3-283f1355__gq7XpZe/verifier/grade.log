@@ -1,0 +1,14 @@
+compiled items passed: 11/12  gate_ok=True  calls_used=243
+  P1_join_depth_conversion       1
+  P2_crosstype_guard             1
+  P3_nested_scope_collation      1
+  P4_in_inside_on                1
+  P5_nocase_index_order          1
+  P6_split_anti_leg_depth        1
+  P7_coalesce_collation          1
+  rows_minimal                   1
+  schema_minimal                 1
+  statement_minimal              1
+  reproduced                     1
+  boundary_shown                 0
+  entry 3 (P5_nocase_index_order): no boundary call in the log

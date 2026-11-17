@@ -1,0 +1,38 @@
+{
+    "job_name": "bfd3ac37-opus55-p1",
+    "environment": {
+        "type": "docker",
+        "mounts": [
+            {
+                "type": "bind",
+                "source": "../agent-bin/claude/2.1.310/claude",
+                "target": "/usr/local/bin/claude",
+                "read_only": true
+            }
+        ]
+    },
+    "verifier": {
+        "env": {
+            "CODEX_AUTH_JSON": "${CODEX_AUTH_JSON}",
+            "REWARDKIT_FORCE_SUBSCRIPTION": "1"
+        },
+        "extra_allowed_hosts": [
+            "chatgpt.com",
+            "auth.openai.com"
+        ]
+    },
+    "agents": [
+        {
+            "name": "claude-code",
+            "model_name": "anthropic/claude-opus-5-5",
+            "extra_allowed_hosts": [
+                "api.anthropic.com"
+            ]
+        }
+    ],
+    "tasks": [
+        {
+            "path": "tasks/bfd3ac37-bf5e-55e0-9730-c3fa2222a737"
+        }
+    ]
+}

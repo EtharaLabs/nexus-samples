@@ -1,0 +1,137 @@
+{
+  "items": {
+    "P1_join_depth_conversion": 1.0,
+    "P2_crosstype_guard": 1.0,
+    "P3_nested_scope_collation": 1.0,
+    "P4_in_inside_on": 1.0,
+    "P5_nocase_index_order": 1.0,
+    "P6_split_anti_leg_depth": 1.0,
+    "P7_coalesce_collation": 1.0,
+    "rows_minimal": 1.0,
+    "schema_minimal": 1.0,
+    "statement_minimal": 1.0,
+    "reproduced": 1.0,
+    "boundary_shown": 0.0
+  },
+  "gate": {
+    "calls_used": 243,
+    "calls_refused": 0,
+    "false_claims": [],
+    "ok": true
+  },
+  "findings": [
+    {
+      "index": 0,
+      "claimed_section": "8",
+      "claimed_kind": "plan",
+      "observed": [
+        "plan"
+      ],
+      "owners": [
+        "P2_crosstype_guard"
+      ],
+      "verdict": "credited",
+      "defect": "P2_crosstype_guard",
+      "not_minimal": {},
+      "reproduced": true,
+      "boundary_call": "row 7 of b"
+    },
+    {
+      "index": 1,
+      "claimed_section": "5",
+      "claimed_kind": "answer",
+      "observed": [
+        "answer"
+      ],
+      "owners": [
+        "P3_nested_scope_collation"
+      ],
+      "verdict": "credited",
+      "defect": "P3_nested_scope_collation",
+      "not_minimal": {},
+      "reproduced": true,
+      "boundary_call": "WHERE"
+    },
+    {
+      "index": 2,
+      "claimed_section": "5",
+      "claimed_kind": "answer",
+      "observed": [
+        "answer"
+      ],
+      "owners": [
+        "P7_coalesce_collation"
+      ],
+      "verdict": "credited",
+      "defect": "P7_coalesce_collation",
+      "not_minimal": {},
+      "reproduced": true,
+      "boundary_call": "WHERE"
+    },
+    {
+      "index": 3,
+      "claimed_section": "7",
+      "claimed_kind": "answer",
+      "observed": [
+        "answer"
+      ],
+      "owners": [
+        "P5_nocase_index_order"
+      ],
+      "verdict": "credited",
+      "defect": "P5_nocase_index_order",
+      "not_minimal": {},
+      "reproduced": true,
+      "boundary_call": null
+    },
+    {
+      "index": 4,
+      "claimed_section": "6.3",
+      "claimed_kind": "plan",
+      "observed": [
+        "plan"
+      ],
+      "owners": [
+        "P1_join_depth_conversion"
+      ],
+      "verdict": "credited",
+      "defect": "P1_join_depth_conversion",
+      "not_minimal": {},
+      "reproduced": true,
+      "boundary_call": "join 1"
+    },
+    {
+      "index": 5,
+      "claimed_section": "6.3",
+      "claimed_kind": "answer",
+      "observed": [
+        "answer"
+      ],
+      "owners": [
+        "P6_split_anti_leg_depth"
+      ],
+      "verdict": "credited",
+      "defect": "P6_split_anti_leg_depth",
+      "not_minimal": {},
+      "reproduced": true,
+      "boundary_call": "join 0"
+    },
+    {
+      "index": 6,
+      "claimed_section": "2",
+      "claimed_kind": "error",
+      "observed": [
+        "error"
+      ],
+      "owners": [
+        "P4_in_inside_on"
+      ],
+      "verdict": "credited",
+      "defect": "P4_in_inside_on",
+      "not_minimal": {},
+      "reproduced": true,
+      "boundary_call": "join 0"
+    }
+  ],
+  "compiled": 0.9166666666666666
+}

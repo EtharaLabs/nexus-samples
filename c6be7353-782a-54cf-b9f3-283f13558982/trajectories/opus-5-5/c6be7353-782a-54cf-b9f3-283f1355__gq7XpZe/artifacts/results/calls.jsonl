@@ -1,0 +1,243 @@
+{"call": 1, "calls_remaining": 249, "database": "f72af06792f4b858", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x = 9007199254740992.0", "verb": "execute"}
+{"call": 2, "calls_remaining": 248, "database": "f72af06792f4b858", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x = 9007199254740993", "verb": "execute"}
+{"call": 3, "calls_remaining": 247, "database": "907f327a9e1e9b7f", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y", "verb": "explain"}
+{"call": 4, "calls_remaining": 246, "database": "907f327a9e1e9b7f", "outcome": "ok", "sql": "SELECT a.x, b.y FROM a a JOIN b b ON a.x = b.y", "verb": "execute"}
+{"call": 5, "calls_remaining": 245, "database": "41545be3361624f3", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y", "verb": "explain"}
+{"call": 6, "calls_remaining": 244, "database": "a987658ced6aca6a", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y", "verb": "explain"}
+{"call": 7, "calls_remaining": 243, "database": "d40f691bcf3d3a72", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y", "verb": "explain"}
+{"call": 8, "calls_remaining": 242, "database": "70afab5f205c2be8", "outcome": "ok", "sql": "SELECT t.s FROM t t ORDER BY t.s", "verb": "execute"}
+{"call": 9, "calls_remaining": 241, "database": "70afab5f205c2be8", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s = '\u00e9'", "verb": "execute"}
+{"call": 10, "calls_remaining": 240, "database": "70afab5f205c2be8", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s = 'ss'", "verb": "execute"}
+{"call": 11, "calls_remaining": 239, "database": "1bd0ebc704e7795c", "outcome": "ok", "sql": "SELECT t.s FROM t t ORDER BY t.s", "verb": "execute"}
+{"call": 12, "calls_remaining": 238, "database": "1bd0ebc704e7795c", "outcome": "ok", "sql": "SELECT t.s FROM t t ORDER BY t.s", "verb": "explain"}
+{"call": 13, "calls_remaining": 237, "database": "1bd0ebc704e7795c", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s LIKE 'a%'", "verb": "execute"}
+{"call": 14, "calls_remaining": 236, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s IN (SELECT u.n FROM u u)", "verb": "execute"}
+{"call": 15, "calls_remaining": 235, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE 'a' IN (SELECT u.n FROM u u)", "verb": "execute"}
+{"call": 16, "calls_remaining": 234, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE 'a' IN (SELECT n FROM u)", "verb": "execute"}
+{"call": 17, "calls_remaining": 233, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE 'a' NOT IN (SELECT n FROM u)", "verb": "execute"}
+{"call": 18, "calls_remaining": 232, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT u.n FROM u u WHERE 'a' = u.n", "verb": "execute"}
+{"call": 19, "calls_remaining": 231, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT u.n FROM u u WHERE u.n IN (SELECT t.s FROM t t)", "verb": "execute"}
+{"call": 20, "calls_remaining": 230, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT t.x FROM t t WHERE t.x = 2 AND t.x / 0 > 1", "verb": "execute"}
+{"call": 21, "calls_remaining": 229, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT t.x FROM t t WHERE 1 = 2 AND t.x / 0 > 1", "verb": "execute"}
+{"call": 22, "calls_remaining": 228, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT t.x FROM t t WHERE t.x = 1 OR t.x / 0 > 1", "verb": "execute"}
+{"call": 23, "calls_remaining": 227, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT COALESCE(t.x, t.x / 0) AS a, CASE WHEN t.x = 1 THEN 5 ELSE t.x / 0 END AS b, -7 / 2 AS c, (0 - 7 * t.x) / 2 AS d, NULL / 0 AS e, 7.0 / 2 AS f FROM t t", "verb": "execute"}
+{"call": 24, "calls_remaining": 226, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT u.y FROM u u)", "verb": "execute"}
+{"call": 25, "calls_remaining": 225, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT e.y FROM e e)", "verb": "execute"}
+{"call": 26, "calls_remaining": 224, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n)", "verb": "execute"}
+{"call": 27, "calls_remaining": 223, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE n.y > 0)", "verb": "execute"}
+{"call": 28, "calls_remaining": 222, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT n.y FROM n n)", "verb": "execute"}
+{"call": 29, "calls_remaining": 221, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE COALESCE(n.y, 0) >= 0)", "verb": "execute"}
+{"call": 30, "calls_remaining": 220, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE n.y > 0 OR n.y IS NULL)", "verb": "execute"}
+{"call": 31, "calls_remaining": 219, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE n.y IS NULL)", "verb": "execute"}
+{"call": 32, "calls_remaining": 218, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE n.y + 1 IS NULL OR n.y = 1)", "verb": "execute"}
+{"call": 33, "calls_remaining": 217, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE COALESCE(r.b, 0) = 0", "verb": "execute"}
+{"call": 34, "calls_remaining": 216, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.b IS NULL", "verb": "execute"}
+{"call": 35, "calls_remaining": 215, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.b = 1 OR r.b IS NULL", "verb": "execute"}
+{"call": 36, "calls_remaining": 214, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.b IS NOT DISTINCT FROM NULL", "verb": "execute"}
+{"call": 37, "calls_remaining": 213, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE CASE WHEN r.b IS NULL THEN TRUE ELSE FALSE END", "verb": "execute"}
+{"call": 38, "calls_remaining": 212, "database": "903870c8640d5618", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE b.y = 1", "verb": "explain"}
+{"call": 39, "calls_remaining": 211, "database": "903870c8640d5618", "outcome": "ok", "sql": "SELECT a.x, b.y, c.z FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE b.y IS NULL", "verb": "execute"}
+{"call": 40, "calls_remaining": 210, "database": "903870c8640d5618", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE c.z = 1", "verb": "explain"}
+{"call": 41, "calls_remaining": 209, "database": "29ebf0add09041af", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE b.y = 1", "verb": "explain"}
+{"call": 42, "calls_remaining": 208, "database": "29ebf0add09041af", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y WHERE b.y = 1", "verb": "explain"}
+{"call": 43, "calls_remaining": 207, "database": "9b1a66e19d29517c", "outcome": "ok", "sql": "SELECT t.s FROM t t ORDER BY t.s", "verb": "execute"}
+{"call": 44, "calls_remaining": 206, "database": "78d70e9c3088a375", "outcome": "ok", "sql": "SELECT t.s FROM t t ORDER BY t.s", "verb": "execute"}
+{"call": 45, "calls_remaining": 205, "database": "73905a549a363a44", "outcome": "ok", "sql": "SELECT a.x, b.y FROM a a JOIN b b ON a.x = b.y", "verb": "explain"}
+{"call": 46, "calls_remaining": 204, "database": "73905a549a363a44", "outcome": "ok", "sql": "SELECT a.x, b.y FROM a a JOIN b b ON a.x = b.y", "verb": "execute"}
+{"call": 47, "calls_remaining": 203, "database": "7dfb22feadbf8d8b", "outcome": "ok", "sql": "SELECT a.x, b.y FROM a a JOIN b b ON a.x = b.y", "verb": "execute"}
+{"call": 48, "calls_remaining": 202, "database": "7dfb22feadbf8d8b", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN r r ON a.x = r.z", "verb": "explain"}
+{"call": 49, "calls_remaining": 201, "database": "7be43823d7e89e34", "outcome": "ok", "sql": "SELECT t.k, t.v FROM t t ORDER BY t.k DESC", "verb": "execute"}
+{"call": 50, "calls_remaining": 200, "database": "7be43823d7e89e34", "outcome": "ok", "sql": "SELECT t.k, t.v FROM t t ORDER BY t.k", "verb": "execute"}
+{"call": 51, "calls_remaining": 199, "database": "7be43823d7e89e34", "outcome": "ok", "sql": "SELECT t.k, t.v FROM t t ORDER BY t.k DESC", "verb": "explain"}
+{"call": 52, "calls_remaining": 198, "database": "7be43823d7e89e34", "outcome": "ok", "sql": "SELECT t.k, t.v FROM t t ORDER BY t.k, t.v DESC", "verb": "execute"}
+{"call": 53, "calls_remaining": 197, "database": "7be43823d7e89e34", "outcome": "ok", "sql": "SELECT t.k, t.v FROM t t ORDER BY 1 DESC, t.v DESC", "verb": "execute"}
+{"call": 54, "calls_remaining": 196, "database": "7be43823d7e89e34", "outcome": "TARN-201", "sql": "SELECT t.k AS z, t.v FROM t t ORDER BY z", "verb": "execute"}
+{"call": 55, "calls_remaining": 195, "database": "7be43823d7e89e34", "outcome": "ok", "sql": "SELECT t.k, t.v FROM t t ORDER BY 0 - t.k", "verb": "execute"}
+{"call": 56, "calls_remaining": 194, "database": "d75921a9e3638081", "outcome": "TARN-200", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT t.x FROM u u)", "verb": "execute"}
+{"call": 57, "calls_remaining": 193, "database": "d75921a9e3638081", "outcome": "TARN-201", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT s FROM u u)", "verb": "execute"}
+{"call": 58, "calls_remaining": 192, "database": "d75921a9e3638081", "outcome": "TARN-202", "sql": "SELECT t.x FROM t t JOIN u t ON t.x = 1", "verb": "execute"}
+{"call": 59, "calls_remaining": 191, "database": "d75921a9e3638081", "outcome": "ok", "sql": "SELECT t.x AS a, t.s AS a FROM t t", "verb": "execute"}
+{"call": 60, "calls_remaining": 190, "database": "d75921a9e3638081", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.b = 1", "verb": "execute"}
+{"call": 61, "calls_remaining": 189, "database": "d75921a9e3638081", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.s = 1", "verb": "execute"}
+{"call": 62, "calls_remaining": 188, "database": "d75921a9e3638081", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE COALESCE(t.x, t.s) = 1", "verb": "execute"}
+{"call": 63, "calls_remaining": 187, "database": "d75921a9e3638081", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.s + 1 = 1", "verb": "execute"}
+{"call": 64, "calls_remaining": 186, "database": "d75921a9e3638081", "outcome": "ok", "sql": "SELECT x FROM t t JOIN u u ON x = y", "verb": "execute"}
+{"call": 65, "calls_remaining": 185, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE CASE WHEN t.b THEN t.s ELSE 'z' END = 1", "verb": "execute"}
+{"call": 66, "calls_remaining": 184, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE CASE WHEN t.b THEN 1 ELSE 'z' END = 1", "verb": "execute"}
+{"call": 67, "calls_remaining": 183, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.s IN (SELECT u.x FROM u u)", "verb": "execute"}
+{"call": 68, "calls_remaining": 182, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE COALESCE(NULL, t.s) = 1", "verb": "execute"}
+{"call": 69, "calls_remaining": 181, "database": "f0924597f9cc80ff", "outcome": "TARN-202", "sql": "SELECT x FROM t t JOIN u u ON t.x = u.x", "verb": "execute"}
+{"call": 70, "calls_remaining": 180, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE -t.s = 1", "verb": "execute"}
+{"call": 71, "calls_remaining": 179, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.b IN (SELECT u.x FROM u u)", "verb": "execute"}
+{"call": 72, "calls_remaining": 178, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.b IS NOT DISTINCT FROM 1", "verb": "execute"}
+{"call": 73, "calls_remaining": 177, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT CASE WHEN t.x = 1 THEN 1 ELSE 1 / 0 END AS a, COALESCE(t.x, 1 / 0) AS b FROM t t", "verb": "execute"}
+{"call": 74, "calls_remaining": 176, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE 9007199254740993 = 9007199254740992.0", "verb": "execute"}
+{"call": 75, "calls_remaining": 175, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT CASE WHEN NOT (NULL = 1) THEN 1 ELSE 0 END AS a, CASE WHEN (NULL AND FALSE) IS NULL THEN 1 ELSE 0 END AS b, CASE WHEN NULL OR TRUE THEN 1 ELSE 0 END AS c, CASE WHEN 'a' = 'A' THEN 1 ELSE 0 END AS d, CASE WHEN 'a' LIKE 'A' THEN 1 ELSE 0 END AS e, CASE WHEN 1 = 1.0 THEN 1 ELSE 0 END AS f, CASE WHEN NULL IS NOT DISTINCT FROM NULL THEN 1 ELSE 0 END AS g FROM t t", "verb": "execute"}
+{"call": 76, "calls_remaining": 174, "database": "ef28aade7e6c616b", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s LIKE 'a.c'", "verb": "execute"}
+{"call": 77, "calls_remaining": 173, "database": "ef28aade7e6c616b", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s LIKE 'a_c'", "verb": "execute"}
+{"call": 78, "calls_remaining": 172, "database": "ef28aade7e6c616b", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s LIKE '%'", "verb": "execute"}
+{"call": 79, "calls_remaining": 171, "database": "ef28aade7e6c616b", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s NOT LIKE 'a%'", "verb": "execute"}
+{"call": 80, "calls_remaining": 170, "database": "5b2be9732efc9ad5", "outcome": "ok", "sql": "SELECT a.s, b.t FROM a a JOIN b b ON a.s = b.t", "verb": "execute"}
+{"call": 81, "calls_remaining": 169, "database": "5b2be9732efc9ad5", "outcome": "ok", "sql": "SELECT a.s, b.t FROM a a JOIN b b ON b.t = a.s", "verb": "execute"}
+{"call": 82, "calls_remaining": 168, "database": "5b2be9732efc9ad5", "outcome": "ok", "sql": "SELECT a.s, b.t FROM a a JOIN b b ON b.t = a.s", "verb": "explain"}
+{"call": 83, "calls_remaining": 167, "database": "41545be3361624f3", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y WHERE b.y > 5", "verb": "explain"}
+{"call": 84, "calls_remaining": 166, "database": "41545be3361624f3", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y", "verb": "explain"}
+{"call": 85, "calls_remaining": 165, "database": "41545be3361624f3", "outcome": "ok", "sql": "SELECT a.x FROM b b JOIN a a ON a.x = b.y", "verb": "explain"}
+{"call": 86, "calls_remaining": 164, "database": "15fd2ae119734cca", "outcome": "ok", "sql": "SELECT a.x, b.y FROM a a LEFT JOIN b b ON a.x = b.y", "verb": "execute"}
+{"call": 87, "calls_remaining": 163, "database": "15fd2ae119734cca", "outcome": "ok", "sql": "SELECT a.x, b.y FROM a a JOIN b b ON a.x = b.y", "verb": "execute"}
+{"call": 88, "calls_remaining": 162, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.b IS NULL", "verb": "explain"}
+{"call": 89, "calls_remaining": 161, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.b IS NULL OR l.a = 1", "verb": "execute"}
+{"call": 90, "calls_remaining": 160, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE COALESCE(r.b, l.a) = 2", "verb": "execute"}
+{"call": 91, "calls_remaining": 159, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b AND l.a = 1", "verb": "execute"}
+{"call": 92, "calls_remaining": 158, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b AND r.b IS NULL", "verb": "execute"}
+{"call": 93, "calls_remaining": 157, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON r.b > 0", "verb": "execute"}
+{"call": 94, "calls_remaining": 156, "database": "41545be3361624f3", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y AND b.y > 0", "verb": "explain"}
+{"call": 95, "calls_remaining": 155, "database": "41545be3361624f3", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x + 0 = b.y", "verb": "explain"}
+{"call": 96, "calls_remaining": 154, "database": "41545be3361624f3", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON (a.x = b.y)", "verb": "explain"}
+{"call": 97, "calls_remaining": 153, "database": "41545be3361624f3", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON b.y = a.x", "verb": "explain"}
+{"call": 98, "calls_remaining": 152, "database": "64156a1db961e72b", "outcome": "ok", "sql": "SELECT a.s FROM a a JOIN b b ON a.s = b.t", "verb": "explain"}
+{"call": 99, "calls_remaining": 151, "database": "64156a1db961e72b", "outcome": "ok", "sql": "SELECT a.s FROM a a JOIN c c ON a.s = c.u", "verb": "explain"}
+{"call": 100, "calls_remaining": 150, "database": "64156a1db961e72b", "outcome": "ok", "sql": "SELECT a.s FROM a a JOIN c c ON a.s = c.u JOIN b b ON c.u = b.t", "verb": "explain"}
+{"call": 101, "calls_remaining": 149, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE n.y IS NOT DISTINCT FROM n.y)", "verb": "execute"}
+{"call": 102, "calls_remaining": 148, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE CASE WHEN n.y IS NULL THEN 1 ELSE n.y END > 0)", "verb": "execute"}
+{"call": 103, "calls_remaining": 147, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE COALESCE(n.y, 1) IS NOT NULL)", "verb": "execute"}
+{"call": 104, "calls_remaining": 146, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n) OR t.x = 1", "verb": "execute"}
+{"call": 105, "calls_remaining": 145, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE NOT (t.x NOT IN (SELECT n.y FROM n n))", "verb": "execute"}
+{"call": 106, "calls_remaining": 144, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT u.y FROM u u) IS NULL", "verb": "execute"}
+{"call": 107, "calls_remaining": 143, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n LIMIT 1)", "verb": "execute"}
+{"call": 108, "calls_remaining": 142, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n LIMIT 0)", "verb": "execute"}
+{"call": 109, "calls_remaining": 141, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n ORDER BY n.y DESC LIMIT 1)", "verb": "execute"}
+{"call": 110, "calls_remaining": 140, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT n.y FROM n n LIMIT 0)", "verb": "execute"}
+{"call": 111, "calls_remaining": 139, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE COALESCE(t.s, 'z') = 'A'", "verb": "execute"}
+{"call": 112, "calls_remaining": 138, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE CASE WHEN t.b THEN 'x' ELSE t.s END = 'X'", "verb": "execute"}
+{"call": 113, "calls_remaining": 137, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s FROM t t ORDER BY COALESCE(NULL, t.s)", "verb": "execute"}
+{"call": 114, "calls_remaining": 136, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s FROM t t ORDER BY CASE WHEN t.b THEN 'A' ELSE t.s END", "verb": "execute"}
+{"call": 115, "calls_remaining": 135, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s, t.b FROM t t ORDER BY t.b", "verb": "execute"}
+{"call": 116, "calls_remaining": 134, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE COALESCE(NULL, t.s) = 'A'", "verb": "execute"}
+{"call": 117, "calls_remaining": 133, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE COALESCE(t.s, t.s) = 'A'", "verb": "execute"}
+{"call": 118, "calls_remaining": 132, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE 'A' = COALESCE(t.s, 'z')", "verb": "execute"}
+{"call": 119, "calls_remaining": 131, "database": "7afa248ff8318168", "outcome": "ok", "sql": "SELECT t.s FROM t t ORDER BY COALESCE(t.s, 'z')", "verb": "execute"}
+{"call": 120, "calls_remaining": 130, "database": "5847a6c4ab281b87", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE COALESCE(t.s, 'z') = 'A'", "verb": "execute"}
+{"call": 121, "calls_remaining": 129, "database": "5847a6c4ab281b87", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s = 'A'", "verb": "execute"}
+{"call": 122, "calls_remaining": 128, "database": "5847a6c4ab281b87", "outcome": "ok", "sql": "SELECT t.s FROM t t", "verb": "execute"}
+{"call": 123, "calls_remaining": 127, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE COALESCE(r.b, 0) IS NOT NULL", "verb": "execute"}
+{"call": 124, "calls_remaining": 126, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE (r.b IS NULL) = TRUE", "verb": "execute"}
+{"call": 125, "calls_remaining": 125, "database": "85982ee2b6290e71", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE CASE WHEN r.b = 1 THEN 0 ELSE 1 END = 1", "verb": "execute"}
+{"call": 126, "calls_remaining": 124, "database": "903870c8640d5618", "outcome": "ok", "sql": "SELECT a.x, b.y, c.z FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE c.z IS NULL", "verb": "execute"}
+{"call": 127, "calls_remaining": 123, "database": "903870c8640d5618", "outcome": "ok", "sql": "SELECT a.x, b.y, c.z FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE b.y = 1 AND c.z IS NULL", "verb": "execute"}
+{"call": 128, "calls_remaining": 122, "database": "903870c8640d5618", "outcome": "ok", "sql": "SELECT a.x, b.y, c.z FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE COALESCE(b.y, c.z) IS NULL", "verb": "execute"}
+{"call": 129, "calls_remaining": 121, "database": "903870c8640d5618", "outcome": "ok", "sql": "SELECT a.x, b.y, c.z FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE c.z IS NULL", "verb": "explain"}
+{"call": 130, "calls_remaining": 120, "database": "93e2fef3a9f51746", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE c.z IS NULL", "verb": "execute"}
+{"call": 131, "calls_remaining": 119, "database": "93e2fef3a9f51746", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN c c ON a.x = c.z WHERE c.z IS NULL", "verb": "execute"}
+{"call": 132, "calls_remaining": 118, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT * FROM t t", "verb": "execute"}
+{"call": 133, "calls_remaining": 117, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT u.y, u.p FROM u u)", "verb": "execute"}
+{"call": 134, "calls_remaining": 116, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE 'AB' LIKE t.s", "verb": "execute"}
+{"call": 135, "calls_remaining": 115, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT u.p FROM u u WHERE 'ab' LIKE u.p", "verb": "execute"}
+{"call": 136, "calls_remaining": 114, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.b IN (SELECT u.y = 1 FROM u u)", "verb": "execute"}
+{"call": 137, "calls_remaining": 113, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE 'b' LIKE t.s", "verb": "execute"}
+{"call": 138, "calls_remaining": 112, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s LIKE 'b'", "verb": "execute"}
+{"call": 139, "calls_remaining": 111, "database": "f72af06792f4b858", "outcome": "ok", "sql": "SELECT t.x / 1 AS a, t.x / 3 AS b, (0 - t.x) / 2 AS c, t.x * 1 AS d, t.x + 0.0 AS e FROM t t", "verb": "execute"}
+{"call": 140, "calls_remaining": 110, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT t.x FROM t t WHERE t.x / 0.0 = 1", "verb": "execute"}
+{"call": 141, "calls_remaining": 109, "database": "415cd3577dc38de9", "outcome": "TARN-200", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT u.y FROM u u WHERE u.y = t.x)", "verb": "execute"}
+{"call": 142, "calls_remaining": 108, "database": "d75921a9e3638081", "outcome": "TARN-200", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT u.y FROM u u WHERE u.y = t.x)", "verb": "execute"}
+{"call": 143, "calls_remaining": 107, "database": "d75921a9e3638081", "outcome": "TARN-200", "sql": "SELECT t.x FROM t t ORDER BY u.y", "verb": "execute"}
+{"call": 144, "calls_remaining": 106, "database": "d75921a9e3638081", "outcome": "TARN-201", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT u.y FROM u u ORDER BY x)", "verb": "execute"}
+{"call": 145, "calls_remaining": 105, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT u.y FROM n n LEFT JOIN u u ON n.y = u.y)", "verb": "execute"}
+{"call": 146, "calls_remaining": 104, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM u u JOIN n n ON u.y = n.y)", "verb": "execute"}
+{"call": 147, "calls_remaining": 103, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x, u.y FROM t t LEFT JOIN u u ON t.x = u.y WHERE u.y NOT IN (SELECT e.y FROM e e)", "verb": "execute"}
+{"call": 148, "calls_remaining": 102, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x, u.y FROM t t LEFT JOIN u u ON t.x = u.y WHERE u.y NOT IN (SELECT e.y FROM e e)", "verb": "explain"}
+{"call": 149, "calls_remaining": 101, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.x, CASE WHEN t.b THEN 1 ELSE 2 END AS c1, CASE WHEN t.x = 1 THEN 'one' END AS c2, CASE WHEN t.s IS NOT DISTINCT FROM 'A' THEN 1 ELSE 0 END AS c3, CASE WHEN t.b < TRUE THEN 1 ELSE 0 END AS c4, COALESCE(NULL, t.r, t.x) AS c5, CASE WHEN (t.s LIKE NULL) IS NULL THEN 1 ELSE 0 END AS c6, t.r * 2 AS c7, - t.x AS c8 FROM t t", "verb": "execute"}
+{"call": 150, "calls_remaining": 100, "database": "3d91e13c077df3db", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT r.z FROM r r)", "verb": "execute"}
+{"call": 151, "calls_remaining": 99, "database": "3d91e13c077df3db", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT r.z FROM r r)", "verb": "execute"}
+{"call": 152, "calls_remaining": 98, "database": "3d91e13c077df3db", "outcome": "ok", "sql": "SELECT t.x, r.z FROM t t JOIN r r ON t.x > r.z", "verb": "execute"}
+{"call": 153, "calls_remaining": 97, "database": "3d91e13c077df3db", "outcome": "ok", "sql": "SELECT t.x, r.z FROM t t JOIN r r ON t.x = r.z", "verb": "execute"}
+{"call": 154, "calls_remaining": 96, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT u.n FROM u u WHERE u.n NOT IN (SELECT t.s FROM t t)", "verb": "execute"}
+{"call": 155, "calls_remaining": 95, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s NOT IN (SELECT u.n FROM u u)", "verb": "execute"}
+{"call": 156, "calls_remaining": 94, "database": "1bcf63b7308e642f", "outcome": "ok", "sql": "SELECT a.s, b.t FROM a a JOIN b b ON a.s = b.t", "verb": "execute"}
+{"call": 157, "calls_remaining": 93, "database": "70afab5f205c2be8", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s LIKE '\u00e9'", "verb": "execute"}
+{"call": 158, "calls_remaining": 92, "database": "70afab5f205c2be8", "outcome": "ok", "sql": "SELECT t.s FROM t t WHERE t.s LIKE '_'", "verb": "execute"}
+{"call": 159, "calls_remaining": 91, "database": "3389467082aa1ed9", "outcome": "ok", "sql": "SELECT l.a FROM l l LEFT JOIN r r ON l.a = r.b WHERE COALESCE(r.b, r.b) = 1", "verb": "explain"}
+{"call": 160, "calls_remaining": 90, "database": "3389467082aa1ed9", "outcome": "ok", "sql": "SELECT l.a FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.b + 1 IS NOT NULL", "verb": "explain"}
+{"call": 161, "calls_remaining": 89, "database": "3389467082aa1ed9", "outcome": "ok", "sql": "SELECT l.a FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.f", "verb": "explain"}
+{"call": 162, "calls_remaining": 88, "database": "3389467082aa1ed9", "outcome": "ok", "sql": "SELECT l.a FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.b = 1 OR r.b = 2", "verb": "explain"}
+{"call": 163, "calls_remaining": 87, "database": "3389467082aa1ed9", "outcome": "ok", "sql": "SELECT l.a FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.s LIKE 'x%'", "verb": "explain"}
+{"call": 164, "calls_remaining": 86, "database": "3389467082aa1ed9", "outcome": "ok", "sql": "SELECT l.a FROM l l LEFT JOIN r r ON l.a = r.b WHERE l.a = r.b", "verb": "explain"}
+{"call": 165, "calls_remaining": 85, "database": "3389467082aa1ed9", "outcome": "ok", "sql": "SELECT l.a FROM l l LEFT JOIN r r ON l.a = r.b WHERE (r.b = 1 OR l.a = 1) AND l.a = 2", "verb": "explain"}
+{"call": 166, "calls_remaining": 84, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT t.x FROM t t WHERE TRUE OR 1 / 0 = 1", "verb": "execute"}
+{"call": 167, "calls_remaining": 83, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT t.x FROM t t WHERE FALSE AND 1 / 0 = 1", "verb": "execute"}
+{"call": 168, "calls_remaining": 82, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT t.x FROM t t WHERE 1 / 0 = 1 OR TRUE", "verb": "execute"}
+{"call": 169, "calls_remaining": 81, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE CASE WHEN TRUE THEN 1 ELSE 1 / 0 END = 1", "verb": "execute"}
+{"call": 170, "calls_remaining": 80, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE COALESCE(1, 1 / 0) = 1", "verb": "execute"}
+{"call": 171, "calls_remaining": 79, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT t.x FROM t t WHERE COALESCE(NULL, 1 / 0) = 1", "verb": "execute"}
+{"call": 172, "calls_remaining": 78, "database": "639e1f0067d42405", "outcome": "ok", "sql": "SELECT t.x, CASE WHEN CASE WHEN t.x = 1 THEN t.p ELSE t.q END = 'A' THEN 1 ELSE 0 END AS c1, CASE WHEN CASE WHEN t.x = 1 THEN t.q ELSE t.p END = 'A' THEN 1 ELSE 0 END AS c2, CASE WHEN t.x IS NOT DISTINCT FROM t.r THEN 1 ELSE 0 END AS c3, COALESCE(t.x, 1.5) AS c4, CASE WHEN t.x > 0 THEN 2.5 ELSE t.x END AS c5, CASE WHEN COALESCE(t.r, t.x) = t.x THEN 1 ELSE 0 END AS c6 FROM t t", "verb": "execute"}
+{"call": 173, "calls_remaining": 77, "database": "b72a7c6175d76668", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y JOIN c c ON a.x = c.z", "verb": "explain"}
+{"call": 174, "calls_remaining": 76, "database": "b72a7c6175d76668", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = a.x", "verb": "explain"}
+{"call": 175, "calls_remaining": 75, "database": "b72a7c6175d76668", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON b.y = c.z WHERE c.z IS NULL", "verb": "explain"}
+{"call": 176, "calls_remaining": 74, "database": "2436f7ed677a843b", "outcome": "ok", "sql": "SELECT a.x, c.z FROM a a JOIN c c ON a.x = c.z", "verb": "execute"}
+{"call": 177, "calls_remaining": 73, "database": "846f73b4e866d218", "outcome": "ok", "sql": "SELECT a.x, c.z FROM a a JOIN c c ON a.x = c.z ORDER BY c.z", "verb": "execute"}
+{"call": 178, "calls_remaining": 72, "database": "846f73b4e866d218", "outcome": "ok", "sql": "SELECT a.x, c.z FROM c c JOIN a a ON a.x = c.z ORDER BY c.z LIMIT 1", "verb": "execute"}
+{"call": 179, "calls_remaining": 71, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE (t.x IN (SELECT e.y FROM e e)) IS NULL", "verb": "execute"}
+{"call": 180, "calls_remaining": 70, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE (t.x NOT IN (SELECT e.y FROM e e)) IS NULL", "verb": "execute"}
+{"call": 181, "calls_remaining": 69, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE (t.x IN (SELECT n.y FROM n n)) IS NULL", "verb": "execute"}
+{"call": 182, "calls_remaining": 68, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT n.y FROM n n WHERE n.y > 5)", "verb": "execute"}
+{"call": 183, "calls_remaining": 67, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT u.y FROM u u WHERE u.y > 5)", "verb": "execute"}
+{"call": 184, "calls_remaining": 66, "database": "94faab33948e5ae9", "outcome": "ok", "sql": "SELECT a.x, b.y, c.z FROM a a LEFT JOIN b b ON a.x = b.y JOIN c c ON a.x = c.z WHERE b.y IS NULL", "verb": "execute"}
+{"call": 185, "calls_remaining": 65, "database": "94faab33948e5ae9", "outcome": "ok", "sql": "SELECT a.x, b.y, c.z FROM a a JOIN c c ON a.x = c.z LEFT JOIN b b ON c.z = b.y WHERE b.y IS NULL", "verb": "execute"}
+{"call": 186, "calls_remaining": 64, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.x, CASE WHEN t.x <> 1 THEN 1 ELSE 0 END AS ne, CASE WHEN t.x <= 1 THEN 1 ELSE 0 END AS le, CASE WHEN t.x >= 2 THEN 1 ELSE 0 END AS ge, CASE WHEN t.x < 2 THEN 1 ELSE 0 END AS lt, CASE WHEN t.x > 1 THEN 1 ELSE 0 END AS gt, CASE WHEN t.s IS NOT NULL THEN 1 ELSE 0 END AS nn, CASE WHEN NOT t.b THEN 1 ELSE 0 END AS nb, t.x * 3 - 1 AS ar, 10 - 4 - 3 AS lassoc, 2 + 3 * 4 AS prec, 12 / 3 / 2 AS dassoc FROM t t", "verb": "execute"}
+{"call": 187, "calls_remaining": 63, "database": "f0924597f9cc80ff", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT x FROM u u)", "verb": "execute"}
+{"call": 188, "calls_remaining": 62, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.x LIKE 'a'", "verb": "execute"}
+{"call": 189, "calls_remaining": 61, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.s LIKE t.x", "verb": "execute"}
+{"call": 190, "calls_remaining": 60, "database": "f0924597f9cc80ff", "outcome": "TARN-201", "sql": "SELECT t.x AS z FROM t t WHERE z = 1", "verb": "execute"}
+{"call": 191, "calls_remaining": 59, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE COALESCE(t.b, 1) = 1", "verb": "execute"}
+{"call": 192, "calls_remaining": 58, "database": "48bf63cb2294fbd7", "outcome": "ok", "sql": "SELECT t.x, t.r FROM t t ORDER BY COALESCE(t.r, t.x)", "verb": "execute"}
+{"call": 193, "calls_remaining": 57, "database": "48bf63cb2294fbd7", "outcome": "ok", "sql": "SELECT t.x FROM t t LIMIT 0", "verb": "execute"}
+{"call": 194, "calls_remaining": 56, "database": "903870c8640d5618", "outcome": "ok", "sql": "SELECT * FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE c.z IS NULL OR c.z = 1 ORDER BY a.x DESC LIMIT 5", "verb": "execute"}
+{"call": 195, "calls_remaining": 55, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT n.y FROM n n WHERE n.y NOT IN (SELECT e.y FROM e e))", "verb": "execute"}
+{"call": 196, "calls_remaining": 54, "database": "b339c8091e6a33da", "outcome": "TARN-000", "sql": "SELECT t.x, u.y FROM t t LEFT JOIN u u ON t.x = u.y AND u.y IN (SELECT n.y FROM n n)", "verb": "execute"}
+{"call": 197, "calls_remaining": 53, "database": "b339c8091e6a33da", "outcome": "TARN-000", "sql": "SELECT t.x, u.y FROM t t JOIN u u ON u.y IN (SELECT n.y FROM n n)", "verb": "execute"}
+{"call": 198, "calls_remaining": 52, "database": "b85568e394f856b8", "outcome": "ok", "sql": "SELECT t.x FROM t t JOIN u u ON u.y IN (SELECT u.y FROM u u)", "verb": "execute"}
+{"call": 199, "calls_remaining": 51, "database": "88f04760652450ae", "outcome": "TARN-000", "sql": "SELECT t.x FROM t t JOIN u u ON u.y IN (SELECT v.y FROM u v)", "verb": "execute"}
+{"call": 200, "calls_remaining": 50, "database": "88f04760652450ae", "outcome": "ok", "sql": "SELECT t.x FROM t t JOIN u u ON u.y = 1", "verb": "execute"}
+{"call": 201, "calls_remaining": 49, "database": "88f04760652450ae", "outcome": "ok", "sql": "SELECT t.x FROM t t", "verb": "execute"}
+{"call": 202, "calls_remaining": 48, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x, u.y FROM t t LEFT JOIN u u ON t.x = u.y", "verb": "execute"}
+{"call": 203, "calls_remaining": 47, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x, u.y FROM t t JOIN u u ON u.y = 1", "verb": "execute"}
+{"call": 204, "calls_remaining": 46, "database": "401d628c38056b59", "outcome": "ok", "sql": "SELECT a.s, b.t FROM a a JOIN b b ON a.s = b.t", "verb": "execute"}
+{"call": 205, "calls_remaining": 45, "database": "401d628c38056b59", "outcome": "ok", "sql": "SELECT a.s FROM a a WHERE a.s IN (SELECT b.t FROM b b)", "verb": "execute"}
+{"call": 206, "calls_remaining": 44, "database": "401d628c38056b59", "outcome": "ok", "sql": "SELECT a.s FROM a a WHERE a.s NOT IN (SELECT b.t FROM b b)", "verb": "execute"}
+{"call": 207, "calls_remaining": 43, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE NOT (t.x = NULL)", "verb": "execute"}
+{"call": 208, "calls_remaining": 42, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE (t.x = NULL) IS NULL", "verb": "execute"}
+{"call": 209, "calls_remaining": 41, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE NOT (NULL = NULL)", "verb": "execute"}
+{"call": 210, "calls_remaining": 40, "database": "f0924597f9cc80ff", "outcome": "ok", "sql": "select t.x from t as t inner join u on t.x = u.x order by t.x asc limit 1", "verb": "execute"}
+{"call": 211, "calls_remaining": 39, "database": "f0924597f9cc80ff", "outcome": "TARN-202", "sql": "SELECT t.x FROM t t JOIN u u ON t.x = u.x ORDER BY x", "verb": "execute"}
+{"call": 212, "calls_remaining": 38, "database": "f0924597f9cc80ff", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x IN (SELECT u.x FROM u u WHERE x = 1)", "verb": "execute"}
+{"call": 213, "calls_remaining": 37, "database": "f0924597f9cc80ff", "outcome": "TARN-202", "sql": "SELECT t.x FROM t t LEFT JOIN u u ON x = 1", "verb": "execute"}
+{"call": 214, "calls_remaining": 36, "database": "f0924597f9cc80ff", "outcome": "TARN-201", "sql": "SELECT t.zz FROM t t", "verb": "execute"}
+{"call": 215, "calls_remaining": 35, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE t.b + 1 = 2", "verb": "execute"}
+{"call": 216, "calls_remaining": 34, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE COALESCE(t.b, NULL) = 1", "verb": "execute"}
+{"call": 217, "calls_remaining": 33, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT t.x FROM t t WHERE CASE WHEN t.b THEN t.s END + 1 = 2", "verb": "execute"}
+{"call": 218, "calls_remaining": 32, "database": "f0924597f9cc80ff", "outcome": "TARN-203", "sql": "SELECT - t.b AS v FROM t t", "verb": "execute"}
+{"call": 219, "calls_remaining": 31, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT u.y, u.p FROM u u)", "verb": "execute"}
+{"call": 220, "calls_remaining": 30, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT * FROM u u)", "verb": "execute"}
+{"call": 221, "calls_remaining": 29, "database": "780f6c7e60c9272b", "outcome": "ok", "sql": "SELECT a.x, b.y FROM a a JOIN b b ON a.x = b.y", "verb": "execute"}
+{"call": 222, "calls_remaining": 28, "database": "780f6c7e60c9272b", "outcome": "ok", "sql": "SELECT a.r, b.q FROM a a JOIN b b ON a.r = b.q", "verb": "execute"}
+{"call": 223, "calls_remaining": 27, "database": "415cd3577dc38de9", "outcome": "TARN-301", "sql": "SELECT CASE WHEN t.x = 2 AND t.x / 0 = 1 THEN 1 ELSE 0 END AS v FROM t t", "verb": "execute"}
+{"call": 224, "calls_remaining": 26, "database": "85982ee2b6290e71", "outcome": "TARN-301", "sql": "SELECT l.a FROM l l LEFT JOIN r r ON l.a = 5 AND r.b / 0 = 1", "verb": "execute"}
+{"call": 225, "calls_remaining": 25, "database": "04b8a092d454f44f", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT r.y FROM r r WHERE r.z > 0)", "verb": "execute"}
+{"call": 226, "calls_remaining": 24, "database": "e08ba9d3b83d4933", "outcome": "ok", "sql": "SELECT l.a, r.b FROM l l LEFT JOIN r r ON l.a = r.b WHERE r.b IS NULL OR r.b = 2 ORDER BY l.a", "verb": "execute"}
+{"call": 227, "calls_remaining": 23, "database": "4d6e86ca85f951a3", "outcome": "TARN-301", "sql": "SELECT t.x / 0 AS v, t.r / 0 AS w FROM t t WHERE t.x IS NULL", "verb": "execute"}
+{"call": 228, "calls_remaining": 22, "database": "4d6e86ca85f951a3", "outcome": "ok", "sql": "SELECT t.x / 0 AS v FROM t t WHERE t.x IS NULL", "verb": "execute"}
+{"call": 229, "calls_remaining": 21, "database": "415cd3577dc38de9", "outcome": "ok", "sql": "SELECT CASE WHEN t.x = 1 THEN 1 WHEN t.x / 0 = 1 THEN 2 END AS v, CASE WHEN NULL THEN t.x / 0 WHEN t.x = 1 THEN 3 END AS w FROM t t", "verb": "execute"}
+{"call": 230, "calls_remaining": 20, "database": "2db2d65becdd06af", "outcome": "ok", "sql": "SELECT t.s, w.s, u.n FROM t t JOIN w w ON t.s = w.s JOIN u u ON t.s = u.n", "verb": "execute"}
+{"call": 231, "calls_remaining": 19, "database": "2db2d65becdd06af", "outcome": "ok", "sql": "SELECT w.s FROM w w JOIN u u ON w.s = u.n", "verb": "execute"}
+{"call": 232, "calls_remaining": 18, "database": "2db2d65becdd06af", "outcome": "ok", "sql": "SELECT w.s FROM w w WHERE w.s LIKE 'A' OR w.s IN (SELECT u.n FROM u u)", "verb": "execute"}
+{"call": 233, "calls_remaining": 17, "database": "d0b00f3119b729f3", "outcome": "ok", "sql": "SELECT r.z / 2 AS v, r.z AS w FROM r r", "verb": "execute"}
+{"call": 234, "calls_remaining": 16, "database": "d0b00f3119b729f3", "outcome": "ok", "sql": "SELECT r.z / 2 AS v FROM r r", "verb": "execute"}
+{"call": 235, "calls_remaining": 15, "database": "f22e3c9ad7a4c29b", "outcome": "ok", "sql": "SELECT r.z / 2 AS v FROM r r", "verb": "execute"}
+{"call": 236, "calls_remaining": 14, "database": "7f31e8fd6e1c2eab", "outcome": "ok", "sql": "SELECT r.z / 2 AS v FROM r r", "verb": "execute"}
+{"call": 237, "calls_remaining": 13, "database": "2e531a31f5b55104", "outcome": "ok", "sql": "SELECT t.s FROM t t", "verb": "execute"}
+{"call": 238, "calls_remaining": 12, "database": "ab0d0766585bb7c6", "outcome": "ok", "sql": "SELECT t.x FROM t t WHERE t.x NOT IN (SELECT r.z FROM r r)", "verb": "execute"}
+{"call": 239, "calls_remaining": 11, "database": "b339c8091e6a33da", "outcome": "ok", "sql": "SELECT t.x, 1 IN (SELECT n.y FROM n n) AS v FROM t t", "verb": "execute"}
+{"call": 240, "calls_remaining": 10, "database": "05416b6d27cd856f", "outcome": "ok", "sql": "SELECT a.x FROM a a JOIN b b ON a.x = b.y", "verb": "explain"}
+{"call": 241, "calls_remaining": 9, "database": "93e2fef3a9f51746", "outcome": "ok", "sql": "SELECT a.x FROM a a LEFT JOIN b b ON a.x = b.y LEFT JOIN c c ON a.x = c.z WHERE c.z IS NULL OR a.x = 5", "verb": "execute"}
+{"call": 242, "calls_remaining": 8, "database": "2acb160a6316c77b", "outcome": "TARN-301", "sql": "SELECT COALESCE(t.x / 0, 1) AS v FROM t t", "verb": "execute"}
+{"call": 243, "calls_remaining": 7, "database": "2acb160a6316c77b", "outcome": "ok", "sql": "SELECT - t.r AS v, 0 - t.r AS w FROM t t", "verb": "execute"}

@@ -1,0 +1,19 @@
+# Harbor configures the main (agent) service itself. ems-sim keeps the trial seed, the grid
+# parameters, the action log, and the request log on its own filesystem; no volume is shared with
+# the agent's container. Readiness is a file written once the seed is drawn, so the health check
+# never calls the API (the first API call starts grid time).
+services:
+  main:
+    depends_on:
+      ems-sim:
+        condition: service_healthy
+
+  ems-sim:
+    build:
+      context: ./ems-sim
+    healthcheck:
+      test: ["CMD", "test", "-f", "/var/ems/ready"]
+      interval: 5s
+      timeout: 5s
+      retries: 120
+      start_period: 10s

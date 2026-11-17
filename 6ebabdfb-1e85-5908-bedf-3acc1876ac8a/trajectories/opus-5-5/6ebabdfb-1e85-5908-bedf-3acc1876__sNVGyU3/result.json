@@ -1,0 +1,147 @@
+{
+    "id": "96d342a8-f86b-49b3-a381-0aa47064d63f",
+    "task_name": "ethara/6ebabdfb-1e85-5908-bedf-3acc1876ac8a",
+    "trial_name": "6ebabdfb-1e85-5908-bedf-3acc1876__sNVGyU3",
+    "trial_uri": "jobs/6ebabdfb-opus55-p1/6ebabdfb-1e85-5908-bedf-3acc1876__sNVGyU3",
+    "task_id": {
+        "path": "tasks/6ebabdfb-1e85-5908-bedf-3acc1876ac8a"
+    },
+    "source": null,
+    "task_checksum": "cf8f610e9a39cd2a87e97b1013163fa45b6ff033511c206f95cbafc710b2fe57",
+    "config": {
+        "task": {
+            "path": "tasks/6ebabdfb-1e85-5908-bedf-3acc1876ac8a",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "6ebabdfb-1e85-5908-bedf-3acc1876__sNVGyU3",
+        "trials_dir": "jobs/6ebabdfb-opus55-p1",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "claude-code",
+            "import_path": null,
+            "model_name": "anthropic/claude-opus-5-5",
+            "base_url": null,
+            "model_api_key_name": null,
+            "model_api_format": null,
+            "skip_model_parsing": false,
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [
+                "api.anthropic.com"
+            ],
+            "kwargs": {},
+            "mcp_servers": []
+        },
+        "user_agent": null,
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "stream": false,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "../agent-bin/claude/2.1.310/claude",
+                    "target": "/usr/local/bin/claude",
+                    "read_only": true
+                }
+            ],
+            "extra_docker_compose": [],
+            "kwargs": {},
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {
+                "CODEX_AUTH_JSON": "${CODEX_AUTH_JSON}",
+                "REWARDKIT_FORCE_SUBSCRIPTION": "1"
+            },
+            "disable": false,
+            "extra_allowed_hosts": [
+                "chatgpt.com",
+                "auth.openai.com"
+            ]
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "extra_instructions": [],
+        "job_id": "367b5624-69cb-4794-b8f5-fab9b0dd5ade",
+        "source_trial": null
+    },
+    "agent_info": {
+        "name": "claude-code",
+        "version": "2.1.310",
+        "model_info": {
+            "name": "claude-opus-5-5",
+            "provider": "anthropic"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 700653,
+        "n_cache_tokens": 658729,
+        "n_output_tokens": 25886,
+        "cost_usd": 0.9846978000000002,
+        "model_usage": {
+            "claude-opus-5-5": {
+                "n_input_tokens": 700653,
+                "n_cache_tokens": 658729,
+                "n_output_tokens": 25886,
+                "cost_usd": 0.8590458000000001
+            }
+        },
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "verifier_environment_mode": "separate",
+    "exception_info": null,
+    "started_at": "2026-11-16T19:22:35.733753Z",
+    "finished_at": "2026-11-16T19:29:02.279690Z",
+    "environment_setup": {
+        "started_at": "2026-11-16T19:22:35.788771Z",
+        "finished_at": "2026-11-16T19:22:42.787047Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-11-16T19:22:42.787096Z",
+        "finished_at": "2026-11-16T19:22:42.912532Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-11-16T19:22:42.912794Z",
+        "finished_at": "2026-11-16T19:28:04.834742Z"
+    },
+    "verifier": {
+        "started_at": "2026-11-16T19:28:27.409222Z",
+        "finished_at": "2026-11-16T19:29:02.279675Z"
+    },
+    "step_results": null
+}
