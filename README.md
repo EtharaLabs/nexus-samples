@@ -4,9 +4,9 @@
 
 <p align="center"><b>Five sample tasks from nexus, a corpus of hard, realistic command-line work for evaluating autonomous agents.</b></p>
 
-<p align="center"><a href="#summary"><img src="https://img.shields.io/badge/samples-5%2F5-845EF7" alt="samples: 5/5"></a> <a href="#summary"><img src="https://img.shields.io/badge/harbor_schema-1.4-845EF7" alt="harbor schema: 1.4"></a> <a href="#rollouts"><img src="https://img.shields.io/badge/difficulty-unsolved_by_frontier-845EF7" alt="difficulty: unsolved by frontier"></a></p>
+<p align="center"><a href="#summary"><img src="https://img.shields.io/badge/samples-5%2F5-845EF7" alt="samples: 5/5"></a> <a href="#summary"><img src="https://img.shields.io/badge/harbor_schema-1.4-845EF7" alt="harbor schema: 1.4"></a> <a href="#trials"><img src="https://img.shields.io/badge/difficulty-unsolved_by_frontier-845EF7" alt="difficulty: unsolved by frontier"></a></p>
 
-<p align="center"><sub><a href="#abstract">Abstract</a> | <a href="#summary">Summary</a> | <a href="#tasks">Tasks</a> | <a href="#rollouts">Rollouts</a> | <a href="#coverage">Coverage</a> | <a href="#dataset-structure">Dataset structure</a> | <a href="#reproduction">Reproduction</a> | <a href="#cite">Cite</a> | <a href="#contact">Contact</a></sub></p>
+<p align="center"><sub><a href="#abstract">Abstract</a> | <a href="#summary">Summary</a> | <a href="#tasks">Tasks</a> | <a href="#trials">Trials</a> | <a href="#coverage">Coverage</a> | <a href="#dataset-structure">Dataset structure</a> | <a href="#reproduction">Reproduction</a> | <a href="#cite">Cite</a> | <a href="#contact">Contact</a></sub></p>
 
 ## Abstract
 
@@ -14,7 +14,7 @@ nexus is a corpus of hard, realistic evaluation tasks in [Harbor](https://github
 
 This repository holds the five-task sample. Two tasks are black-box diagnoses: the agent finds the defects in an access-policy engine or a relational engine that it can reach only as a budgeted network service, and reports each one against the specification rule it breaks. One task builds a deterministic session-window streaming engine whose output must stay exactly-once across a crash and resume. Two tasks are long-horizon operations: the agent runs a simulated district-heating plant or an island microgrid through its API for 72 simulated hours and reports every incident the system hid.
 
-Each sample ships one rollout by Claude Code with `claude-opus-5-5`, scored by the task's own verifier. None of the five rollouts reached reward 1, while the best passed 11 of 12 compiled criteria, so every task keeps headroom above `claude-opus-5-5`.
+Each sample ships one rollout by Claude Code with `claude-opus-5-5`, scored by the task's own verifier. None of the five trials reached reward 1, while the best passed 11 of 12 compiled criteria, so every task keeps headroom above `claude-opus-5-5`.
 
 ## Summary
 
@@ -28,7 +28,7 @@ Each sample ships one rollout by Claude Code with `claude-opus-5-5`, scored by t
 | Reward | Binary, from the compiled tests; LLM-judged criteria are recorded at weight 0 |
 | Agent time limit | 1 to 8 hours per task |
 | Agent | Claude Code 2.1.310 and 2.1.326 with `claude-opus-5-5` |
-| Rollouts | 1 per task |
+| Trials | 1 per task |
 | Solved by `claude-opus-5-5` | 0 of 5 |
 | Compiled criteria passed | 24 of 59 |
 | Mean cost per rollout | 3.11 USD |
@@ -44,20 +44,20 @@ Each sample ships one rollout by Claude Code with `claude-opus-5-5`, scored by t
 | [`bfd3ac37`](bfd3ac37-bf5e-55e0-9730-c3fa2222a737/) | Operations | Plant operations | Operate a simulated district-heating plant through its SCADA API for 72 plant hours so that a cold snap passes without breaking the customer contract, and report every incident the plant hid. | 4 h |
 | [`c6be7353`](c6be7353-782a-54cf-b9f3-283f13558982/) | Software | Databases | Diagnose seven defects in a relational engine reachable only as a network service, under a budget of 250 queries, and report each one with the specification section it breaks, the observable it shows in, and a minimal statement and database that demonstrate it, each reproduced and bounded in the service's call log. | 1 h |
 
-## Rollouts
+## Trials
 
-Each task was run once by Claude Code with `claude-opus-5-5`, under the task's own time limit, and scored by the task's own verifier. Rollouts are stored in each task's `trajectories/opus-5-5/<trial>/`.
+Each task was run once by Claude Code with `claude-opus-5-5`, under the task's own time limit, and scored by the task's own verifier. Trials are stored in each task's `trials/opus-5-5/<trial>/`.
 
 | Task | Reward | Compiled criteria passed | Cost (USD) | Agent time |
 | --- | ---: | ---: | ---: | ---: |
-| [`249cfe22-173e-5a63-a907-25c23196b668`](249cfe22-173e-5a63-a907-25c23196b668/trajectories/opus-5-5/) | 0 | 0 / 5 | 5.25 | 6h 1m 43s |
-| [`6ebabdfb-1e85-5908-bedf-3acc1876ac8a`](6ebabdfb-1e85-5908-bedf-3acc1876ac8a/trajectories/opus-5-5/) | 0 | 0 / 20 | 0.98 | 5m 22s |
-| [`8263dbf4-358b-52b2-8ff0-2b26ffcafa67`](8263dbf4-358b-52b2-8ff0-2b26ffcafa67/trajectories/opus-5-5/) | 0 | 9 / 17 | 0.27 | 1m 29s |
-| [`bfd3ac37-bf5e-55e0-9730-c3fa2222a737`](bfd3ac37-bf5e-55e0-9730-c3fa2222a737/trajectories/opus-5-5/) | 0 | 4 / 5 | 4.53 | 3h 2m 29s |
-| [`c6be7353-782a-54cf-b9f3-283f13558982`](c6be7353-782a-54cf-b9f3-283f13558982/trajectories/opus-5-5/) | 0 | 11 / 12 | 4.53 | 21m 18s |
+| [`249cfe22-173e-5a63-a907-25c23196b668`](249cfe22-173e-5a63-a907-25c23196b668/trials/opus-5-5/) | 0 | 0 / 5 | 5.25 | 6h 1m 43s |
+| [`6ebabdfb-1e85-5908-bedf-3acc1876ac8a`](6ebabdfb-1e85-5908-bedf-3acc1876ac8a/trials/opus-5-5/) | 0 | 0 / 20 | 0.98 | 5m 22s |
+| [`8263dbf4-358b-52b2-8ff0-2b26ffcafa67`](8263dbf4-358b-52b2-8ff0-2b26ffcafa67/trials/opus-5-5/) | 0 | 9 / 17 | 0.27 | 1m 29s |
+| [`bfd3ac37-bf5e-55e0-9730-c3fa2222a737`](bfd3ac37-bf5e-55e0-9730-c3fa2222a737/trials/opus-5-5/) | 0 | 4 / 5 | 4.53 | 3h 2m 29s |
+| [`c6be7353-782a-54cf-b9f3-283f13558982`](c6be7353-782a-54cf-b9f3-283f13558982/trials/opus-5-5/) | 0 | 11 / 12 | 4.53 | 21m 18s |
 | **mean** | **0.00** | **24 / 59** | **3.11** | **1h 54m 28s** |
 
-The **mean** row averages reward, cost, and agent time over the five rollouts; its criteria cell is the total across them. A rollout scores 1 only when every compiled criterion passes (the two diagnosis tasks also need a clear precision gate), so the criteria column shows how close each rollout came. Each verifier also records LLM-judged criteria at weight 0, which do not change the reward.
+The **mean** row averages reward, cost, and agent time over the five trials; its criteria cell is the total across them. A rollout scores 1 only when every compiled criterion passes (the two diagnosis tasks also need a clear precision gate), so the criteria column shows how close each rollout came. Each verifier also records LLM-judged criteria at weight 0, which do not change the reward.
 
 Two rows read 0 because a gate zeroes their items rather than for lack of progress. `249cfe22` met all four plant outcomes (O1 to O4) in its replay and 7 of its 8 reported incidents matched, but the task counts the plant outcomes only with a complete incident report. `6ebabdfb` had 10 of its 12 findings credited, but two entries showed no difference, and its precision gate scores every item 0 when any claim is false.
 
@@ -72,7 +72,7 @@ Each trial folder is Harbor's trial output:
 | `verifier/` | `reward.txt`, test output (`test-stdout.txt`), and grading details (`grade.json` or `reward-details.json`) |
 | `artifacts/` | Files the agent produced, collected from the paths declared in `task.toml`, with a `manifest.json` |
 
-The job folder `trajectories/opus-5-5/` also holds the job's `config.json`, `lock.json`, `result.json`, and `job.log`.
+The job folder `trials/opus-5-5/` also holds the job's `config.json`, `lock.json`, `result.json`, and `job.log`.
 
 ## Coverage
 
@@ -126,14 +126,14 @@ Each task is one Harbor task in a directory named by its uuid.
 ├── environment/      sandbox image, with a service sidecar where the task uses one
 ├── tests/            verifier, hidden from the agent
 ├── solution/         reference solution
-└── trajectories/
-    └── opus-5-5/     Claude Code rollouts with claude-opus-5-5
+└── trials/
+    └── opus-5-5/     Claude Code trials with claude-opus-5-5
         └── <trial>/  one scored rollout
 ```
 
 ## Reproduction
 
-Each task directory is a complete Harbor task: `task.toml` is the runner manifest, `instruction.md` the objective, `environment/` the sandbox image (four of the five also run a simulator or service sidecar the agent reaches over the network), `tests/` the verifier, and `solution/` the reference solution. The rollouts above were produced with:
+Each task directory is a complete Harbor task: `task.toml` is the runner manifest, `instruction.md` the objective, `environment/` the sandbox image (four of the five also run a simulator or service sidecar the agent reaches over the network), `tests/` the verifier, and `solution/` the reference solution. The trialsabove were produced with:
 
 ```bash
 harbor run -p <task-dir> -a claude-code -m anthropic/claude-opus-5-5
