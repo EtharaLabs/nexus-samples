@@ -67,7 +67,7 @@ Each trial folder is Harbor's trial output:
 | --- | --- |
 | `config.json`, `lock.json` | Trial configuration and resolved run settings |
 | `result.json` | Agent, model, token usage, cost, timings, and verifier reward |
-| `trial.log` | Harbor's log of the trial |
+| `job.log` | Harbor's log of the trial |
 | `agent/` | Agent trajectory (`trajectory.json`), Claude Code session transcript (`sessions/`), and agent output (`claude-code.txt`) |
 | `verifier/` | `reward.txt`, test output (`test-stdout.txt`), and grading details (`grade.json` or `reward-details.json`) |
 | `artifacts/` | Files the agent produced, collected from the paths declared in `task.toml`, with a `manifest.json` |
