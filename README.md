@@ -1,6 +1,6 @@
 <p align="center"><img src="images/hero.svg" alt="nexus" width="720"></p>
 
-# nexus: samples
+# Nexus TerminalBench 4.0: samples
 
 <p align="center"><b>Five sample tasks from nexus, a corpus of hard, realistic command-line work for evaluating autonomous agents.</b></p>
 
@@ -21,6 +21,7 @@ Each sample ships one rollout by Claude Code with `claude-opus-5-5`, scored by t
 | Property | Value |
 | --- | --- |
 | Samples | 5/5 |
+| Target Benchmark | TerminalBench 4.0 |
 | Domains | Operations (grid operations, plant operations); software (authorization, databases, stateful streaming) |
 | Format | Harbor task, schema 1.4 |
 | Platforms | linux/amd64, linux/arm64 |
