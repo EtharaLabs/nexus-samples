@@ -10,7 +10,7 @@
 
 ## Abstract
 
-nexus is a corpus of hard, realistic evaluation tasks in [Harbor](https://github.com/laude-institute/harbor) format, drawn from command-line, software, and operations work. Every task ships a sandbox image, the instruction the agent reads, a verifier hidden from the agent, and a reference solution. The reward is binary: a rollout scores 1 only when every compiled criterion passes.
+Nexus is a corpus of hard, realistic evaluation tasks in [Harbor](https://github.com/laude-institute/harbor) format, drawn from command-line, software, and operations work. This is based on TerminalBench 4.0. Every task ships a sandbox image, the instruction the agent reads, a verifier hidden from the agent, and a reference solution. The reward is binary: a rollout scores 1 only when every compiled criterion passes.
 
 This repository holds the five-task sample. Two tasks are black-box diagnoses: the agent finds the defects in an access-policy engine or a relational engine that it can reach only as a budgeted network service, and reports each one against the specification rule it breaks. One task builds a deterministic session-window streaming engine whose output must stay exactly-once across a crash and resume. Two tasks are long-horizon operations: the agent runs a simulated district-heating plant or an island microgrid through its API for 72 simulated hours and reports every incident the system hid.
 
