@@ -10,11 +10,11 @@
 
 ## Abstract
 
-Nexus is a corpus of hard, realistic evaluation tasks in [Harbor](https://github.com/laude-institute/harbor) format, drawn from command-line, software, and operations work. This is based on TerminalBench 4.0. Every task ships a sandbox image, the instruction the agent reads, a verifier hidden from the agent, and a reference solution. The reward is binary: a rollout scores 1 only when every compiled criterion passes.
+Nexus is a corpus of hard, realistic evaluation tasks in [Harbor](https://github.com/laude-institute/harbor) format, drawn from command-line, software, and operations work. This is based on TerminalBench 4.0. Every task ships a sandbox image, the instruction the agent reads, a verifier hidden from the agent, and a reference solution. The reward is binary: a trial scores 1 only when every compiled criterion passes.
 
 This repository holds the five-task sample. Two tasks are black-box diagnoses: the agent finds the defects in an access-policy engine or a relational engine that it can reach only as a budgeted network service, and reports each one against the specification rule it breaks. One task builds a deterministic session-window streaming engine whose output must stay exactly-once across a crash and resume. Two tasks are long-horizon operations: the agent runs a simulated district-heating plant or an island microgrid through its API for 72 simulated hours and reports every incident the system hid.
 
-Each sample ships one rollout by Claude Code with `claude-opus-5-5`, scored by the task's own verifier. None of the five trials reached reward 1, while the best passed 11 of 12 compiled criteria, so every task keeps headroom above `claude-opus-5-5`.
+Each sample ships one trial by Claude Code with `claude-opus-5-5`, scored by the task's own verifier. None of the five trials reached reward 1, while the best passed 11 of 12 compiled criteria, so every task keeps headroom above `claude-opus-5-5`.
 
 ## Summary
 
@@ -32,7 +32,7 @@ Each sample ships one rollout by Claude Code with `claude-opus-5-5`, scored by t
 | Trials | 1 per task |
 | Solved by `claude-opus-5-5` | 0 of 5 |
 | Compiled criteria passed | 24 of 59 |
-| Mean cost per rollout | 3.11 USD |
+| Mean cost per trial | 3.11 USD |
 | Mean agent time | 1h 54m 28s |
 
 ## Tasks
@@ -58,7 +58,7 @@ Each task was run once by Claude Code with `claude-opus-5-5`, under the task's o
 | [`c6be7353-782a-54cf-b9f3-283f13558982`](c6be7353-782a-54cf-b9f3-283f13558982/trials/opus-5-5/) | 0 | 11 / 12 | 4.53 | 21m 18s |
 | **mean** | **0.00** | **24 / 59** | **3.11** | **1h 54m 28s** |
 
-The **mean** row averages reward, cost, and agent time over the five trials; its criteria cell is the total across them. A rollout scores 1 only when every compiled criterion passes (the two diagnosis tasks also need a clear precision gate), so the criteria column shows how close each rollout came. Each verifier also records LLM-judged criteria at weight 0, which do not change the reward.
+The **mean** row averages reward, cost, and agent time over the five trials; its criteria cell is the total across them. A trial scores 1 only when every compiled criterion passes (the two diagnosis tasks also need a clear precision gate), so the criteria column shows how close each trial came. Each verifier also records LLM-judged criteria at weight 0, which do not change the reward.
 
 Two rows read 0 because a gate zeroes their items rather than for lack of progress. `249cfe22` met all four plant outcomes (O1 to O4) in its replay and 7 of its 8 reported incidents matched, but the task counts the plant outcomes only with a complete incident report. `6ebabdfb` had 10 of its 12 findings credited, but two entries showed no difference, and its precision gate scores every item 0 when any claim is false.
 
@@ -129,7 +129,7 @@ Each task is one Harbor task in a directory named by its uuid.
 ├── solution/         reference solution
 └── trials/
     └── opus-5-5/     Claude Code trials with claude-opus-5-5
-        └── <trial>/  one scored rollout
+        └── <trial>/  one scored trial
 ```
 
 ## Reproduction
@@ -159,6 +159,6 @@ A citation for nexus will be published here once it releases its first evidence-
 
 ## Contact
 
-nexus is built by [Ethara.AI](https://github.com/Ethara-Ai).
+Nexus TerminalBench 4.0 is built by [Ethara.AI](https://github.com/Ethara-Ai). For questions about the benchmark or dataset, contact [research@ethara.ai](mailto:research@ethara.ai).
 
 Copyright (c) 2026 Green Rider Technology LLP (Ethara AI). All rights reserved.
